@@ -1,0 +1,6 @@
+framework module Pods_Grocery_List_ProUITests {
+  umbrella header "Pods-Grocery List ProUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
