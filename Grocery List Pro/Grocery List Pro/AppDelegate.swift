@@ -22,10 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
         
-        
-        
-        //Test Sign-In functionality here! 
-        
+        //Test Sign-In functionality here! (Uncomment)
 //        Auth.auth().signIn(withEmail: "emmett0502@gmail.com", password: "Help@ll1") { (user, error) in
 //            if error == nil{
 //                print("Sign-In Successful!")

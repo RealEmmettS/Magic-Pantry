@@ -20,6 +20,76 @@ class GroceryLists_TableViewController: UITableViewController {
         startObservingDB()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        Auth.auth().addStateDidChangeListener { (auth:Auth?, user) in
+            if let user = user {
+                print("Welcome \(user.email)!")
+                self.startObservingDB()
+            } else {
+                print("You need to sign-up or login first!")
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
+    @IBAction func logInAndSignUp(_ sender: Any) {
+        
+        let userAlert = UIAlertController(title: "Login/Sign-Up", message: "Enter Email and Passowrd", preferredStyle: .alert)
+        userAlert.addTextField(configurationHandler: { (textField:UITextField) in
+            textField.placeholder = "Email"
+            })
+        userAlert.addTextField(configurationHandler: { (textField:UITextField) in
+            textField.isSecureTextEntry = true
+            textField.placeholder = "Password"
+        })
+        
+        
+        
+        
+        
+        //Login
+        userAlert.addAction(UIAlertAction(title: "Login", style: .default, handler: { (action:UIAlertAction) in
+            let emailTextField = userAlert.textFields!.first!
+            let passwordTextField = userAlert.textFields!.last!
+            
+            Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+                if Error.self != nil {
+                    print("A Login Error has Occured")
+                }
+            }
+        }))
+        
+        
+        //Sign-Up
+        userAlert.addAction(UIAlertAction(title: "Sign-Up", style: .default, handler: { (action:UIAlertAction) in
+            let emailTextField = userAlert.textFields!.first!
+            let passwordTextField = userAlert.textFields!.last!
+            
+            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (authResult, error) in
+                if Error.self != nil {
+                    print("A Login Error has Occured")
+                }
+            }
+        }))
+        
+        self.present(userAlert, animated: true, completion: nil)
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     func startObservingDB() {
 
         dbRef.observe(.value, with: { (snapshot:DataSnapshot) in
@@ -83,7 +153,7 @@ class GroceryLists_TableViewController: UITableViewController {
         }
         newItemAlert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { (action:UIAlertAction) in
             if let itemContent = newItemAlert.textFields?.first?.text{
-                let product = GroceryItem(content: itemContent, addedByUser: "Emmett S.")
+                let product = GroceryItem(content: itemContent, addedByUser: "Anonymous")
                 
                 let itemRef = self.dbRef.child(itemContent.lowercased())
                 

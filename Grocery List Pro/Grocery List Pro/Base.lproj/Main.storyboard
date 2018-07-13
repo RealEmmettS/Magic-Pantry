@@ -49,7 +49,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Grocery List Pro" id="Z5c-sH-zcs">
-                        <barButtonItem key="leftBarButtonItem" title="Login" id="oIX-Cv-Ymz"/>
+                        <barButtonItem key="leftBarButtonItem" title="Login" id="oIX-Cv-Ymz">
+                            <connections>
+                                <action selector="logInAndSignUp:" destination="7nw-wT-ZM4" id="C7g-pE-sJB"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="eCW-MH-wg1">
                             <connections>
                                 <action selector="addItem:" destination="7nw-wT-ZM4" id="4kt-HG-hf8"/>
