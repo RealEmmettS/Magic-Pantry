@@ -35,7 +35,7 @@ struct GroceryItem{
         }
         
         
-        if let dict = snapshot.value as? NSDictionary, let itemUser = dict["content"] as? String {
+        if let dict = snapshot.value as? NSDictionary, let itemUser = dict["addedByUser"] as? String {
             addedByUser = itemUser
         } else {
             addedByUser = ""
