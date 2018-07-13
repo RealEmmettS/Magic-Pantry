@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/emmett/GroceryListPro/Grocery List Pro/Grocery List Pro/GroceryLists-TableViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:Grocery List Pro.xcodeproj">
    </FileRef>
    <FileRef

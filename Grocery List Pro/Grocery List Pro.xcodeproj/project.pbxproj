@@ -10,13 +10,15 @@
 		0AF9256DDAB4F814C32DD6D6 /* Pods_Grocery_List_ProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F44EF7F43F70BD14413FA345 /* Pods_Grocery_List_ProUITests.framework */; };
 		25900B98881E9C3178ACCCE8 /* Pods_Grocery_List_ProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E7AA6B02441525DBCA8B0B /* Pods_Grocery_List_ProTests.framework */; };
 		A0B8A4F720F8029A00769B09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8A4F620F8029A00769B09 /* AppDelegate.swift */; };
-		A0B8A4F920F8029A00769B09 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8A4F820F8029A00769B09 /* ViewController.swift */; };
 		A0B8A4FC20F8029A00769B09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0B8A4FA20F8029A00769B09 /* Main.storyboard */; };
 		A0B8A4FE20F8029C00769B09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0B8A4FD20F8029C00769B09 /* Assets.xcassets */; };
 		A0B8A50120F8029C00769B09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0B8A4FF20F8029C00769B09 /* LaunchScreen.storyboard */; };
 		A0B8A50C20F8029C00769B09 /* Grocery_List_ProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8A50B20F8029C00769B09 /* Grocery_List_ProTests.swift */; };
 		A0B8A51720F8029C00769B09 /* Grocery_List_ProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B8A51620F8029C00769B09 /* Grocery_List_ProUITests.swift */; };
 		A0B8A52520F802DC00769B09 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0B8A52420F802DC00769B09 /* GoogleService-Info.plist */; };
+		A0DAF05920F82C03007E55B8 /* GroceryLists-TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAF05820F82C03007E55B8 /* GroceryLists-TableViewController.swift */; };
+		A0DAF05B20F82CFD007E55B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAF05A20F82CFD007E55B8 /* User.swift */; };
+		A0DAF05D20F83B95007E55B8 /* Grocery List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DAF05C20F83B94007E55B8 /* Grocery List.swift */; };
 		ABA0F9CFD8A981719C88973F /* Pods_Grocery_List_Pro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F48E4BFFB4CE2A6AB30919 /* Pods_Grocery_List_Pro.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +47,6 @@
 		97F48E4BFFB4CE2A6AB30919 /* Pods_Grocery_List_Pro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grocery_List_Pro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0B8A4F320F8029A00769B09 /* Grocery List Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grocery List Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0B8A4F620F8029A00769B09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A0B8A4F820F8029A00769B09 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A0B8A4FB20F8029A00769B09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0B8A4FD20F8029C00769B09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0B8A50020F8029C00769B09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,6 +58,9 @@
 		A0B8A51620F8029C00769B09 /* Grocery_List_ProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grocery_List_ProUITests.swift; sourceTree = "<group>"; };
 		A0B8A51820F8029C00769B09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0B8A52420F802DC00769B09 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A0DAF05820F82C03007E55B8 /* GroceryLists-TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GroceryLists-TableViewController.swift"; path = "/Users/emmett/GroceryListPro/Grocery List Pro/Grocery List Pro/GroceryLists-TableViewController.swift"; sourceTree = "<absolute>"; };
+		A0DAF05A20F82CFD007E55B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A0DAF05C20F83B94007E55B8 /* Grocery List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Grocery List.swift"; sourceTree = "<group>"; };
 		C93852A885E183C22BA46387 /* Pods-Grocery List ProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grocery List ProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Grocery List ProTests/Pods-Grocery List ProTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D8E7AA6B02441525DBCA8B0B /* Pods_Grocery_List_ProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grocery_List_ProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44EF7F43F70BD14413FA345 /* Pods_Grocery_List_ProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grocery_List_ProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				A0B8A4F620F8029A00769B09 /* AppDelegate.swift */,
-				A0B8A4F820F8029A00769B09 /* ViewController.swift */,
+				A0DAF05820F82C03007E55B8 /* GroceryLists-TableViewController.swift */,
+				A0DAF05E20F83F66007E55B8 /* Model */,
 				A0B8A4FA20F8029A00769B09 /* Main.storyboard */,
 				A0B8A4FD20F8029C00769B09 /* Assets.xcassets */,
 				A0B8A4FF20F8029C00769B09 /* LaunchScreen.storyboard */,
@@ -156,6 +161,15 @@
 				A0B8A51820F8029C00769B09 /* Info.plist */,
 			);
 			path = "Grocery List ProUITests";
+			sourceTree = "<group>";
+		};
+		A0DAF05E20F83F66007E55B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A0DAF05A20F82CFD007E55B8 /* User.swift */,
+				A0DAF05C20F83B94007E55B8 /* Grocery List.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BB7BBF520E0C1D7D4BA21CB5 /* Frameworks */ = {
@@ -307,12 +321,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Grocery List Pro/Pods-Grocery List Pro-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -381,8 +399,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0B8A4F920F8029A00769B09 /* ViewController.swift in Sources */,
+				A0DAF05D20F83B95007E55B8 /* Grocery List.swift in Sources */,
 				A0B8A4F720F8029A00769B09 /* AppDelegate.swift in Sources */,
+				A0DAF05920F82C03007E55B8 /* GroceryLists-TableViewController.swift in Sources */,
+				A0DAF05B20F82CFD007E55B8 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

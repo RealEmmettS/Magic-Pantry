@@ -7,6 +7,9 @@ target 'Grocery List Pro' do
 
   # Pods for Grocery List Pro
     pod 'Firebase/Core'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Core'
+    pod 'Firebase/Database'
 
 
 

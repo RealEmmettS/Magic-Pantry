@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Use Firebase library to configure APIs
+        FirebaseApp.configure()
+        
+        
+        
+        //Test Sign-In functionality here! 
+        
+//        Auth.auth().signIn(withEmail: "emmett0502@gmail.com", password: "Help@ll1") { (user, error) in
+//            if error == nil{
+//                print("Sign-In Successful!")
+//            } else {
+//                print("Sign-In Unsuccessful. Here's why:\n\(error.debugDescription.description)")
+//            }
+//        }
+        
+        
+        
+        
+        
+        
         return true
     }
 
