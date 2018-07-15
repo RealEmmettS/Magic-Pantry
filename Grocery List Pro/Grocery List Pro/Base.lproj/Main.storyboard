@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bjd-af-Qqs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14269.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Bjd-af-Qqs">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14252.5"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Grocery List Pro-->
+        <!--Stores-->
         <scene sceneID="qT5-Uv-ha1">
             <objects>
                 <tableViewController id="7nw-wT-ZM4" customClass="GroceryLists_TableViewController" customModule="Grocery_List_Pro" customModuleProvider="target" sceneMemberID="viewController">
@@ -48,22 +48,89 @@
                             <outlet property="delegate" destination="7nw-wT-ZM4" id="KXk-2E-NoW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Grocery List Pro" id="Z5c-sH-zcs">
-                        <barButtonItem key="leftBarButtonItem" title="Login" id="oIX-Cv-Ymz">
-                            <connections>
-                                <action selector="logInAndSignUp:" destination="7nw-wT-ZM4" id="C7g-pE-sJB"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" title="Stores" id="Z5c-sH-zcs">
+                        <leftBarButtonItems>
+                            <barButtonItem image="Login" landscapeImage="Login" largeContentSizeImage="Login" id="oIX-Cv-Ymz">
+                                <connections>
+                                    <action selector="logInAndSignUp:" destination="7nw-wT-ZM4" id="C7g-pE-sJB"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="Log Out" landscapeImage="Log Out" largeContentSizeImage="Log Out" id="xWG-fN-NUq">
+                                <connections>
+                                    <action selector="SignOut:" destination="7nw-wT-ZM4" id="thG-It-blE"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="eCW-MH-wg1">
                             <connections>
                                 <action selector="addItem:" destination="7nw-wT-ZM4" id="4kt-HG-hf8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="PL2-HD-Ndu" kind="show" identifier="goodSegue" id="dl8-ms-w0Y"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAa-8r-eqP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1040.8" y="7.6461769115442282"/>
+            <point key="canvasLocation" x="996" y="8"/>
+        </scene>
+        <!--Store Items-->
+        <scene sceneID="lcr-h2-hQ5">
+            <objects>
+                <tableViewController id="PL2-HD-Ndu" customClass="Store_Items" customModule="Grocery_List_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Yfa-jj-iWh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="SaD-et-ilZ">
+                            <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <items>
+                                <barButtonItem systemItem="add" id="zpL-IY-Rp3">
+                                    <connections>
+                                        <action selector="addItem:" destination="PL2-HD-Ndu" id="HmQ-TT-eN9"/>
+                                    </connections>
+                                </barButtonItem>
+                            </items>
+                        </toolbar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="QSk-Vx-ZNy" detailTextLabel="e4n-Pc-1pq" style="IBUITableViewCellStyleSubtitle" id="Syq-e9-MOI">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Syq-e9-MOI" id="Phz-bE-OXu">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QSk-Vx-ZNy">
+                                            <rect key="frame" x="16" y="5" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e4n-Pc-1pq">
+                                            <rect key="frame" x="16" y="25.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PL2-HD-Ndu" id="nXV-wp-6OD"/>
+                            <outlet property="delegate" destination="PL2-HD-Ndu" id="TTy-SC-iF7"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e2F-Nu-L5O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2065" y="8"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ly5-rP-a5p">
@@ -85,4 +152,8 @@
             <point key="canvasLocation" x="101.59999999999999" y="7.6461769115442282"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Log Out" width="30" height="30"/>
+        <image name="Login" width="30" height="30"/>
+    </resources>
 </document>

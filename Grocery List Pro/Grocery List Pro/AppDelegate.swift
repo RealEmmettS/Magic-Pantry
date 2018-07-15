@@ -22,22 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use Firebase library to configure APIs
         FirebaseApp.configure()
         
-        //Test Sign-In functionality here! (Uncomment)
-//        Auth.auth().signIn(withEmail: "emmett0502@gmail.com", password: "Help@ll1") { (user, error) in
-//            if error == nil{
-//                print("Sign-In Successful!")
-//            } else {
-//                print("Sign-In Unsuccessful. Here's why:\n\(error.debugDescription.description)")
-//            }
-//        }
-        
-        
-        
-        
-        
-        
         return true
     }
+    
+    
+    
+    
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
