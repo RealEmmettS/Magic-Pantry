@@ -36,7 +36,9 @@ class Store_Items: UITableViewController {
     
     @IBAction func addItem(_ sender: Any) {
         let newItemAlert = UIAlertController(title: "New Item", message: "Enter Item Name", preferredStyle: .alert)
-        newItemAlert.addTextField(configurationHandler:) { (textField:UITextField) in textField.placeholder = "Item Name"
+        newItemAlert.addTextField(configurationHandler:) {
+            (textField:UITextField) in textField.placeholder = "Item Name"
+            textField.autocorrectionType = .yes
         }
         newItemAlert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { (action:UIAlertAction) in
             if let ItemContent = newItemAlert.textFields?.first?.text{

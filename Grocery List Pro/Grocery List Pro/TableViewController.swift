@@ -13,7 +13,7 @@ import FirebaseAuth
 var myIndex = 0
 var stores = [GroceryStore]()
 var currentUsersEmail = extraUserInfo(currentUsersEmail: "")
-var stringMyIndex : String?!
+var stringMyIndex : String?
 
 class GroceryLists_TableViewController: UITableViewController {
     
