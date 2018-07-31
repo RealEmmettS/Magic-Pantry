@@ -23,9 +23,6 @@ class Store_Items: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
         dbRef = Database.database().reference().child(stringMyIndex!)
         startObservingDB()
         
