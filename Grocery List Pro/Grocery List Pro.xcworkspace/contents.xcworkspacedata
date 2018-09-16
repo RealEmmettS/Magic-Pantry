@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/emmett/GroceryListPro/Grocery List Pro/Grocery List Pro/TableViewController.swift">
+      location = "group:Grocery List Pro">
    </FileRef>
    <FileRef
       location = "group:Grocery List Pro.xcodeproj">

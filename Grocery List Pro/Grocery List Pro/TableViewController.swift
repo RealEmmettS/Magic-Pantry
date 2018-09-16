@@ -14,6 +14,7 @@ var myIndex = 0
 var stores = [GroceryStore]()
 var currentUsersEmail = extraUserInfo(currentUsersEmail: "")
 var stringMyIndex : String?
+let user = Auth.auth().currentUser
 
 class GroceryLists_TableViewController: UITableViewController {
     
@@ -46,9 +47,6 @@ class GroceryLists_TableViewController: UITableViewController {
     
     
     
-    
-    
-    
     @IBAction func logInAndSignUp(_ sender: Any) {
         
         let userAlert = UIAlertController(title: "Login/Sign-Up", message: "Enter Email and Passowrd\n(MUST be at least 6 characters)", preferredStyle: .alert)
@@ -69,7 +67,7 @@ class GroceryLists_TableViewController: UITableViewController {
             
             Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
                 if Error.self != nil {
-                    print("A Login Error has Occured")
+                    print("ok. nu wurk. plz trie agen okey?")
                 } else {
                     print("Login went well. Clear to proceed.")
                 }
@@ -93,8 +91,10 @@ class GroceryLists_TableViewController: UITableViewController {
                 
                 
                 if Error.self != nil {
-                    print("A Login Error has Occured")
+                    print("ok. nu wurk. plz trie agen okey?")
                 } else {
+                    UserDefaults.standard.setValue(user?.uid, forKey: "uid")
+                    
                     print("Login went well. Clear to proceed.")
                 }
                 
@@ -120,19 +120,24 @@ class GroceryLists_TableViewController: UITableViewController {
         
         currentUsersEmail.currentUsersEmail = ""
         signOutNotification()
+        self.tableView.reloadData()
         
         
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()
+            self.tableView.reloadData()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
+            signOutNotificationERROR()
         }
         
         
     }
     
+    //MARK: Notification Alerts
     
+    //Sign Out Notification
     func signOutNotification() {
         let ErrorAlert = UIAlertController(title: "Successful", message: "Signed Out Successfully!", preferredStyle: .alert)
         
@@ -140,12 +145,28 @@ class GroceryLists_TableViewController: UITableViewController {
         
         self.present(ErrorAlert, animated: true, completion: nil)
     }
-    
+    //Sign Out Error
+    func signOutNotificationERROR() {
+        let ErrorAlert = UIAlertController(title: "Error", message: "Sign Out Failed.\nPlease Try Again", preferredStyle: .alert)
+        
+        ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(ErrorAlert, animated: true, completion: nil)
+    }
+    //Sign in Notification
     func signInNotification() {
         let ErrorAlert = UIAlertController(title: "Successful", message: "Logged In Successfully!", preferredStyle: .alert)
         
         ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
+        self.present(ErrorAlert, animated: true, completion: nil)
+    }
+    //Sign in Error
+    func signInNotificationERROR() {
+        let ErrorAlert = UIAlertController(title: "Error", message: "Loggin Failed.\nTry Again", preferredStyle: .alert)
+        
+        ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
         self.present(ErrorAlert, animated: true, completion: nil)
     }
     
@@ -197,7 +218,7 @@ class GroceryLists_TableViewController: UITableViewController {
                 
                 
                 //Setting cell content
-                let store = GroceryStore(scontent: storeContent, saddedByUser: currentUsersEmail.currentUsersEmail)
+                let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
                 
                 let itemRef = self.dbRef.child(storeContent.lowercased())
                 
@@ -236,9 +257,9 @@ class GroceryLists_TableViewController: UITableViewController {
 
         let Item = stores[indexPath.row]
         
-        cell.textLabel?.text = Item.scontent
-        cell.detailTextLabel?.text = Item.saddedByUser
-
+            cell.textLabel?.text = Item.scontent
+            //Below, replace "" with currentUsersEmail.currentUsersEmail to make it display the users email who added it
+            cell.detailTextLabel?.text = ""
         return cell
     }
     
@@ -268,18 +289,6 @@ class GroceryLists_TableViewController: UITableViewController {
         let segueName = "goodSegue"
         
         performSegue(withIdentifier: segueName, sender: self)
-        
-//
-//        // Create an instance of PlayerTableViewController and pass the variable
-//        let destinationVC = Store_Items()
-//        destinationVC.StoreNames = stringMyIndex
-//
-//        let me = GroceryLists_TableViewController()
-//
-//
-////        // Let's assume that the segue name is called playerSegue
-////        // This will perform the segue and pre-load the variable for you to use
-//        destinationVC.performSegue(withIdentifier: segueName, sender: indexPath.row)
         
     }
     

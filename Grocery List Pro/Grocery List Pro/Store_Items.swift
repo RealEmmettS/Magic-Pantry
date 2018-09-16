@@ -42,7 +42,7 @@ class Store_Items: UITableViewController {
                 
                 
                 //Setting cell content
-                let item = GroceryItem(content: ItemContent, addedByUser: currentUsersEmail.currentUsersEmail)
+                let item = GroceryItem(content: ItemContent, addedByUser: (Auth.auth().currentUser?.uid)!)
                 
                 let itemRef = self.dbRef.child(ItemContent.lowercased())
                 
@@ -97,7 +97,8 @@ class Store_Items: UITableViewController {
         let Item = items[indexPath.row]
         
         cell.textLabel?.text = Item.content
-        cell.detailTextLabel?.text = Item.addedByUser
+        //Below, replace "" with currentUsersEmail.currentUsersEmail to make it display the users email who added it
+        cell.detailTextLabel?.text = ""
         
         
 

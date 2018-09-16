@@ -9,17 +9,18 @@
 import Foundation
 import FirebaseDatabase
 
+var GlobalsaddedByUser = ""
+
 struct GroceryStore{
     
     let skey:String!
     let scontent:String!
-    let saddedByUser:String!
     let itemRef:DatabaseReference?
     
     init (scontent:String, saddedByUser:String, skey:String = "") {
         self.skey = skey
         self.scontent = scontent
-        self.saddedByUser = saddedByUser
+        GlobalsaddedByUser = saddedByUser
         self.itemRef = nil
     }
     
@@ -36,15 +37,15 @@ struct GroceryStore{
         
         
         if let dict = snapshot.value as? NSDictionary, let itemUser = dict["saddedByUser"] as? String {
-            saddedByUser = itemUser
+            GlobalsaddedByUser = itemUser
         } else {
-            saddedByUser = ""
+            GlobalsaddedByUser = ""
         }
         
     }
     
     func toAnyObject() -> Any {
-        return ["scontent":scontent, "saddedByUser":saddedByUser]
+        return ["scontent":scontent, "saddedByUser":GlobalsaddedByUser]
     }
     
     
