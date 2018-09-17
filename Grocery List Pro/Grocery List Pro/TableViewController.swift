@@ -9,22 +9,39 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 
-
+//Defining Global Variables
 var myIndex = 0
 var stores = [GroceryStore]()
 var currentUsersEmail = extraUserInfo(currentUsersEmail: "")
-var stringMyIndex : String?
+var stringMyIndex: String?
+var stringStoreName: String?
+var stringStoreNameForDeletion: String?
 let user = Auth.auth().currentUser
+var validationID = Auth.auth().currentUser!.uid
+
+
+
 
 class GroceryLists_TableViewController: UITableViewController {
     
+    //Defining Local Variables
     var dbRef:DatabaseReference!
+    
+    func reloadVerificationID(){
+        validationID = Auth.auth().currentUser!.uid
+    }
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dbRef = Database.database().reference().child("list-stores")
+        dbRef = Database.database().reference().child("listStores-\(validationID)")
         startObservingDB()
+    }
+    
+    func reloaddbRef(){
+        reloadVerificationID()
+        dbRef = Database.database().reference().child("listStores-\(validationID)")
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,8 +49,8 @@ class GroceryLists_TableViewController: UITableViewController {
         
         Auth.auth().addStateDidChangeListener { (auth:Auth?, user) in
             if let user = user {
-                print("Welcome \(user.email)!")
-                currentUsersEmail.currentUsersEmail = user.email
+                print("Welcome \(theUserEmail)!")
+                currentUsersEmail.currentUsersEmail = theUserEmail
                 self.startObservingDB()
             } else {
                 print("You need to sign-up or login first!")
@@ -46,13 +63,13 @@ class GroceryLists_TableViewController: UITableViewController {
     
     
     
-    
     @IBAction func logInAndSignUp(_ sender: Any) {
+        self.reloaddbRef()
         
         let userAlert = UIAlertController(title: "Login/Sign-Up", message: "Enter Email and Passowrd\n(MUST be at least 6 characters)", preferredStyle: .alert)
         userAlert.addTextField(configurationHandler: { (textField:UITextField) in
             textField.placeholder = "Email"
-            })
+        })
         userAlert.addTextField(configurationHandler: { (textField:UITextField) in
             textField.isSecureTextEntry = true
             textField.placeholder = "Password"
@@ -65,10 +82,12 @@ class GroceryLists_TableViewController: UITableViewController {
             
             self.signInNotification()
             
+            
             Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
                 if Error.self != nil {
                     print("ok. nu wurk. plz trie agen okey?")
                 } else {
+                    self.reloaddbRef()
                     print("Login went well. Clear to proceed.")
                 }
             }
@@ -89,12 +108,11 @@ class GroceryLists_TableViewController: UITableViewController {
             
             Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (authResult, error) in
                 
-                
                 if Error.self != nil {
                     print("ok. nu wurk. plz trie agen okey?")
                 } else {
                     UserDefaults.standard.setValue(user?.uid, forKey: "uid")
-                    
+                    self.reloaddbRef()
                     print("Login went well. Clear to proceed.")
                 }
                 
@@ -120,6 +138,8 @@ class GroceryLists_TableViewController: UITableViewController {
         
         currentUsersEmail.currentUsersEmail = ""
         signOutNotification()
+        validationID = ""
+        self.reloaddbRef()
         self.tableView.reloadData()
         
         
@@ -171,9 +191,7 @@ class GroceryLists_TableViewController: UITableViewController {
     }
     
     
-    
-    
-    
+
     
     
     func startObservingDB() {
@@ -210,6 +228,8 @@ class GroceryLists_TableViewController: UITableViewController {
     
     
     @IBAction func addItem(_ sender: Any) {
+        
+        
         let newItemAlert = UIAlertController(title: "New Store", message: "Enter Store Name", preferredStyle: .alert)
         newItemAlert.addTextField(configurationHandler:) { (textField:UITextField) in textField.placeholder = "Store Name"
         }
@@ -219,7 +239,7 @@ class GroceryLists_TableViewController: UITableViewController {
                 
                 //Setting cell content
                 let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
-                
+                //Setting data in Firebase
                 let itemRef = self.dbRef.child(storeContent.lowercased())
                 
                 itemRef.setValue(store.toAnyObject())
@@ -254,6 +274,7 @@ class GroceryLists_TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath)
+       // GroceryStore.sort({$0.date.timeIntervalSinceNow < $1.date.timeIntervalSinceNow})
 
         let Item = stores[indexPath.row]
         
@@ -269,8 +290,15 @@ class GroceryLists_TableViewController: UITableViewController {
         
         if editingStyle == .delete {
             let Item = stores[indexPath.row]
-            
             Item.itemRef?.removeValue()
+            
+            //Setting up for store deletion
+            let currentCellForDeletion = tableView.cellForRow(at: indexPath) as! UITableViewCell
+            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
+            //Setting Item dbRef to the correct store
+            dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
+            //Deleting Store and Items
+            dbRefI.removeValue()
         }
         
         
@@ -286,9 +314,15 @@ class GroceryLists_TableViewController: UITableViewController {
         myIndex = indexPath.row
         stringMyIndex = String(myIndex)
         
-        let segueName = "goodSegue"
+        //Defining cell name variable
+        let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
         
-        performSegue(withIdentifier: segueName, sender: self)
+        stringStoreName = currentCell.textLabel?.text
+        
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        let segueName1 = "goodSegue"
+        performSegue(withIdentifier: segueName1, sender: self)
         
     }
     

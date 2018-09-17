@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0AF9256DDAB4F814C32DD6D6 /* Pods_Grocery_List_ProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F44EF7F43F70BD14413FA345 /* Pods_Grocery_List_ProUITests.framework */; };
+		2404B4D5214F4CF30053DD09 /* Log-In Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2404B4D4214F4CF30053DD09 /* Log-In Page.swift */; };
 		24BC2C90214DD64D004952B9 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24BC2C8F214DD64D004952B9 /* UserSettings.swift */; };
 		25900B98881E9C3178ACCCE8 /* Pods_Grocery_List_ProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E7AA6B02441525DBCA8B0B /* Pods_Grocery_List_ProTests.framework */; };
 		A08E0D7120F9429000E4491A /* Store_Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = A08E0D7020F9429000E4491A /* Store_Items.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		0DB79328C70C03632B2DE82E /* Pods-Grocery List ProUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grocery List ProUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grocery List ProUITests/Pods-Grocery List ProUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2404B4D4214F4CF30053DD09 /* Log-In Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Log-In Page.swift"; path = "Grocery List Pro/Log-In Page.swift"; sourceTree = "<group>"; };
 		24BC2C8F214DD64D004952B9 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		68405DE47A21A906D4C5C8B2 /* Pods-Grocery List ProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grocery List ProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grocery List ProTests/Pods-Grocery List ProTests.release.xcconfig"; sourceTree = "<group>"; };
 		716F9A2DDFDAF96D6EF8F667 /* Pods-Grocery List Pro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grocery List Pro.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grocery List Pro/Pods-Grocery List Pro.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 		A0B8A4EA20F8029A00769B09 = {
 			isa = PBXGroup;
 			children = (
+				2404B4D4214F4CF30053DD09 /* Log-In Page.swift */,
 				A0B8A4F520F8029A00769B09 /* Grocery List Pro */,
 				A0B8A50A20F8029C00769B09 /* Grocery List ProTests */,
 				A0B8A51520F8029C00769B09 /* Grocery List ProUITests */,
@@ -415,6 +418,7 @@
 				A0DAF05D20F83B95007E55B8 /* Grocery List.swift in Sources */,
 				A08E0D7320F957E600E4491A /* Grocery Store.swift in Sources */,
 				A0B8A4F720F8029A00769B09 /* AppDelegate.swift in Sources */,
+				2404B4D5214F4CF30053DD09 /* Log-In Page.swift in Sources */,
 				A0DAF05920F82C03007E55B8 /* TableViewController.swift in Sources */,
 				24BC2C90214DD64D004952B9 /* UserSettings.swift in Sources */,
 				A08E0D7520F965F200E4491A /* extraUserInfo.swift in Sources */,
@@ -595,12 +599,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Grocery List Pro/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Grocery-List-Pro";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -615,12 +619,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Grocery List Pro/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Grocery-List-Pro";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

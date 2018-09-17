@@ -11,11 +11,14 @@ import Firebase
 import FirebaseDatabase
 import FirebaseAuth
 
+//Defining Global Variables
+var ItemdbRef: DatabaseReference!
+var dbRefI:DatabaseReference!
+
 
 class Store_Items: UITableViewController {
     
     var items = [GroceryItem]()
-    var dbRef:DatabaseReference!
     
     
     
@@ -23,9 +26,9 @@ class Store_Items: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dbRef = Database.database().reference().child(stringMyIndex!)
+        dbRefI = Database.database().reference().child("\(stringStoreName!)-\(validationID)")
         startObservingDB()
-        
+        ItemdbRef = dbRefI
     }
     
     
@@ -38,13 +41,12 @@ class Store_Items: UITableViewController {
             textField.autocorrectionType = .yes
         }
         newItemAlert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { (action:UIAlertAction) in
+            
             if let ItemContent = newItemAlert.textFields?.first?.text{
-                
-                
                 //Setting cell content
                 let item = GroceryItem(content: ItemContent, addedByUser: (Auth.auth().currentUser?.uid)!)
                 
-                let itemRef = self.dbRef.child(ItemContent.lowercased())
+                let itemRef = dbRefI.child(ItemContent.lowercased())
                 
                 itemRef.setValue(item.toAnyObject())
             }
@@ -61,7 +63,7 @@ class Store_Items: UITableViewController {
     
     func startObservingDB() {
         
-        dbRef.observe(.value, with: { (snapshot:DataSnapshot) in
+        dbRefI.observe(.value, with: { (snapshot:DataSnapshot) in
             var newItems = [GroceryItem]()
             
             for Item in snapshot.children {

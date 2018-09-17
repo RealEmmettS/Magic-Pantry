@@ -48,7 +48,7 @@ class UserSettings: UIViewController {
         
         if Auth.auth().currentUser?.uid != nil {
             emailLabel.text = ("\(Auth.auth().currentUser!.email!)")
-            passwordLabel.text = ("Password is currently hidden.")
+            passwordLabel.text = (theUserPassword)
         } else {
             emailLabel.text = ("Unavailable")
             passwordLabel.text = ("Unavailable")
