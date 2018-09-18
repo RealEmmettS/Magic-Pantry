@@ -19,8 +19,6 @@ var stringStoreNameForDeletion: String?
 let user = Auth.auth().currentUser
 
 
-
-
 class GroceryLists_TableViewController: UITableViewController {
     
     //Defining Local Variables
@@ -44,15 +42,41 @@ class GroceryLists_TableViewController: UITableViewController {
         if Auth.auth().currentUser?.uid == nil{
             signInTheUser()
             validationID = Auth.auth().currentUser!.uid
+            confirmSignInProcedure()
         } else {
             validationID = Auth.auth().currentUser!.uid
+        }
+    }
+    
+    func ERROR() {
+        let ErrorAlert = UIAlertController(title: "Error", message: "Sign In/ Sign Up failed.\nTry Again", preferredStyle: .alert)
+        
+        ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(ErrorAlert, animated: true, completion: nil)
+    }
+
+    
+    func confirmSignInProcedure(){
+        if Auth.auth().currentUser?.uid == nil{
+            self.ERROR()
+            performSegue(withIdentifier: "goBackToSignIn", sender: self)
+        } else {
+            print("Sign In confirmed")
         }
     }
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadVerificationID()
+        if Auth.auth().currentUser?.uid != nil{
+            print("Working...")
+            validationID = (Auth.auth().currentUser?.uid)!
+            print("Done")
+        } else {
+            confirmSignInProcedure()
+            print("No one signed in")
+        }
         dbRef = Database.database().reference().child("listStores-\(validationID)")
         startObservingDB()
     }
@@ -81,28 +105,6 @@ class GroceryLists_TableViewController: UITableViewController {
     
   
     
-    
-    //Sign Out
-    @IBAction func SignOut(_ sender: Any) {
-        
-        currentUsersEmail.currentUsersEmail = ""
-        signOutNotification()
-        validationID = ""
-        self.reloaddbRef()
-        self.tableView.reloadData()
-        
-        
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-            self.tableView.reloadData()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-            signOutNotificationERROR()
-        }
-        
-        
-    }
     
     //MARK: Notification Alerts
     

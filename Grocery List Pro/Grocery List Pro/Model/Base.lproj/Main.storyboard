@@ -328,7 +328,7 @@
                         <barButtonItem key="leftBarButtonItem" image="Log Out" landscapeImage="Log Out" largeContentSizeImage="Log Out" id="xWG-fN-NUq">
                             <connections>
                                 <action selector="SignOut:" destination="7nw-wT-ZM4" id="thG-It-blE"/>
-                                <segue destination="EQO-zW-5DK" kind="showDetail" animates="NO" id="OKF-dz-rZz"/>
+                                <segue destination="EQO-zW-5DK" kind="showDetail" identifier="goBackToSignIn" animates="NO" id="OKF-dz-rZz"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>

@@ -85,9 +85,27 @@ class Log_In_Page: UIViewController {
     
     @IBAction func signOutClicked(_ sender: Any) {
         
+        currentUsersEmail.currentUsersEmail = ""
+        validationID = ""
+        notSignedInAlready()
+        
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+            signOutNotificationERROR()
+        }
     }
     
-    
+    //Sign Out Error
+    func signOutNotificationERROR() {
+        let ErrorAlert = UIAlertController(title: "Error", message: "Sign Out Failed.\nPlease Try Again", preferredStyle: .alert)
+        
+        ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(ErrorAlert, animated: true, completion: nil)
+    }
     
     
     
@@ -130,7 +148,12 @@ class Log_In_Page: UIViewController {
         theUserEmail = emailField.text!
         theUserPassword = passwordField.text!
         continueToList.isEnabled = true
-        
+//            if Auth.auth().currentUser?.uid == nil{
+//                continueToList.isEnabled = false
+//                ERROR()
+//            } else {
+//                continueToList.isEnabled = true
+//            }
     }
     }
     
@@ -162,10 +185,20 @@ class Log_In_Page: UIViewController {
         
         theUserEmail = emailField.text!
         theUserPassword = passwordField.text!
+        continueToList.isEnabled = true
+            
         
         
     }
 }
     
+    
+//    func ERROR() {
+//        let ErrorAlert = UIAlertController(title: "Error", message: "Sign In/ Sign Up failed.\nTry Again", preferredStyle: .alert)
+//
+//        ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//
+//        self.present(ErrorAlert, animated: true, completion: nil)
+//    }
  
 }
