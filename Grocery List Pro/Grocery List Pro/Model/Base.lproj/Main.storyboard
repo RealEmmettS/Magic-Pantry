@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -194,7 +195,6 @@
                                 <state key="normal" title="Sign-In"/>
                                 <connections>
                                     <action selector="SignIn:" destination="EQO-zW-5DK" eventType="touchUpInside" id="281-Qc-kBN"/>
-                                    <segue destination="Bjd-af-Qqs" kind="show" identifier="" id="JaY-oX-uXT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VrE-Bl-Z5K">
@@ -206,7 +206,6 @@
                                 <state key="normal" title="Sign-Up"/>
                                 <connections>
                                     <action selector="SignUp:" destination="EQO-zW-5DK" eventType="touchUpInside" id="aXg-0r-WKB"/>
-                                    <segue destination="Bjd-af-Qqs" kind="show" id="70Y-uR-C0T"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User already signed in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8RK-7g-nBT">
@@ -226,6 +225,22 @@
                                 <state key="normal" title="Continue"/>
                                 <connections>
                                     <segue destination="Bjd-af-Qqs" kind="show" id="f35-wg-swX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urr-r4-PIk">
+                                <rect key="frame" x="155" y="287" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Continue"/>
+                                <connections>
+                                    <segue destination="Bjd-af-Qqs" kind="show" id="pGD-lh-JKy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8tA-vo-PIb">
+                                <rect key="frame" x="156" y="238" width="63" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Sign-Out"/>
+                                <connections>
+                                    <action selector="signOutClicked:" destination="EQO-zW-5DK" eventType="touchUpInside" id="uET-E0-TFg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -258,9 +273,11 @@
                     <connections>
                         <outlet property="aButton" destination="bxN-eB-bVm" id="4EO-06-Pie"/>
                         <outlet property="aLabel" destination="8RK-7g-nBT" id="mv4-m5-L1b"/>
+                        <outlet property="continueToList" destination="Urr-r4-PIk" id="v7L-BP-vDS"/>
                         <outlet property="emailField" destination="dZY-2E-Enb" id="PVt-sk-6rR"/>
                         <outlet property="passwordField" destination="fIX-DR-PUV" id="gjX-hd-wjp"/>
                         <outlet property="signInButton" destination="vEX-RE-Oaj" id="DZp-eJ-Wmd"/>
+                        <outlet property="signOutButton" destination="8tA-vo-PIb" id="nww-LV-khW"/>
                         <outlet property="signUpButton" destination="VrE-Bl-Z5K" id="Gdc-vm-qX9"/>
                     </connections>
                 </viewController>
@@ -308,18 +325,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Stores" id="Z5c-sH-zcs">
-                        <leftBarButtonItems>
-                            <barButtonItem image="Login" landscapeImage="Login" largeContentSizeImage="Login" id="oIX-Cv-Ymz">
-                                <connections>
-                                    <action selector="logInAndSignUp:" destination="7nw-wT-ZM4" id="Ukl-jn-6R6"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="Log Out" landscapeImage="Log Out" largeContentSizeImage="Log Out" id="xWG-fN-NUq">
-                                <connections>
-                                    <action selector="SignOut:" destination="7nw-wT-ZM4" id="thG-It-blE"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="Log Out" landscapeImage="Log Out" largeContentSizeImage="Log Out" id="xWG-fN-NUq">
+                            <connections>
+                                <action selector="SignOut:" destination="7nw-wT-ZM4" id="thG-It-blE"/>
+                                <segue destination="EQO-zW-5DK" kind="showDetail" animates="NO" id="OKF-dz-rZz"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="Add" landscapeImage="Add" largeContentSizeImage="Add" id="eCW-MH-wg1">
                                 <connections>
@@ -425,10 +436,9 @@
     <resources>
         <image name="Add" width="30" height="30"/>
         <image name="Log Out" width="30" height="30"/>
-        <image name="Login" width="30" height="30"/>
         <image name="Settings" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="JaY-oX-uXT"/>
+        <segue reference="pGD-lh-JKy"/>
     </inferredMetricsTieBreakers>
 </document>

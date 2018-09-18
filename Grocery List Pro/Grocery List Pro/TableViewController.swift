@@ -17,7 +17,6 @@ var stringMyIndex: String?
 var stringStoreName: String?
 var stringStoreNameForDeletion: String?
 let user = Auth.auth().currentUser
-var validationID = Auth.auth().currentUser!.uid
 
 
 
@@ -27,13 +26,33 @@ class GroceryLists_TableViewController: UITableViewController {
     //Defining Local Variables
     var dbRef:DatabaseReference!
     
+    
+    
+    func signInTheUser(){
+        Auth.auth().signIn(withEmail: theUserEmail, password: theUserPassword) { (user, error) in
+            if Error.self != nil{
+                print("\n\n\(error?.localizedDescription)\n\n")
+                print("It worked. Moving on...")
+            } else {
+                print("nope")
+            }
+            
+        }
+    }
+    
     func reloadVerificationID(){
-        validationID = Auth.auth().currentUser!.uid
+        if Auth.auth().currentUser?.uid == nil{
+            signInTheUser()
+            validationID = Auth.auth().currentUser!.uid
+        } else {
+            validationID = Auth.auth().currentUser!.uid
+        }
     }
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadVerificationID()
         dbRef = Database.database().reference().child("listStores-\(validationID)")
         startObservingDB()
     }
@@ -60,77 +79,7 @@ class GroceryLists_TableViewController: UITableViewController {
         
     }
     
-    
-    
-    
-    @IBAction func logInAndSignUp(_ sender: Any) {
-        self.reloaddbRef()
-        
-        let userAlert = UIAlertController(title: "Login/Sign-Up", message: "Enter Email and Passowrd\n(MUST be at least 6 characters)", preferredStyle: .alert)
-        userAlert.addTextField(configurationHandler: { (textField:UITextField) in
-            textField.placeholder = "Email"
-        })
-        userAlert.addTextField(configurationHandler: { (textField:UITextField) in
-            textField.isSecureTextEntry = true
-            textField.placeholder = "Password"
-        })
-        
-        //Login
-        userAlert.addAction(UIAlertAction(title: "Login", style: .default, handler: { (action:UIAlertAction) in
-            let emailTextField = userAlert.textFields!.first!
-            let passwordTextField = userAlert.textFields!.last!
-            
-            self.signInNotification()
-            
-            
-            Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
-                if Error.self != nil {
-                    print("ok. nu wurk. plz trie agen okey?")
-                } else {
-                    self.reloaddbRef()
-                    print("Login went well. Clear to proceed.")
-                }
-            }
-            
-            currentUsersEmail.currentUsersEmail = emailTextField.text!
-            
-            
-            
-        }))
-        
-        
-        //Sign-Up
-        userAlert.addAction(UIAlertAction(title: "Sign-Up", style: .default, handler: { (action:UIAlertAction) in
-            let emailTextField = userAlert.textFields!.first!
-            let passwordTextField = userAlert.textFields!.last!
-            
-            self.signInNotification()
-            
-            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (authResult, error) in
-                
-                if Error.self != nil {
-                    print("ok. nu wurk. plz trie agen okey?")
-                } else {
-                    UserDefaults.standard.setValue(user?.uid, forKey: "uid")
-                    self.reloaddbRef()
-                    print("Login went well. Clear to proceed.")
-                }
-                
-                
-            }
-            
-            
-            currentUsersEmail.currentUsersEmail = emailTextField.text!
-            
-            
-            
-            
-        }))
-        
-        self.present(userAlert, animated: true, completion: nil)
-        
-    }
-    
+  
     
     
     //Sign Out

@@ -12,11 +12,13 @@ import Firebase
 
 var theUserEmail = ""
 var theUserPassword = ""
+var validationID = ""
 
 class Log_In_Page: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        continueToList.isEnabled = false
         if Auth.auth().currentUser?.uid != nil{
             print("Working...")
             signedInAlready()
@@ -33,6 +35,8 @@ class Log_In_Page: UIViewController {
     @IBOutlet weak var aButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var continueToList: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
     
     
     func signedInAlready(){
@@ -49,6 +53,12 @@ class Log_In_Page: UIViewController {
         aLabel.isHidden = false
         aButton.isHidden = false
         aButton.isEnabled = true
+        
+        continueToList.isEnabled = false
+        continueToList.isHidden = true
+        
+        signOutButton.isEnabled = true
+        signOutButton.isHidden = false
     }
     func notSignedInAlready(){
         emailField.isHidden = false
@@ -64,7 +74,28 @@ class Log_In_Page: UIViewController {
         aLabel.isHidden = true
         aButton.isHidden = true
         aButton.isEnabled = false
+        
+        continueToList.isEnabled = false
+        continueToList.isHidden = false
+        
+        signOutButton.isEnabled = false
+        signOutButton.isHidden = true
     }
+    
+    
+    @IBAction func signOutClicked(_ sender: Any) {
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     @IBAction func SignIn(_ sender: Any) {
@@ -75,23 +106,35 @@ class Log_In_Page: UIViewController {
             ErrorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             self.present(ErrorAlert, animated: true, completion: nil)
-            
+            print("hello")
         } else {
-        
+        print("hello1234")
         Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, error) in
-            if Error.self != nil {
-                print("ok. nu wurk. plz trie agen okey?")
+            if Error.self != nil{
+                print("\n\n\(error?.localizedDescription)\n\n")
+                print("It worked. Moving on...")
             } else {
-                print("Login went well. Clear to proceed.")
+                print("nope")
             }
+        
         }
         currentUsersEmail.currentUsersEmail = emailField.text!
+            
+            if Auth.auth().currentUser?.uid != nil{
+                print("Signing In...")
+            } else {
+                notSignedInAlready()
+                print("NO WORK. TRY AGAIN")
+            }
         
         theUserEmail = emailField.text!
         theUserPassword = passwordField.text!
+        continueToList.isEnabled = true
         
     }
     }
+    
+    
     
     
     
