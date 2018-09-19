@@ -227,17 +227,15 @@
                                     <segue destination="Bjd-af-Qqs" kind="show" id="f35-wg-swX"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urr-r4-PIk">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urr-r4-PIk">
                                 <rect key="frame" x="155" y="287" width="62" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Continue"/>
                                 <connections>
                                     <segue destination="Bjd-af-Qqs" kind="show" id="pGD-lh-JKy"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8tA-vo-PIb">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8tA-vo-PIb">
                                 <rect key="frame" x="156" y="238" width="63" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sign-Out"/>
                                 <connections>
                                     <action selector="signOutClicked:" destination="EQO-zW-5DK" eventType="touchUpInside" id="uET-E0-TFg"/>
@@ -253,15 +251,22 @@
                             <constraint firstItem="dZY-2E-Enb" firstAttribute="top" secondItem="BED-ds-IQK" secondAttribute="bottom" constant="64" id="EJQ-mg-VNA"/>
                             <constraint firstItem="BED-ds-IQK" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="16" id="EvS-y7-5Y3"/>
                             <constraint firstItem="8RK-7g-nBT" firstAttribute="leading" secondItem="vEX-RE-Oaj" secondAttribute="trailing" constant="36" id="LbV-D9-IHd"/>
+                            <constraint firstItem="8tA-vo-PIb" firstAttribute="top" secondItem="bxN-eB-bVm" secondAttribute="bottom" constant="8" id="LzH-9O-Edn"/>
+                            <constraint firstItem="VrE-Bl-Z5K" firstAttribute="leading" secondItem="8tA-vo-PIb" secondAttribute="trailing" constant="80" id="M4A-VY-TrB"/>
                             <constraint firstItem="Ld0-gi-DHd" firstAttribute="bottom" secondItem="8RK-7g-nBT" secondAttribute="bottom" constant="475" id="ME5-RV-Uxr"/>
                             <constraint firstItem="vEX-RE-Oaj" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="15" id="QgD-Ma-42k"/>
                             <constraint firstItem="VrE-Bl-Z5K" firstAttribute="leading" secondItem="8RK-7g-nBT" secondAttribute="trailing" constant="28" id="Qm1-ry-KXx"/>
                             <constraint firstItem="Ld0-gi-DHd" firstAttribute="trailing" secondItem="fIX-DR-PUV" secondAttribute="trailing" constant="18" id="S3l-fA-jgl"/>
                             <constraint firstItem="vEX-RE-Oaj" firstAttribute="top" secondItem="fIX-DR-PUV" secondAttribute="bottom" constant="25" id="S7O-hK-a5g"/>
+                            <constraint firstItem="Urr-r4-PIk" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="155" id="Zqt-3h-0zu"/>
                             <constraint firstItem="bxN-eB-bVm" firstAttribute="top" secondItem="8RK-7g-nBT" secondAttribute="bottom" constant="8" id="ZrI-VK-tvd"/>
+                            <constraint firstItem="Urr-r4-PIk" firstAttribute="top" secondItem="8tA-vo-PIb" secondAttribute="bottom" constant="19" id="bLs-28-Phv"/>
+                            <constraint firstItem="Ld0-gi-DHd" firstAttribute="trailing" secondItem="Urr-r4-PIk" secondAttribute="trailing" constant="158" id="cJw-gc-oit"/>
                             <constraint firstItem="8RK-7g-nBT" firstAttribute="top" secondItem="fIX-DR-PUV" secondAttribute="bottom" constant="-45" id="ehU-4N-RSW"/>
+                            <constraint firstItem="8tA-vo-PIb" firstAttribute="leading" secondItem="vEX-RE-Oaj" secondAttribute="trailing" constant="91" id="fAv-Qs-cuo"/>
                             <constraint firstItem="fIX-DR-PUV" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="17" id="fZo-PN-YJ2"/>
                             <constraint firstItem="BED-ds-IQK" firstAttribute="top" secondItem="Ld0-gi-DHd" secondAttribute="top" id="gUW-qM-qGS"/>
+                            <constraint firstItem="Ld0-gi-DHd" firstAttribute="bottom" secondItem="Urr-r4-PIk" secondAttribute="bottom" constant="350" id="jY8-Wg-7Ui"/>
                             <constraint firstItem="dZY-2E-Enb" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="16" id="kx0-bJ-6rr"/>
                             <constraint firstItem="bxN-eB-bVm" firstAttribute="leading" secondItem="Ld0-gi-DHd" secondAttribute="leading" constant="155" id="oct-Dr-hkN"/>
                             <constraint firstItem="VrE-Bl-Z5K" firstAttribute="top" secondItem="fIX-DR-PUV" secondAttribute="bottom" constant="25" id="q9U-EF-S2i"/>
