@@ -31,9 +31,18 @@ class Store_Items: UITableViewController {
         ItemdbRef = dbRefI
     }
     
+    func SpecialCharacterError() {
+        //Set up alert and its contents
+        let alert = UIAlertController(title: "Error", message: "Please do not use periods, slashes, or anything of the like in an item name", preferredStyle: UIAlertControllerStyle.alert)
+        //Set up alert button
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        //Present Alert
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     
+    //Start of AddItem
     @IBAction func addItem(_ sender: Any) {
         let newItemAlert = UIAlertController(title: "New Item", message: "Enter Item Name", preferredStyle: .alert)
         newItemAlert.addTextField(configurationHandler:) {
@@ -41,21 +50,34 @@ class Store_Items: UITableViewController {
             textField.autocorrectionType = .yes
         }
         newItemAlert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { (action:UIAlertAction) in
-            
-            if let ItemContent = newItemAlert.textFields?.first?.text{
-                //Setting cell content
-                let item = GroceryItem(content: ItemContent, addedByUser: (Auth.auth().currentUser?.uid)!)
-                
-                let itemRef = dbRefI.child(ItemContent.lowercased())
-                
-                itemRef.setValue(item.toAnyObject())
+            //Checks if field is empty
+            var textUserInput = newItemAlert.textFields?.first?.text
+            if newItemAlert.textFields?.first?.text == nil || newItemAlert.textFields?.first?.text == "" || newItemAlert.textFields?.first?.text == " "{
+                textUserInput = "Unavaliable"
+            }
+            //checks is text conatins special characters
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            //Scans textUserInput for anything "out of the ordinary"
+            if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
+                self.SpecialCharacterError()
+            } else {
+                //Starts setting cell content
+                if let ItemContent = textUserInput{
+                    //Setting cell content
+                    let item = GroceryItem(content: ItemContent, addedByUser: (Auth.auth().currentUser?.uid)!)
+                    
+                    let itemRef = dbRefI.child(ItemContent.lowercased())
+                    
+                    itemRef.setValue(item.toAnyObject())
+                }
+
             }
             
         }))
         self.present(newItemAlert, animated: true, completion: nil)
     }
     
-    
+    //End of AddItem
     
     
     

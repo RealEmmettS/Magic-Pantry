@@ -175,7 +175,14 @@ class GroceryLists_TableViewController: UITableViewController {
     
     
 
-        
+    func SpecialCharacterError() {
+        //Set up alert and its contents
+        let alert = UIAlertController(title: "Error", message: "Please do not use periods, slashes, or anything of the like in an item name", preferredStyle: UIAlertControllerStyle.alert)
+        //Set up alert button
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        //Present Alert
+        self.present(alert, animated: true, completion: nil)
+    }
     
     
     @IBAction func addItem(_ sender: Any) {
@@ -185,16 +192,38 @@ class GroceryLists_TableViewController: UITableViewController {
         newItemAlert.addTextField(configurationHandler:) { (textField:UITextField) in textField.placeholder = "Store Name"
         }
         newItemAlert.addAction(UIAlertAction(title: "Add Store", style: .default, handler: { (action:UIAlertAction) in
-            if let storeContent = newItemAlert.textFields?.first?.text{
-                
-                
-                //Setting cell content
-                let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
-                //Setting data in Firebase
-                let itemRef = self.dbRef.child(storeContent.lowercased())
-                
-                itemRef.setValue(store.toAnyObject())
+            //Checks if field is empty
+            var textUserInput = newItemAlert.textFields?.first?.text
+            if newItemAlert.textFields?.first?.text == nil || newItemAlert.textFields?.first?.text == "" || newItemAlert.textFields?.first?.text == " "{
+                textUserInput = "Unavaliable"
             }
+            
+            //checks is text conatins special characters
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            //Scans textUserInput for anything "out of the ordinary"
+            if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
+                self.SpecialCharacterError()
+            } else {
+                //Starts setting cell content
+                if let storeContent = textUserInput{
+                    //Setting cell content
+                    let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
+                    //Setting data in Firebase
+                    let itemRef = self.dbRef.child(storeContent.lowercased())
+                    
+                    itemRef.setValue(store.toAnyObject())
+                }
+            }
+            
+            
+//            if let storeContent = newItemAlert.textFields?.first?.text{
+//                //Setting cell content
+//                let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
+//                //Setting data in Firebase
+//                let itemRef = self.dbRef.child(storeContent.lowercased())
+//
+//                itemRef.setValue(store.toAnyObject())
+//            }
             
         }))
         self.present(newItemAlert, animated: true, completion: nil)
