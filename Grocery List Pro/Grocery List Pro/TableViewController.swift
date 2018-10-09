@@ -199,7 +199,7 @@ class GroceryLists_TableViewController: UITableViewController {
             }
             
             //checks is text conatins special characters
-            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*")
             //Scans textUserInput for anything "out of the ordinary"
             if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
                 self.SpecialCharacterError()
