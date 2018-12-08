@@ -24,8 +24,38 @@ class GroceryLists_TableViewController: UITableViewController {
     //Defining Local Variables
     var dbRef:DatabaseReference!
     
+    //MARK: New Edit and Delete Tool
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let edit = editAction(at: IndexPath)
+        let delete = deleteAction(at: IndexPath)
+        return UISwipeActionsConfiguration(actions: [delete, edit])
+    }
+    
+    func editAction(at indexPath: IndexPath) -> UIContextualAction{
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
+        
+            let Item = stores[indexPath.row]
+            Item.itemRef?.removeValue()
+            //Setting up for store deletion
+            let currentCellForDeletion = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
+            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
+            //Setting Item dbRef to the correct store
+            dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
+            //Deleting Store and Items
+            dbRefI.removeValue()
+            
+            completion(true)
+        }
+        action.image =  #imageLiteral(resourceName: "Trash")
+    }
     
     
+    
+    
+    //MARK: Sign In/ App Start
     func signInTheUser(){
         Auth.auth().signIn(withEmail: theUserEmail, password: theUserPassword) { (user, error) in
             if Error.self != nil{
@@ -198,8 +228,8 @@ class GroceryLists_TableViewController: UITableViewController {
                 textUserInput = "Unavaliable"
             }
             
-            //checks is text conatins special characters
-            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*")
+            //checks if text conatins special characters
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*()")
             //Scans textUserInput for anything "out of the ordinary"
             if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
                 self.SpecialCharacterError()
@@ -265,22 +295,22 @@ class GroceryLists_TableViewController: UITableViewController {
     }
     
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        
-        if editingStyle == .delete {
-            let Item = stores[indexPath.row]
-            Item.itemRef?.removeValue()
-            
-            //Setting up for store deletion
-            let currentCellForDeletion = tableView.cellForRow(at: indexPath) as! UITableViewCell
-            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
-            //Setting Item dbRef to the correct store
-            dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
-            //Deleting Store and Items
-            dbRefI.removeValue()
-        }
-        
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//
+//
+//        if editingStyle == .delete {
+//            let Item = stores[indexPath.row]
+//            Item.itemRef?.removeValue()
+//
+//            //Setting up for store deletion
+//            let currentCellForDeletion = tableView.cellForRow(at: indexPath) as! UITableViewCell
+//            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
+//            //Setting Item dbRef to the correct store
+//            dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
+//            //Deleting Store and Items
+//            dbRefI.removeValue()
+//        }
+    
         
     }
     
