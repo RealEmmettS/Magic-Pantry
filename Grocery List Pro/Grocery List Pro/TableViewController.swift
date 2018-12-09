@@ -16,6 +16,7 @@ var currentUsersEmail = extraUserInfo(currentUsersEmail: "")
 var stringMyIndex: String?
 var stringStoreName: String?
 var stringStoreNameForDeletion: String?
+var stringStoreNameForEdit: String?
 let user = Auth.auth().currentUser
 
 
@@ -26,13 +27,36 @@ class GroceryLists_TableViewController: UITableViewController {
     
     //MARK: New Edit and Delete Tool
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let edit = editAction(at: IndexPath)
-        let delete = deleteAction(at: IndexPath)
+        let edit = editAction(at: indexPath)
+        let delete = deleteAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [delete, edit])
     }
     
+    
     func editAction(at indexPath: IndexPath) -> UIContextualAction{
+        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
+            
+            let editAlert = UIAlertController(title: "Edit Store", message: "Enter New Store Name", preferredStyle: .alert)
+            //Edit Action
+            let editStore = UIAlertAction(title: "Edit Store", style: .default){(_) in
+                //Identify cell for edit
+                let Item = stores[indexPath.row]
+                let currentCellForEdit = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
+                stringStoreNameForEdit = currentCellForEdit.textLabel?.text
+                
+            }
+            
+            editAlert.addAction(editStore)
+            self.present(editAlert, animated: true, completion: nil)
+            
+            completion(true)
+        }
+        action.image =  #imageLiteral(resourceName: "Edit")
+        action.backgroundColor = UIColor(red:1.00, green:0.20, blue:0.18, alpha:1.0)
+        return action
     }
+    
+    
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
@@ -50,6 +74,8 @@ class GroceryLists_TableViewController: UITableViewController {
             completion(true)
         }
         action.image =  #imageLiteral(resourceName: "Trash")
+        action.backgroundColor = UIColor(red:1.00, green:0.20, blue:0.18, alpha:1.0)
+        return action
     }
     
     
@@ -310,10 +336,10 @@ class GroceryLists_TableViewController: UITableViewController {
 //            //Deleting Store and Items
 //            dbRefI.removeValue()
 //        }
-    
-        
-    }
-    
+//
+//
+//    }
+
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
