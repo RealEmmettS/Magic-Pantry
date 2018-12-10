@@ -35,17 +35,23 @@ class GroceryLists_TableViewController: UITableViewController {
     
     func editAction(at indexPath: IndexPath) -> UIContextualAction{
         let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
-            
+            let Item = stores[indexPath.row]
+            //Alert Setup
             let editAlert = UIAlertController(title: "Edit Store", message: "Enter New Store Name", preferredStyle: .alert)
             //Edit Action
             let editStore = UIAlertAction(title: "Edit Store", style: .default){(_) in
                 //Identify cell for edit
-                let Item = stores[indexPath.row]
+                let Item = editAlert.textFields?[0].text
                 let currentCellForEdit = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
                 stringStoreNameForEdit = currentCellForEdit.textLabel?.text
                 
+                
+                
             }
             
+            editAlert.addTextField{(textField) in
+                textField.text = Item.scontent
+            }
             editAlert.addAction(editStore)
             self.present(editAlert, animated: true, completion: nil)
             
@@ -270,17 +276,6 @@ class GroceryLists_TableViewController: UITableViewController {
                     itemRef.setValue(store.toAnyObject())
                 }
             }
-            
-            
-//            if let storeContent = newItemAlert.textFields?.first?.text{
-//                //Setting cell content
-//                let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
-//                //Setting data in Firebase
-//                let itemRef = self.dbRef.child(storeContent.lowercased())
-//
-//                itemRef.setValue(store.toAnyObject())
-//            }
-            
         }))
         self.present(newItemAlert, animated: true, completion: nil)
     }
