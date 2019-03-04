@@ -27,40 +27,40 @@ class GroceryLists_TableViewController: UITableViewController {
     
     //MARK: New Edit and Delete Tool
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let edit = editAction(at: indexPath)
+//        let edit = editAction(at: indexPath)
         let delete = deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete, edit])
+        return UISwipeActionsConfiguration(actions: [delete]) //Add ", edit" after delete to re-add Edit Function
     }
     
     
-    func editAction(at indexPath: IndexPath) -> UIContextualAction{
-        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
-            let Item = stores[indexPath.row]
-            //Alert Setup
-            let editAlert = UIAlertController(title: "Edit Store", message: "Enter New Store Name", preferredStyle: .alert)
-            //Edit Action
-            let editStore = UIAlertAction(title: "Edit Store", style: .default){(_) in
-                //Identify cell for edit
-                let Item = editAlert.textFields?[0].text
-                let currentCellForEdit = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
-                stringStoreNameForEdit = currentCellForEdit.textLabel?.text
-                
-                
-                
-            }
-            
-            editAlert.addTextField{(textField) in
-                textField.text = Item.scontent
-            }
-            editAlert.addAction(editStore)
-            self.present(editAlert, animated: true, completion: nil)
-            
-            completion(true)
-        }
-        action.image =  #imageLiteral(resourceName: "Edit")
-        action.backgroundColor = UIColor(red:1.00, green:0.20, blue:0.18, alpha:1.0)
-        return action
-    }
+//    func editAction(at indexPath: IndexPath) -> UIContextualAction{
+//        let action = UIContextualAction(style: .normal, title: "Edit") { (action, view, completion) in
+//            let Item = stores[indexPath.row]
+//            //Alert Setup
+//            let editAlert = UIAlertController(title: "Edit Store", message: "Enter New Store Name", preferredStyle: .alert)
+//            //Edit Action
+//            let editStore = UIAlertAction(title: "Edit Store", style: .default){(_) in
+//                //Identify cell for edit
+//                let Item = editAlert.textFields?[0].text
+//                let currentCellForEdit = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
+//                stringStoreNameForEdit = currentCellForEdit.textLabel?.text
+//
+//
+//
+//            }
+//
+//            editAlert.addTextField{(textField) in
+//                textField.text = Item.scontent
+//            }
+//            editAlert.addAction(editStore)
+//            self.present(editAlert, animated: true, completion: nil)
+//
+//            completion(true)
+//        }
+//        action.image =  #imageLiteral(resourceName: "Edit")
+//        action.backgroundColor = UIColor(red:1.00, green:0.20, blue:0.18, alpha:1.0)
+//        return action
+//    }
     
     
     
@@ -71,7 +71,9 @@ class GroceryLists_TableViewController: UITableViewController {
             Item.itemRef?.removeValue()
             //Setting up for store deletion
             let currentCellForDeletion = self.tableView.cellForRow(at: indexPath) as! UITableViewCell
-            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
+            
+            //Fixing troubled characters
+            stringStoreNameForDeletion = self.ChangeTroubledTextSAFEMODE(cellString: currentCellForDeletion.textLabel!.text!)
             //Setting Item dbRef to the correct store
             dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
             //Deleting Store and Items
@@ -260,21 +262,24 @@ class GroceryLists_TableViewController: UITableViewController {
                 textUserInput = "Unavaliable"
             }
             
+            
             //checks if text conatins special characters
-            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*()")
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%!*() .")
+            
+            //Replacing error characters with OK characters
+            let newUserInput = textUserInput
+            let safeText = self.ChangeTroubledTextSAFEMODE(cellString: newUserInput!)
+            
             //Scans textUserInput for anything "out of the ordinary"
             if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
                 self.SpecialCharacterError()
             } else {
-                //Starts setting cell content
-                if let storeContent = textUserInput{
-                    //Setting cell content
-                    let store = GroceryStore(scontent: storeContent, saddedByUser: (Auth.auth().currentUser?.uid)!)
-                    //Setting data in Firebase
-                    let itemRef = self.dbRef.child(storeContent.lowercased())
-                    
-                    itemRef.setValue(store.toAnyObject())
-                }
+                //Setting cell content
+                let store = GroceryStore(scontent: safeText, saddedByUser: (Auth.auth().currentUser?.uid)!)
+                //Setting data in Firebase
+                let itemRef = self.dbRef.child(safeText.lowercased())
+                
+                itemRef.setValue(store.toAnyObject())
             }
         }))
         self.present(newItemAlert, animated: true, completion: nil)
@@ -293,7 +298,6 @@ class GroceryLists_TableViewController: UITableViewController {
 
     
     
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
@@ -309,31 +313,49 @@ class GroceryLists_TableViewController: UITableViewController {
 
         let Item = stores[indexPath.row]
         
-            cell.textLabel?.text = Item.scontent
+        //Making names look like they were intended
+       cell.textLabel?.text = ChangeTroubledTextLOOKNORMAL(cellString: Item.scontent)
+        
+        
             //Below, replace "" with currentUsersEmail.currentUsersEmail to make it display the users email who added it
             cell.detailTextLabel?.text = ""
         return cell
     }
     
+
     
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//
-//
-//        if editingStyle == .delete {
-//            let Item = stores[indexPath.row]
-//            Item.itemRef?.removeValue()
-//
-//            //Setting up for store deletion
-//            let currentCellForDeletion = tableView.cellForRow(at: indexPath) as! UITableViewCell
-//            stringStoreNameForDeletion = currentCellForDeletion.textLabel?.text
-//            //Setting Item dbRef to the correct store
-//            dbRefI = Database.database().reference().child("\(stringStoreNameForDeletion!)-\(validationID)")
-//            //Deleting Store and Items
-//            dbRefI.removeValue()
-//        }
-//
-//
-//    }
+    //Function automating the changing of trouble text
+    func ChangeTroubledTextSAFEMODE(cellString: String) -> String{
+        var modifiedCell = cellString
+        while modifiedCell.contains(".") || modifiedCell.contains("/") {
+            if modifiedCell.contains("/"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "/", with: "@", options: .literal, range: nil)
+                print("DONE!!!")
+            }
+            if modifiedCell.contains("."){
+                modifiedCell = modifiedCell.replacingOccurrences(of: ".", with: "~", options: .literal, range: nil)
+                print("DONE!!!")
+            }
+        }
+        
+        return modifiedCell
+    }
+    
+    func ChangeTroubledTextLOOKNORMAL(cellString: String) -> String{
+        var modifiedCell = cellString
+        while modifiedCell.contains("@") || modifiedCell.contains("~"){
+            if modifiedCell.contains("@"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "@", with: "/", options: .literal, range: nil)
+                print("Completed Conversion: Normal")
+            }
+            if modifiedCell.contains("~"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "~", with: ".", options: .literal, range: nil)
+                print("Completed Conversion: Safe")
+            }
+        }
+        
+        return modifiedCell
+    }
 
     
     
@@ -348,7 +370,8 @@ class GroceryLists_TableViewController: UITableViewController {
         //Defining cell name variable
         let currentCell = tableView.cellForRow(at: indexPath) as! UITableViewCell
         
-        stringStoreName = currentCell.textLabel?.text
+        
+        stringStoreName = ChangeTroubledTextSAFEMODE(cellString: currentCell.textLabel!.text!)
         
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         

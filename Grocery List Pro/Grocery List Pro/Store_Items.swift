@@ -56,20 +56,20 @@ class Store_Items: UITableViewController {
                 textUserInput = "Unavaliable"
             }
             //checks is text conatins special characters
-            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*()")
+            let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 &%@!*() .")
             //Scans textUserInput for anything "out of the ordinary"
+            let newUserInput = textUserInput
+            let safeText = self.ChangeTroubledTextSAFEMODE(cellString: newUserInput!)
+            
             if textUserInput!.rangeOfCharacter(from: characterset.inverted) != nil {
                 self.SpecialCharacterError()
             } else {
-                //Starts setting cell content
-                if let ItemContent = textUserInput{
-                    //Setting cell content
-                    let item = GroceryItem(content: ItemContent, addedByUser: (Auth.auth().currentUser?.uid)!)
-                    
-                    let itemRef = dbRefI.child(ItemContent.lowercased())
-                    
-                    itemRef.setValue(item.toAnyObject())
-                }
+                //Setting cell content
+                let item = GroceryItem(content: safeText, addedByUser: (Auth.auth().currentUser?.uid)!)
+                
+                let itemRef = dbRefI.child(safeText.lowercased())
+                
+                itemRef.setValue(item.toAnyObject())
 
             }
             
@@ -120,7 +120,7 @@ class Store_Items: UITableViewController {
         
         let Item = items[indexPath.row]
         
-        cell.textLabel?.text = Item.content
+        cell.textLabel?.text = ChangeTroubledTextLOOKNORMAL(cellString: Item.content)
         //Below, replace "" with currentUsersEmail.currentUsersEmail to make it display the users email who added it
         cell.detailTextLabel?.text = ""
         
@@ -129,8 +129,46 @@ class Store_Items: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    
+    //Function automating the changing of trouble text
+    func ChangeTroubledTextSAFEMODE(cellString: String) -> String{
+        var modifiedCell = cellString
+        while modifiedCell.contains(".") || modifiedCell.contains("/") {
+            if modifiedCell.contains("/"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "/", with: "@", options: .literal, range: nil)
+                print("DONE!!!")
+            }
+            if modifiedCell.contains("."){
+                modifiedCell = modifiedCell.replacingOccurrences(of: ".", with: "~", options: .literal, range: nil)
+                print("DONE!!!")
+            }
+        }
         
+        return modifiedCell
+    }
+    
+    func ChangeTroubledTextLOOKNORMAL(cellString: String) -> String{
+        var modifiedCell = cellString
+        while modifiedCell.contains("@") || modifiedCell.contains("~"){
+            if modifiedCell.contains("@"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "@", with: "/", options: .literal, range: nil)
+                print("Completed Conversion: Normal")
+            }
+            if modifiedCell.contains("~"){
+                modifiedCell = modifiedCell.replacingOccurrences(of: "~", with: ".", options: .literal, range: nil)
+                print("Completed Conversion: Safe")
+            }
+        }
+        
+        return modifiedCell
+    }
+
+    
+    
+    
+    
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
             let Item = items[indexPath.row]
