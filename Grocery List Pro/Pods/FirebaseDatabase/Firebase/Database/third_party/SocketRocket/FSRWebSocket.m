@@ -18,7 +18,7 @@
 
 #import "FSRWebSocket.h"
 
-#if TARGET_OS_IOS || TARGET_OS_TV
+#if __has_include(<unicode/utf8.h>)
 #define HAS_ICU
 #endif
 
@@ -28,9 +28,9 @@
 #import <unicode/utf8.h>
 #endif
 
-#if TARGET_OS_IOS || TARGET_OS_TV
+#if __has_include(<Endian.h>)
 #import <Endian.h>
-#elif TARGET_OS_OSX
+#else
 #import <CoreServices/CoreServices.h>
 #endif
 
@@ -532,7 +532,9 @@ static __strong NSData *CRLFCRLF;
     CFHTTPMessageRef request = CFHTTPMessageCreateRequest(NULL, CFSTR("GET"), (__bridge CFURLRef)_url, kCFHTTPVersion1_1);
 
     // Set host first so it defaults
-    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Host"), (__bridge CFStringRef)(_url.port ? [NSString stringWithFormat:@"%@:%@", _url.host, _url.port] : _url.host));
+    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Host"), (__bridge CFStringRef)
+                                     (_url.port != nil ? [NSString stringWithFormat:@"%@:%@",
+                                                          _url.host, _url.port] : _url.host));
 
     NSMutableData *keyBytes = [[NSMutableData alloc] initWithLength:16];
     int result = SecRandomCopyBytes(kSecRandomDefault, keyBytes.length, keyBytes.mutableBytes);
@@ -1352,7 +1354,11 @@ static const size_t SRFrameHeaderOverhead = 32;
 {
     [self assertOnWorkQueue];
 
-    NSAssert(data == nil || [data isKindOfClass:[NSData class]] || [data isKindOfClass:[NSString class]], @"Function expects nil, NSString or NSData");
+    if (data == nil) {
+        return;
+    }
+
+    NSAssert([data isKindOfClass:[NSData class]] || [data isKindOfClass:[NSString class]], @"Function expects nil, NSString or NSData");
 
     size_t payloadLength = [data isKindOfClass:[NSString class]] ? [(NSString *)data lengthOfBytesUsingEncoding:NSUTF8StringEncoding] : [data length];
 
@@ -1504,7 +1510,9 @@ static const size_t SRFrameHeaderOverhead = 32;
         }
 
         case NSStreamEventErrorOccurred: {
-            SRFastLog(@"NSStreamEventErrorOccurred %@ %@", aStream, [[aStream streamError] copy]);
+            // Note: The upstream code for SocketRocket logs the error message, but this causes
+            // crashes on iOS 13 (https://github.com/firebase/firebase-ios-sdk/issues/3950)
+            SRFastLog(@"NSStreamEventErrorOccurred %@", aStream);
             /// TODO specify error better!
                     [self _failWithError:aStream.streamError];
             _readBufferOffset = 0;
@@ -1676,7 +1684,7 @@ static const size_t SRFrameHeaderOverhead = 32;
         scheme = @"http";
     }
 
-    if (self.port) {
+    if (self.port != nil) {
         return [NSString stringWithFormat:@"%@://%@:%@/", scheme, self.host, self.port];
     } else {
         return [NSString stringWithFormat:@"%@://%@/", scheme, self.host];
