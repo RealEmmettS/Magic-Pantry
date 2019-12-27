@@ -19,13 +19,13 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UID.isHidden = true
+        //UID.isHidden = true
         
         UName = ""
         UserID = ""
         //Sets the name label to include the current user's name
         Name.text = "Name: None"
-        UID.text = "User ID: None"
+        //UID.text = "User ID: None"
         
         if Auth.auth().currentUser?.email != nil{
             UserIsLoggedIn = true
@@ -42,7 +42,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             UserID = String(Auth.auth().currentUser!.uid)
             
             Name.text = "Email: \(UName!)"
-            UID.text = "User ID: \(UserID!)"
+            //UID.text = "User ID: \(UserID!)"
             
             
             print("Logged In. Let's go on...")
@@ -69,7 +69,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             UserID = String(Auth.auth().currentUser!.uid)
             
             Name.text = "Email: \(UName!)"
-            UID.text = "User ID: \(UserID!)"
+            //UID.text = "User ID: \(UserID!)"
             
             
             print("Logged In. Let's go on...")
@@ -170,14 +170,14 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             UserID = String(Auth.auth().currentUser!.uid)
             //Sets the name label to include the current user's name
             Name.text = "Email: \(UName!)"
-            UID.text = "User ID: \(UserID!)"
+            //UID.text = "User ID: \(UserID!)"
         } else {
             print("User not logged in")
             UName = ""
             UserID = ""
             //Sets the name label to include the current user's name
             Name.text = "Email: None"
-            UID.text = "User ID: None"
+            //UID.text = "User ID: None"
         }
     }
     

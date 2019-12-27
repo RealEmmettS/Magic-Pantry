@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -111,7 +111,6 @@
 				5FF5D12D9B9C7CBB98EE5347 /* Pods-Magic PantryUITests.debug.xcconfig */,
 				F34A501E6B0A5A43AF87FA78 /* Pods-Magic PantryUITests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

@@ -10,11 +10,22 @@
         <!--Navigation Controller-->
         <scene sceneID="Bn7-QS-2cu">
             <objects>
-                <navigationController id="8nJ-Du-tnE" sceneMemberID="viewController">
+                <navigationController hidesBarsWhenKeyboardAppears="YES" id="8nJ-Du-tnE" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sgl-Oi-Ixj">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
+                            <color key="textColor" red="0.92549019607843142" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="35"/>
+                            <color key="textColor" red="0.92549019607843142" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fPP-J1-cBe">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="FEr-Ay-EN1" kind="relationship" relationship="rootViewController" id="QkI-aQ-ADX"/>
                     </connections>
@@ -26,78 +37,59 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Magic_Pantry" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController interfaceStyle="light" id="BYZ-38-t0r" customClass="ViewController" customModule="Magic_Pantry" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="bqV-lY-Co2" userLabel="Display Stack">
-                                <rect key="frame" x="20" y="118" width="61.5" height="56"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="cq1-Ux-QbL">
-                                        <rect key="frame" x="0.0" y="0.0" width="61.5" height="56"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeN-Wx-Prz">
-                                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="94Z-79-7Qe">
-                                                <rect key="frame" x="0.0" y="35.5" width="61.5" height="20.5"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="20.5" id="SYU-Dw-0bl"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="aEi-Ha-bTb" userLabel="Action Stack">
-                                <rect key="frame" x="20" y="215" width="74" height="120"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ony-3n-nUU">
-                                        <rect key="frame" x="0.0" y="0.0" width="47" height="30"/>
-                                        <state key="normal" title="Sign In"/>
-                                        <connections>
-                                            <action selector="NewUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ceF-QZ-Euh"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mq-42-WIL">
-                                        <rect key="frame" x="0.0" y="45" width="60" height="30"/>
-                                        <state key="normal" title="Sign Out"/>
-                                        <connections>
-                                            <action selector="SignOutUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5qW-B1-KND"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvh-wU-HvD">
-                                        <rect key="frame" x="0.0" y="90" width="74" height="30"/>
-                                        <state key="normal" title="Go to Lists"/>
-                                        <connections>
-                                            <action selector="GoToLists:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rG3-og-Emf"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eeN-Wx-Prz">
+                                <rect key="frame" x="181.5" y="121" width="51" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" red="0.63137254901960782" green="0.094117647058823528" blue="0.094117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ony-3n-nUU">
+                                <rect key="frame" x="42" y="218" width="47" height="35"/>
+                                <state key="normal" title="Sign In"/>
+                                <connections>
+                                    <action selector="NewUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ceF-QZ-Euh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mq-42-WIL">
+                                <rect key="frame" x="312" y="218" width="60" height="35"/>
+                                <state key="normal" title="Sign Out"/>
+                                <connections>
+                                    <action selector="SignOutUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5qW-B1-KND"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvh-wU-HvD">
+                                <rect key="frame" x="170" y="220.5" width="74" height="30"/>
+                                <state key="normal" title="Go to Lists"/>
+                                <connections>
+                                    <action selector="GoToLists:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rG3-og-Emf"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="gsU-Rg-rPT">
-                                <rect key="frame" x="20" y="52" width="195.5" height="42"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="35"/>
-                                <nil key="textColor"/>
+                                <rect key="frame" x="39.5" y="41" width="335.5" height="62.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="52"/>
+                                <color key="textColor" red="0.92549019607843142" green="0.23137254901960785" blue="0.23137254901960785" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bqV-lY-Co2" firstAttribute="top" secondItem="gsU-Rg-rPT" secondAttribute="bottom" constant="24" id="Pva-TG-3Kx"/>
-                            <constraint firstItem="aEi-Ha-bTb" firstAttribute="top" secondItem="bqV-lY-Co2" secondAttribute="bottom" constant="41" id="fMQ-h8-4HU"/>
-                            <constraint firstItem="gsU-Rg-rPT" firstAttribute="leading" secondItem="bqV-lY-Co2" secondAttribute="leading" id="fP1-LD-Xky"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gsU-Rg-rPT" secondAttribute="trailing" constant="198.5" id="j72-bN-zg3"/>
-                            <constraint firstItem="gsU-Rg-rPT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="52" id="uaP-yT-Gjb"/>
-                            <constraint firstItem="gsU-Rg-rPT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="udH-JS-YW3"/>
-                            <constraint firstItem="aEi-Ha-bTb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xF5-bT-IPj"/>
+                            <constraint firstItem="6mq-42-WIL" firstAttribute="top" secondItem="gsU-Rg-rPT" secondAttribute="bottom" constant="114.5" id="15q-yY-Fh9"/>
+                            <constraint firstItem="6mq-42-WIL" firstAttribute="centerY" secondItem="ony-3n-nUU" secondAttribute="centerY" id="6oG-Ou-Tqj"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6mq-42-WIL" secondAttribute="trailing" constant="42" id="M8G-t8-vap"/>
+                            <constraint firstItem="eeN-Wx-Prz" firstAttribute="top" secondItem="gsU-Rg-rPT" secondAttribute="bottom" constant="17.5" id="OPb-3l-q5m"/>
+                            <constraint firstItem="ony-3n-nUU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="42" id="T8c-NV-tGd"/>
+                            <constraint firstItem="ony-3n-nUU" firstAttribute="top" secondItem="gsU-Rg-rPT" secondAttribute="bottom" constant="114.5" id="cdb-fL-8n8"/>
+                            <constraint firstItem="Rvh-wU-HvD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eDf-hK-CQW"/>
+                            <constraint firstItem="eeN-Wx-Prz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kZV-Ug-q23"/>
+                            <constraint firstItem="gsU-Rg-rPT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nwf-6v-9EM"/>
+                            <constraint firstItem="Rvh-wU-HvD" firstAttribute="top" secondItem="eeN-Wx-Prz" secondAttribute="bottom" constant="76.5" id="qWp-Rt-iA1"/>
+                            <constraint firstItem="Rvh-wU-HvD" firstAttribute="centerY" secondItem="ony-3n-nUU" secondAttribute="centerY" id="rtQ-XM-reO"/>
+                            <constraint firstItem="gsU-Rg-rPT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="wWa-J2-ffH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -110,13 +102,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="Name" destination="eeN-Wx-Prz" id="FN8-5p-N7M"/>
-                        <outlet property="UID" destination="94Z-79-7Qe" id="koq-z4-KJz"/>
                         <segue destination="FEr-Ay-EN1" kind="show" identifier="GoToLists" id="Kse-K3-Iz4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="-684"/>
+            <point key="canvasLocation" x="86.956521739130437" y="-684.375"/>
         </scene>
         <!--Magic Pantry-->
         <scene sceneID="u1i-aC-6Rx">
@@ -126,6 +117,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="sectionIndexColor" cocoaTouchSystemColor="darkTextColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationLevel="1" indentationWidth="10" reuseIdentifier="cellID" textLabel="YKb-59-tg3" style="IBUITableViewCellStyleDefault" id="bLo-Bz-ccd">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
@@ -150,7 +142,7 @@
                             <outlet property="delegate" destination="FEr-Ay-EN1" id="HoP-5E-ftj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Magic Pantry" id="FN4-YF-Pae">
+                    <navigationItem key="navigationItem" title="Magic Pantry" largeTitleDisplayMode="always" id="FN4-YF-Pae">
                         <barButtonItem key="leftBarButtonItem" title="Profile" image="person.circle" catalog="system" style="plain" id="jow-Sn-ekX">
                             <connections>
                                 <action selector="profilePressed:" destination="FEr-Ay-EN1" id="7UQ-bl-plx"/>
@@ -169,9 +161,9 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TBv-ei-Ge8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="87" y="52"/>
+            <point key="canvasLocation" x="86.956521739130437" y="51.5625"/>
         </scene>
-        <!--Magic Pantry: Items-->
+        <!--Items-->
         <scene sceneID="KA0-tB-YDy">
             <objects>
                 <tableViewController id="xwx-dV-SwR" customClass="SubLists" customModule="Magic_Pantry" customModuleProvider="target" sceneMemberID="viewController">
@@ -203,7 +195,7 @@
                             <outlet property="delegate" destination="xwx-dV-SwR" id="3ZC-49-bmw"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Magic Pantry: Items" id="oIr-Lu-ks9">
+                    <navigationItem key="navigationItem" title="Items" id="oIr-Lu-ks9">
                         <barButtonItem key="rightBarButtonItem" title="Add Item" style="plain" id="8bP-2f-b1f">
                             <connections>
                                 <action selector="addItem:" destination="xwx-dV-SwR" id="Owm-yj-5ub"/>
@@ -220,7 +212,6 @@
         <image name="person.circle" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dw9-lJ-dXy"/>
         <segue reference="Kse-K3-Iz4"/>
     </inferredMetricsTieBreakers>
 </document>
