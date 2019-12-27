@@ -11,6 +11,7 @@ import UIKit
 import Firebase
 
 var currentListId = ""
+var currentListName = ""
 
 
 class TableViewController: UITableViewController {
@@ -23,9 +24,10 @@ class TableViewController: UITableViewController {
     var tableuserid:String?
     var AuthString:String? //Testing this for later. NOT YET IMPLEMENTED
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //overrideUserInterfaceStyle = .light
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -270,7 +272,9 @@ class TableViewController: UITableViewController {
                 let formattedProperty = ReminderLists(listName: property)
                 
                 if formattedProperty.listName == toSelect {
+                    let property = (document.get("listName") as! String?)!
                     currentListId = document.documentID
+                    currentListName = property
                     self.performSegue(withIdentifier: "sublists", sender: self)
                 }
             }

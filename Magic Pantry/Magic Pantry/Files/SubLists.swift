@@ -21,10 +21,16 @@ class SubLists: UITableViewController {
     var listImIn:CollectionReference?
     var listID = ""
     
-
+    //@IBOutlet weak var NavBarTitle: UILabel!
+    @IBOutlet weak var NavBarTitle: UINavigationItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        //overrideUserInterfaceStyle = .light
+        
+        NavBarTitle.title = currentListName
         
         tableView.delegate = self
         tableView.dataSource = self

@@ -21,6 +21,9 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         
         //UID.isHidden = true
         
+        //overrideUserInterfaceStyle = .light
+
+        
         UName = ""
         UserID = ""
         //Sets the name label to include the current user's name

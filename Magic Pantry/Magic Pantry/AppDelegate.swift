@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FUIAuthDelegate {
         //Firebase Config Code
         FirebaseApp.configure()
         
+
+        
         return true
     }
 
