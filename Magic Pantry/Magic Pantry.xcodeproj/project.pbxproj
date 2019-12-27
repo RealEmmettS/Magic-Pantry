@@ -11,13 +11,17 @@
 		C45950F9DCED4AFF10CBCE38 /* Pods_Magic_Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57FE5A2BE0E4AF1F52BD5A68 /* Pods_Magic_Pantry.framework */; };
 		D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810523B5B23400C634D5 /* AppDelegate.swift */; };
 		D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810723B5B23400C634D5 /* SceneDelegate.swift */; };
-		D16C810A23B5B23400C634D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810923B5B23400C634D5 /* ViewController.swift */; };
-		D16C810D23B5B23400C634D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D16C810B23B5B23400C634D5 /* Main.storyboard */; };
 		D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D16C810E23B5B23A00C634D5 /* Assets.xcassets */; };
 		D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D16C811023B5B23A00C634D5 /* LaunchScreen.storyboard */; };
 		D16C811D23B5B23B00C634D5 /* Magic_PantryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C811C23B5B23B00C634D5 /* Magic_PantryTests.swift */; };
 		D16C812823B5B23B00C634D5 /* Magic_PantryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C812723B5B23B00C634D5 /* Magic_PantryUITests.swift */; };
 		D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D16C813523B5B30100C634D5 /* GoogleService-Info.plist */; };
+		D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813823B5B8E300C634D5 /* Lists.swift */; };
+		D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813923B5B8E300C634D5 /* ExtraCode.swift */; };
+		D16C813F23B5B8E500C634D5 /* SubLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813A23B5B8E400C634D5 /* SubLists.swift */; };
+		D16C814023B5B8E500C634D5 /* FirebaseUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */; };
+		D16C814123B5B8E500C634D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813C23B5B8E500C634D5 /* ViewController.swift */; };
+		D16C814323B5B90100C634D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D16C814223B5B90100C634D5 /* Main.storyboard */; };
 		F51A28CB335374AF83A12214 /* Pods_Magic_PantryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 584F9C92FF852A9CE81E100A /* Pods_Magic_PantryUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,8 +53,6 @@
 		D16C810223B5B23400C634D5 /* Magic Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magic Pantry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16C810523B5B23400C634D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D16C810723B5B23400C634D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D16C810923B5B23400C634D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D16C810C23B5B23400C634D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D16C810E23B5B23A00C634D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D16C811123B5B23A00C634D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D16C811323B5B23A00C634D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -61,6 +63,12 @@
 		D16C812723B5B23B00C634D5 /* Magic_PantryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magic_PantryUITests.swift; sourceTree = "<group>"; };
 		D16C812923B5B23B00C634D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D16C813523B5B30100C634D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D16C813823B5B8E300C634D5 /* Lists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lists.swift; sourceTree = "<group>"; };
+		D16C813923B5B8E300C634D5 /* ExtraCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtraCode.swift; sourceTree = "<group>"; };
+		D16C813A23B5B8E400C634D5 /* SubLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubLists.swift; sourceTree = "<group>"; };
+		D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUI.swift; sourceTree = "<group>"; };
+		D16C813C23B5B8E500C634D5 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D16C814223B5B90100C634D5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		E7B29F4BEC38148FCFC83C13 /* Pods-Magic PantryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Magic PantryTests/Pods-Magic PantryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F6B0FDBF1DE227BCA334D6DF /* Pods-Magic PantryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Magic PantryUITests/Pods-Magic PantryUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -143,8 +151,7 @@
 			children = (
 				D16C810523B5B23400C634D5 /* AppDelegate.swift */,
 				D16C810723B5B23400C634D5 /* SceneDelegate.swift */,
-				D16C810923B5B23400C634D5 /* ViewController.swift */,
-				D16C810B23B5B23400C634D5 /* Main.storyboard */,
+				D16C813723B5B8D000C634D5 /* Files */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
 				D16C811023B5B23A00C634D5 /* LaunchScreen.storyboard */,
 				D16C813523B5B30100C634D5 /* GoogleService-Info.plist */,
@@ -169,6 +176,19 @@
 				D16C812923B5B23B00C634D5 /* Info.plist */,
 			);
 			path = "Magic PantryUITests";
+			sourceTree = "<group>";
+		};
+		D16C813723B5B8D000C634D5 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
+				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
+				D16C813823B5B8E300C634D5 /* Lists.swift */,
+				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
+				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
+				D16C814223B5B90100C634D5 /* Main.storyboard */,
+			);
+			path = Files;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,9 +301,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
+				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
 				D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */,
 				D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */,
-				D16C810D23B5B23400C634D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,8 +459,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D16C810A23B5B23400C634D5 /* ViewController.swift in Sources */,
+				D16C813F23B5B8E500C634D5 /* SubLists.swift in Sources */,
+				D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */,
+				D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */,
 				D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */,
+				D16C814023B5B8E500C634D5 /* FirebaseUI.swift in Sources */,
+				D16C814123B5B8E500C634D5 /* ViewController.swift in Sources */,
 				D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,14 +501,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D16C810B23B5B23400C634D5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D16C810C23B5B23400C634D5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D16C811023B5B23A00C634D5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
