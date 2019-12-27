@@ -1,0 +1,26 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '13.0'
+
+target 'Magic Pantry' do
+  use_frameworks!
+
+  # Pods for CongressAppChallenge
+  pod 'Firebase'
+  pod 'Firebase/Auth'
+  pod 'FirebaseUI'
+  
+  pod 'FirebaseUI/Auth'
+  pod 'FirebaseUI/Google'
+  pod 'FirebaseUI/Phone'
+    
+  target 'Magic PantryTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'Magic PantryUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
