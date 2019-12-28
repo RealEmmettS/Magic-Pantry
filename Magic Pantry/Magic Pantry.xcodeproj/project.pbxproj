@@ -21,6 +21,17 @@
 		D16C814023B5B8E500C634D5 /* FirebaseUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */; };
 		D16C814123B5B8E500C634D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C813C23B5B8E500C634D5 /* ViewController.swift */; };
 		D16C814323B5B90100C634D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D16C814223B5B90100C634D5 /* Main.storyboard */; };
+		D19A967823B6A7F60036FC1E /* Girassol in Resources */ = {isa = PBXBuildFile; fileRef = D19A967523B6A7F50036FC1E /* Girassol */; };
+		D19A967923B6A7F60036FC1E /* Poppins in Resources */ = {isa = PBXBuildFile; fileRef = D19A967623B6A7F50036FC1E /* Poppins */; };
+		D19A967A23B6A7F60036FC1E /* Quicksand in Resources */ = {isa = PBXBuildFile; fileRef = D19A967723B6A7F60036FC1E /* Quicksand */; };
+		D19A967D23B6FA040036FC1E /* Girassol in Resources */ = {isa = PBXBuildFile; fileRef = D19A967523B6A7F50036FC1E /* Girassol */; };
+		D19A967E23B6FA040036FC1E /* Poppins in Resources */ = {isa = PBXBuildFile; fileRef = D19A967623B6A7F50036FC1E /* Poppins */; };
+		D19A967F23B6FA040036FC1E /* Quicksand in Resources */ = {isa = PBXBuildFile; fileRef = D19A967723B6A7F60036FC1E /* Quicksand */; };
+		D19A968023B6FA050036FC1E /* Girassol in Resources */ = {isa = PBXBuildFile; fileRef = D19A967523B6A7F50036FC1E /* Girassol */; };
+		D19A968123B6FA050036FC1E /* Poppins in Resources */ = {isa = PBXBuildFile; fileRef = D19A967623B6A7F50036FC1E /* Poppins */; };
+		D19A968223B6FA050036FC1E /* Quicksand in Resources */ = {isa = PBXBuildFile; fileRef = D19A967723B6A7F60036FC1E /* Quicksand */; };
+		D19A968523B703DD0036FC1E /* main.png in Resources */ = {isa = PBXBuildFile; fileRef = D19A968423B703DD0036FC1E /* main.png */; };
+		D19A968723B7047F0036FC1E /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D19A968623B7047F0036FC1E /* original.jpg */; };
 		DD9435E5AFCDDCAD18771D8A /* Pods_Magic_PantryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */; };
 		E974528E87B9882A6C304962 /* Pods_Magic_PantryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5081845E77AC6F1AAB4829BC /* Pods_Magic_PantryTests.framework */; };
 /* End PBXBuildFile section */
@@ -68,6 +79,11 @@
 		D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseUI.swift; sourceTree = "<group>"; };
 		D16C813C23B5B8E500C634D5 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D16C814223B5B90100C634D5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		D19A967523B6A7F50036FC1E /* Girassol */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Girassol; sourceTree = "<group>"; };
+		D19A967623B6A7F50036FC1E /* Poppins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Poppins; sourceTree = "<group>"; };
+		D19A967723B6A7F60036FC1E /* Quicksand */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Quicksand; sourceTree = "<group>"; };
+		D19A968423B703DD0036FC1E /* main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = main.png; path = ../../../Logo/main.png; sourceTree = "<group>"; };
+		D19A968623B7047F0036FC1E /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = original.jpg; path = "../../../Grocery List Pro/Grocery List Pro/Assets.xcassets/AppIcon.appiconset/original.jpg"; sourceTree = "<group>"; };
 		DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.release.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.release.xcconfig"; sourceTree = "<group>"; };
 		F34A501E6B0A5A43AF87FA78 /* Pods-Magic PantryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryUITests.release.xcconfig"; path = "Target Support Files/Pods-Magic PantryUITests/Pods-Magic PantryUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Magic_Pantry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,8 +157,15 @@
 			children = (
 				D16C810523B5B23400C634D5 /* AppDelegate.swift */,
 				D16C810723B5B23400C634D5 /* SceneDelegate.swift */,
-				D16C813723B5B8D000C634D5 /* Files */,
+				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
+				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
+				D16C813823B5B8E300C634D5 /* Lists.swift */,
+				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
+				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
+				D16C814223B5B90100C634D5 /* Main.storyboard */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
+				D19A968323B703920036FC1E /* AppIcons */,
+				D19A967423B6A7550036FC1E /* Fonts */,
 				D16C811023B5B23A00C634D5 /* LaunchScreen.storyboard */,
 				D16C813523B5B30100C634D5 /* GoogleService-Info.plist */,
 				D16C811323B5B23A00C634D5 /* Info.plist */,
@@ -168,17 +191,23 @@
 			path = "Magic PantryUITests";
 			sourceTree = "<group>";
 		};
-		D16C813723B5B8D000C634D5 /* Files */ = {
+		D19A967423B6A7550036FC1E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
-				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
-				D16C813823B5B8E300C634D5 /* Lists.swift */,
-				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
-				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
-				D16C814223B5B90100C634D5 /* Main.storyboard */,
+				D19A967523B6A7F50036FC1E /* Girassol */,
+				D19A967623B6A7F50036FC1E /* Poppins */,
+				D19A967723B6A7F60036FC1E /* Quicksand */,
 			);
-			path = Files;
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		D19A968323B703920036FC1E /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				D19A968423B703DD0036FC1E /* main.png */,
+				D19A968623B7047F0036FC1E /* original.jpg */,
+			);
+			path = AppIcons;
 			sourceTree = "<group>";
 		};
 		F9E1CD48A941AC77A685792C /* Frameworks */ = {
@@ -300,10 +329,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D19A967923B6A7F60036FC1E /* Poppins in Resources */,
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
 				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
+				D19A967A23B6A7F60036FC1E /* Quicksand in Resources */,
 				D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */,
 				D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */,
+				D19A968523B703DD0036FC1E /* main.png in Resources */,
+				D19A967823B6A7F60036FC1E /* Girassol in Resources */,
+				D19A968723B7047F0036FC1E /* original.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +345,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D19A967F23B6FA040036FC1E /* Quicksand in Resources */,
+				D19A967E23B6FA040036FC1E /* Poppins in Resources */,
+				D19A967D23B6FA040036FC1E /* Girassol in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +355,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D19A968223B6FA050036FC1E /* Quicksand in Resources */,
+				D19A968123B6FA050036FC1E /* Poppins in Resources */,
+				D19A968023B6FA050036FC1E /* Girassol in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,8 +642,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -623,8 +663,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

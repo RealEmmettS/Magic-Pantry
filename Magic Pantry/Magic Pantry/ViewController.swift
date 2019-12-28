@@ -15,6 +15,14 @@ var NewUserCreation = true
 class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
 
     
+    
+    
+    //With the next two lines (@IBOutlet) we are simply connecting our User Interface elements to our code. This does nothing in particular besides let us access UI elements throught the code later on
+    @IBOutlet weak var Name: UILabel!
+    
+    
+    
+    
     //MARK: viewDidLoad and Setup
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,18 +35,16 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         UName = ""
         UserID = ""
         //Sets the name label to include the current user's name
-        Name.text = "Name: None"
+        Name.text = "Email: None"
         //UID.text = "User ID: None"
         
         if Auth.auth().currentUser?.email != nil{
             UserIsLoggedIn = true
-            Name.text = "Hey User!"
         } else {
             UserIsLoggedIn = false
-            print("Please Log In to What's Due")
         }
         
-        //Checking to see if the user is logged in. By the way, the if statement defaults to true if we don't fill out the rest (if UserLoggedIn = true...)
+        
         if UserIsLoggedIn! {
             //Running the above code again to update our on-screen data
             UName = (Auth.auth().currentUser?.email)!
@@ -56,16 +62,17 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         }
         
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         if Auth.auth().currentUser?.email != nil{
             UserIsLoggedIn = true
-            Name.text = "Hey"
+            Name.text = "Email: \(Auth.auth().currentUser?.email)"
         } else {
+            UserIsLoggedIn = false
             print("Nope")
         }
         
-        //Checking to see if the user is logged in. By the way, the if statement defaults to true if we don't fill out the rest (if UserLoggedIn = true...)
         if UserIsLoggedIn! {
             //Running the above code again to update our on-screen data
             UName = (Auth.auth().currentUser?.email)!
@@ -85,8 +92,19 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
     
+//
+//             (__)     (__)   "slurp"
+//             (oo)     (oo)
+//      /-------\/       \/-------\
+//     / |     ||  \__/  ||      | \
+//    *  ||----||  |  |  ||-----||  *
+//       ~~    ~~  |__|  ~~     ~~
+//
+//             cowoperation
     
     
+    
+    //Code Starts Here
     
     
     
@@ -94,20 +112,25 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
 
-    //With the next two lines (@IBOutlet) we are simply connecting our User Interface elements to our code. This does nothing in particular besides let us access UI elements throught the code later on
-    @IBOutlet weak var Name: UILabel!
-    @IBOutlet weak var UID: UILabel!
     
-    //Each @IBAction is a method which is called when you press the corresponding buttons
+    
     //MARK: Button Actions
     @IBAction func NewUser(_ sender: Any) {
         //Shows the current user the Sign In page
-        present(SetupAuthUI(), animated: true, completion: nil)
+        present(SetupAuthUI(), animated: true, completion: refreshVariables)
         refreshVariables()
-        func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
-            //Checks if an error occured. If there was an error, the code below runs
-          print("Oh No")
+        if presentedViewController!.isBeingDismissed{
+            print("Dismissing...")
+            refreshVariables()
         }
+        func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+          print("Oh No")
+            refreshVariables()
+        }
+    }
+    
+    func updateNewUser(){
+        refreshVariables()
     }
     
     @IBAction func GoToLists(_ sender: Any) {
@@ -142,13 +165,31 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         refreshVariables()
     }
     
+    //App Icon Change
+    @IBAction func NewIcon(_ sender: Any) {
+        changeIcon(name: "main.png")
+    }
+    @IBAction func OldIcon(_ sender: Any) {
+        changeIcon(name: "original.jpg")
+    }
     
     
     
     
     
-    //MARK: Functions
+    
+//                 (__)
+//                 (-o)
+//           /------\/
+//          /|     ||
+//         * ||----||
+//    Flirtatious cow (winking)
+    
+    
+    
+    //MARK: Firebase UI
     func SetupAuthUI() -> UINavigationController{
+        
         let authUI = FUIAuth.defaultAuthUI()
            // You need to adopt a FUIAuthDelegate protocol to receive callback
            authUI!.delegate = self
@@ -167,6 +208,21 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
     
+    
+    
+//                            (__)
+//                            (oo)
+//       /---------------------\/
+//     /  |   |   |   |   |   ||
+//    *   ||--||--||--||--||--||
+//        ^^  ^^  ^^  ^^  ^^  ^^
+//            Cowterpillar
+    
+    
+    
+    
+    
+    //MARK: Functions
     func refreshVariables(){
         if Auth.auth().currentUser?.email != nil || Auth.auth().currentUser?.phoneNumber != nil{
             UName = Auth.auth().currentUser!.email!
@@ -219,6 +275,54 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
 
            self.present(alertController, animated: true, completion: nil)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+//                         (__)
+//                         (oo)
+//         /--------------- \/
+//       / ( !S M T W T F! )
+//     /  (  +-+-+-+-+-+-+  )
+//    *   (  +-+-+-+-+-+-+  )
+//         ( +-+-+-+-+-+-+ )
+//          (+-+-+-+-+-+-+)
+//           ||        ||
+//           ||        ||
+//           ^^        ^^
+//           "COWLENDAR"
+    
+    
+    
+    
+    
+
+    //MARK: Experimental Features
+    func changeIcon(name: String?) {
+            //Check if the app supports alternating icons
+            guard UIApplication.shared.supportsAlternateIcons else {
+                return
+            }
+            
+            guard let name = name else {
+                UIApplication.shared.setAlternateIconName(nil)
+                return
+            }
+     
+            //Change the icon to a specific image with given name
+            UIApplication.shared.setAlternateIconName(name){ error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+     
+    
+    
     
 
     
