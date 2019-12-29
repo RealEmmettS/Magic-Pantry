@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		48AC65DAB66A37E7D576A046 /* Pods_Magic_Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */; };
+		D14F436223B82F6F009F02CF /* AppStoreIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D14F436123B82F6F009F02CF /* AppStoreIcon.png */; };
 		D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810523B5B23400C634D5 /* AppDelegate.swift */; };
 		D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810723B5B23400C634D5 /* SceneDelegate.swift */; };
 		D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D16C810E23B5B23A00C634D5 /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 		634EA8C41F7FFA946B87D92E /* Pods-Magic PantryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryTests.debug.xcconfig"; path = "Target Support Files/Pods-Magic PantryTests/Pods-Magic PantryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Magic_PantryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.debug.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.debug.xcconfig"; sourceTree = "<group>"; };
+		D14F436123B82F6F009F02CF /* AppStoreIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppStoreIcon.png; path = ../../../Logo/MagicPantryLogo/ios/AppStoreIcon.png; sourceTree = "<group>"; };
 		D16C810223B5B23400C634D5 /* Magic Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magic Pantry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16C810523B5B23400C634D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D16C810723B5B23400C634D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		D19A968323B703920036FC1E /* AppIcons */ = {
 			isa = PBXGroup;
 			children = (
+				D14F436123B82F6F009F02CF /* AppStoreIcon.png */,
 				D19A968423B703DD0036FC1E /* main.png */,
 				D19A968623B7047F0036FC1E /* original.jpg */,
 			);
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D19A967923B6A7F60036FC1E /* Poppins in Resources */,
+				D14F436223B82F6F009F02CF /* AppStoreIcon.png in Resources */,
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
 				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
 				D19A967A23B6A7F60036FC1E /* Quicksand in Resources */,
@@ -642,8 +646,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -663,8 +668,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

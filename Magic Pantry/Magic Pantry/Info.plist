@@ -6,8 +6,13 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>main.png</string>
+		<string>original.jpg</string>
+	</array>
 	<key>CFBundleIconName</key>
-	<string>main.png</string>
+	<string>AppStoreIcon.png</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
@@ -31,14 +36,29 @@
 				<false/>
 			</dict>
 		</dict>
-		<key>CFBundlePrimaryIcon</key>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>main.png</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
+			<key>main.png</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>main.png</string>
+				</array>
+				<key>Icon already includes gloss effects</key>
+				<false/>
+			</dict>
+			<key>original.jpg</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>original.jpg</string>
+				</array>
+				<key>Icon already includes gloss effects</key>
+				<false/>
+			</dict>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
