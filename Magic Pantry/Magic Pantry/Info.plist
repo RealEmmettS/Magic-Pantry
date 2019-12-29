@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIconName</key>
+	<string>main.png</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
@@ -37,17 +39,6 @@
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<false/>
-		</dict>
-		<key>CFBundleIconName</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>main.png</string>
-			</array>
-			<key>UINewsstandBindingType</key>
-			<string>UINewsstandBindingTypeMagazine</string>
-			<key>UINewsstandBindingEdge</key>
-			<string>UINewsstandBindingEdgeLeft</string>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>

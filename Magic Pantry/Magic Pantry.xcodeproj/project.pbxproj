@@ -643,7 +643,7 @@
 			baseConfigurationReference = 8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -664,7 +664,7 @@
 			baseConfigurationReference = DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
