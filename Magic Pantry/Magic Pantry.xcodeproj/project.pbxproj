@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		48AC65DAB66A37E7D576A046 /* Pods_Magic_Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */; };
-		D14F436223B82F6F009F02CF /* AppStoreIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D14F436123B82F6F009F02CF /* AppStoreIcon.png */; };
 		D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810523B5B23400C634D5 /* AppDelegate.swift */; };
 		D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810723B5B23400C634D5 /* SceneDelegate.swift */; };
 		D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D16C810E23B5B23A00C634D5 /* Assets.xcassets */; };
@@ -33,6 +32,13 @@
 		D19A968223B6FA050036FC1E /* Quicksand in Resources */ = {isa = PBXBuildFile; fileRef = D19A967723B6A7F60036FC1E /* Quicksand */; };
 		D19A968523B703DD0036FC1E /* main.png in Resources */ = {isa = PBXBuildFile; fileRef = D19A968423B703DD0036FC1E /* main.png */; };
 		D19A968723B7047F0036FC1E /* original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D19A968623B7047F0036FC1E /* original.jpg */; };
+		D1A2BF3B23B93E5F00D4DD45 /* Icon-Orig-83.5x83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF2523B93E5E00D4DD45 /* Icon-Orig-83.5x83.5@2x.png */; };
+		D1A2BF4223B93E5F00D4DD45 /* Icon-Orig-60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF2C23B93E5E00D4DD45 /* Icon-Orig-60x60@2x.png */; };
+		D1A2BF4823B93E5F00D4DD45 /* Icon-Orig-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF3223B93E5E00D4DD45 /* Icon-Orig-60x60@3x.png */; };
+		D1A2BF5A23B93E7900D4DD45 /* Icon-App-60x60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF4A23B93E7800D4DD45 /* Icon-App-60x60@2x.png */; };
+		D1A2BF6523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF5523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png */; };
+		D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */; };
+		D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */; };
 		DD9435E5AFCDDCAD18771D8A /* Pods_Magic_PantryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */; };
 		E974528E87B9882A6C304962 /* Pods_Magic_PantryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5081845E77AC6F1AAB4829BC /* Pods_Magic_PantryTests.framework */; };
 /* End PBXBuildFile section */
@@ -61,7 +67,6 @@
 		634EA8C41F7FFA946B87D92E /* Pods-Magic PantryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryTests.debug.xcconfig"; path = "Target Support Files/Pods-Magic PantryTests/Pods-Magic PantryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Magic_PantryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.debug.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.debug.xcconfig"; sourceTree = "<group>"; };
-		D14F436123B82F6F009F02CF /* AppStoreIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppStoreIcon.png; path = ../../../Logo/MagicPantryLogo/ios/AppStoreIcon.png; sourceTree = "<group>"; };
 		D16C810223B5B23400C634D5 /* Magic Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magic Pantry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16C810523B5B23400C634D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D16C810723B5B23400C634D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,8 +89,16 @@
 		D19A967523B6A7F50036FC1E /* Girassol */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Girassol; sourceTree = "<group>"; };
 		D19A967623B6A7F50036FC1E /* Poppins */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Poppins; sourceTree = "<group>"; };
 		D19A967723B6A7F60036FC1E /* Quicksand */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Quicksand; sourceTree = "<group>"; };
-		D19A968423B703DD0036FC1E /* main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = main.png; path = ../../../Logo/main.png; sourceTree = "<group>"; };
-		D19A968623B7047F0036FC1E /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = original.jpg; path = "../../../Grocery List Pro/Grocery List Pro/Assets.xcassets/AppIcon.appiconset/original.jpg"; sourceTree = "<group>"; };
+		D19A968423B703DD0036FC1E /* main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main.png; sourceTree = "<group>"; };
+		D19A968623B7047F0036FC1E /* original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = original.jpg; sourceTree = "<group>"; };
+		D1A2BF1A23B9319100D4DD45 /* Magic Pantry.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Magic Pantry.entitlements"; sourceTree = "<group>"; };
+		D1A2BF2523B93E5E00D4DD45 /* Icon-Orig-83.5x83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Orig-83.5x83.5@2x.png"; path = "Magic Pantry/Alternate Icons/OriginalAppIcon/Icon-Orig-83.5x83.5@2x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF2C23B93E5E00D4DD45 /* Icon-Orig-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Orig-60x60@2x.png"; path = "Magic Pantry/Alternate Icons/OriginalAppIcon/Icon-Orig-60x60@2x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF3223B93E5E00D4DD45 /* Icon-Orig-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Orig-60x60@3x.png"; path = "Magic Pantry/Alternate Icons/OriginalAppIcon/Icon-Orig-60x60@3x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF4A23B93E7800D4DD45 /* Icon-App-60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-60x60@2x.png"; path = "Magic Pantry/Alternate Icons/MainAppIcon/Icon-App-60x60@2x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF5523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-83.5x83.5@2x.png"; path = "Magic Pantry/Alternate Icons/MainAppIcon/Icon-App-83.5x83.5@2x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-60x60@3x.png"; path = "Magic Pantry/Alternate Icons/MainAppIcon/Icon-App-60x60@3x.png"; sourceTree = SOURCE_ROOT; };
+		D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppiconService.swift; sourceTree = "<group>"; };
 		DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.release.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.release.xcconfig"; sourceTree = "<group>"; };
 		F34A501E6B0A5A43AF87FA78 /* Pods-Magic PantryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryUITests.release.xcconfig"; path = "Target Support Files/Pods-Magic PantryUITests/Pods-Magic PantryUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Magic_Pantry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +170,7 @@
 		D16C810423B5B23400C634D5 /* Magic Pantry */ = {
 			isa = PBXGroup;
 			children = (
+				D1A2BF1A23B9319100D4DD45 /* Magic Pantry.entitlements */,
 				D16C810523B5B23400C634D5 /* AppDelegate.swift */,
 				D16C810723B5B23400C634D5 /* SceneDelegate.swift */,
 				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
@@ -164,9 +178,10 @@
 				D16C813823B5B8E300C634D5 /* Lists.swift */,
 				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
 				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
+				D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */,
 				D16C814223B5B90100C634D5 /* Main.storyboard */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
-				D19A968323B703920036FC1E /* AppIcons */,
+				D19A968323B703920036FC1E /* Alternate Icons */,
 				D19A967423B6A7550036FC1E /* Fonts */,
 				D16C811023B5B23A00C634D5 /* LaunchScreen.storyboard */,
 				D16C813523B5B30100C634D5 /* GoogleService-Info.plist */,
@@ -203,14 +218,35 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		D19A968323B703920036FC1E /* AppIcons */ = {
+		D19A968323B703920036FC1E /* Alternate Icons */ = {
 			isa = PBXGroup;
 			children = (
-				D14F436123B82F6F009F02CF /* AppStoreIcon.png */,
-				D19A968423B703DD0036FC1E /* main.png */,
-				D19A968623B7047F0036FC1E /* original.jpg */,
+				D1A2BF1C23B93DEB00D4DD45 /* OriginalAppIcon */,
+				D1A2BF1B23B93DE100D4DD45 /* MainAppIcon */,
 			);
-			path = AppIcons;
+			path = "Alternate Icons";
+			sourceTree = "<group>";
+		};
+		D1A2BF1B23B93DE100D4DD45 /* MainAppIcon */ = {
+			isa = PBXGroup;
+			children = (
+				D19A968423B703DD0036FC1E /* main.png */,
+				D1A2BF4A23B93E7800D4DD45 /* Icon-App-60x60@2x.png */,
+				D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */,
+				D1A2BF5523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png */,
+			);
+			path = MainAppIcon;
+			sourceTree = "<group>";
+		};
+		D1A2BF1C23B93DEB00D4DD45 /* OriginalAppIcon */ = {
+			isa = PBXGroup;
+			children = (
+				D19A968623B7047F0036FC1E /* original.jpg */,
+				D1A2BF2C23B93E5E00D4DD45 /* Icon-Orig-60x60@2x.png */,
+				D1A2BF3223B93E5E00D4DD45 /* Icon-Orig-60x60@3x.png */,
+				D1A2BF2523B93E5E00D4DD45 /* Icon-Orig-83.5x83.5@2x.png */,
+			);
+			path = OriginalAppIcon;
 			sourceTree = "<group>";
 		};
 		F9E1CD48A941AC77A685792C /* Frameworks */ = {
@@ -333,13 +369,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D19A967923B6A7F60036FC1E /* Poppins in Resources */,
-				D14F436223B82F6F009F02CF /* AppStoreIcon.png in Resources */,
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
 				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
 				D19A967A23B6A7F60036FC1E /* Quicksand in Resources */,
+				D1A2BF4223B93E5F00D4DD45 /* Icon-Orig-60x60@2x.png in Resources */,
 				D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */,
+				D1A2BF4823B93E5F00D4DD45 /* Icon-Orig-60x60@3x.png in Resources */,
+				D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */,
+				D1A2BF6523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png in Resources */,
+				D1A2BF3B23B93E5F00D4DD45 /* Icon-Orig-83.5x83.5@2x.png in Resources */,
 				D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */,
 				D19A968523B703DD0036FC1E /* main.png in Resources */,
+				D1A2BF5A23B93E7900D4DD45 /* Icon-App-60x60@2x.png in Resources */,
 				D19A967823B6A7F60036FC1E /* Girassol in Resources */,
 				D19A968723B7047F0036FC1E /* original.jpg in Resources */,
 			);
@@ -477,6 +518,7 @@
 			files = (
 				D16C813F23B5B8E500C634D5 /* SubLists.swift in Sources */,
 				D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */,
+				D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */,
 				D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */,
 				D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */,
 				D16C814023B5B8E500C634D5 /* FirebaseUI.swift in Sources */,
@@ -578,7 +620,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -632,7 +674,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -646,9 +688,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -659,6 +702,7 @@
 				MARKETING_VERSION = 3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -668,9 +712,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -681,6 +726,7 @@
 				MARKETING_VERSION = 3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

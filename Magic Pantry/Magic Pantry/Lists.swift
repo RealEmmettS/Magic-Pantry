@@ -188,9 +188,7 @@ class TableViewController: UITableViewController {
     
     
 
-    
-    // Override to support editing/deleting the table view.
-    
+    //MARK: Deleting (Editing) Cells
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             

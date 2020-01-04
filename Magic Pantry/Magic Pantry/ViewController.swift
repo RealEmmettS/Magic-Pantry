@@ -166,18 +166,25 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     }
     
     //App Icon Change
+    let appIconService = AppIconService()
     @IBAction func NewIcon(_ sender: Any) {
-        changeIcon(name: "main.png")
+        print("Updating...")
+        //appIconService.changeAppIcon(to: .MainIcon)
+        //UIApplication.shared.setAlternateIconName("MainIcon")
+        changeIcon(name: nil)
+        print("Icon Updated")
     }
     @IBAction func OldIcon(_ sender: Any) {
-        changeIcon(name: "original.jpg")
+        print("Updating...")
+        //appIconService.changeAppIcon(to: .OrignalIcon)
+        //UIApplication.shared.setAlternateIconName("OrignalIcon")
+        changeIcon(name: "original")
+        print("Icon Updated")
     }
     
     
     
-    
-    
-    
+
 //                 (__)
 //                 (-o)
 //           /------\/
@@ -316,7 +323,9 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             //Change the icon to a specific image with given name
             UIApplication.shared.setAlternateIconName(name){ error in
                 if let error = error {
+                    print("Error:\n\n")
                     print(error.localizedDescription)
+                    print("\n\n")
                 }
             }
         }

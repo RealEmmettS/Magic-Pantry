@@ -6,6 +6,7 @@
 //  Copyright © 2019 Emmett Shaughnessy. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import Firebase
 
@@ -30,6 +31,7 @@ class SubLists: UITableViewController {
         
         //overrideUserInterfaceStyle = .light
         
+        //Makes the page title match the current list name
         NavBarTitle.title = currentListName
         
         tableView.delegate = self
@@ -45,16 +47,14 @@ class SubLists: UITableViewController {
         
         print("hey")
         itemArray.removeAll()
-        print(itemArray)
+        print("Array: \(itemArray)")
         //LoadData()
         print("Done Loading. Listening...")
         checkForUpdates()
         
     }
-
-    // MARK: - Table view data source
     
-    
+    // MARK: - Updating the List
     func checkForUpdates(){
         listImIn!.addSnapshotListener {
                 querySnapshot, error in
@@ -91,11 +91,13 @@ class SubLists: UITableViewController {
                         if diff.type == .removed {
                             self.itemArray.removeAll()
                             self.checkForUpdates()
+                            self.tableView.reloadData()
                         }
                         
                         if diff.type == .modified {
                             self.itemArray.removeAll()
                             self.checkForUpdates()
+                            self.tableView.reloadData()
                         }
                          
                     }
@@ -158,7 +160,7 @@ class SubLists: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-
+        
         let listData = itemArray[indexPath.row]
         let errorText = "Error fetching list"
         
@@ -166,6 +168,48 @@ class SubLists: UITableViewController {
 
         return cell
     }
+    
+    
+    
+    //MARK: Deleting (Editing) Cells
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+           if editingStyle == .delete {
+               
+               let itemRef = listImIn!
+               
+               itemRef.getDocuments { (snapshotDocuments, err) in
+                   if let err = err{
+                       print("Uh Oh. Can't Delete: \(err)")
+                   }
+                   
+                guard let toDelete = self.itemArray[indexPath.row].listName else {return}
+               
+                   
+                   for document in snapshotDocuments!.documents{
+                       
+                       let property = (document.get("listName") as! String?)!
+                       let formattedProperty = ReminderLists(listName: property)
+                       
+                       if formattedProperty.listName == toDelete {
+                           
+                        self.listImIn?.document(document.documentID).delete()
+                        self.itemArray.removeAll()
+                        print("Array: \(self.itemArray)")
+                        //LoadData()
+                        print("Done Loading.")
+                        self.checkForUpdates()
+                        tableView.reloadData()
+                       }
+                   }
+
+               }
+    
+           }
+           
+           self.checkForUpdates()
+           tableView.reloadData()
+           //More editing styles
+       }
 
     
 

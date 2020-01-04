@@ -6,59 +6,56 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>main.png</string>
-		<string>original.jpg</string>
-	</array>
-	<key>CFBundleIconName</key>
-	<string>AppStoreIcon.png</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>main.png</key>
+			<key>UINewsstandBindingEdge</key>
+			<string>UINewsstandBindingEdgeLeft</string>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
+			<key>original</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>main.png</string>
+					<string>Icon-Orig-60x60</string>
 				</array>
-				<key>Icon already includes gloss effects</key>
-				<false/>
 			</dict>
-			<key>original.jpg</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>original.jpg</string>
-				</array>
-				<key>Icon already includes gloss effects</key>
-				<false/>
-			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-App-60x60</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>CFBundleIcons~ipad</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>main.png</key>
+			<key>UINewsstandBindingEdge</key>
+			<string>UINewsstandBindingEdgeLeft</string>
+			<key>UINewsstandBindingType</key>
+			<string>UINewsstandBindingTypeMagazine</string>
+			<key>original</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>main.png</string>
+					<string>Icon-Orig-83.5x83.5</string>
 				</array>
-				<key>Icon already includes gloss effects</key>
-				<false/>
 			</dict>
-			<key>original.jpg</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>original.jpg</string>
-				</array>
-				<key>Icon already includes gloss effects</key>
-				<false/>
-			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>Icon-App-83.5x83.5</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
