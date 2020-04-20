@@ -165,22 +165,22 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         refreshVariables()
     }
     
-    //App Icon Change
-    let appIconService = AppIconService()
-    @IBAction func NewIcon(_ sender: Any) {
-        print("Updating...")
-        //appIconService.changeAppIcon(to: .MainIcon)
-        //UIApplication.shared.setAlternateIconName("MainIcon")
-        changeIcon(name: nil)
-        print("Icon Updated")
-    }
-    @IBAction func OldIcon(_ sender: Any) {
-        print("Updating...")
-        //appIconService.changeAppIcon(to: .OrignalIcon)
-        //UIApplication.shared.setAlternateIconName("OrignalIcon")
-        changeIcon(name: "original")
-        print("Icon Updated")
-    }
+    //App Icon Change - Temporarily Removed
+//    let appIconService = AppIconService()
+//    @IBAction func NewIcon(_ sender: Any) {
+//        print("Updating...")
+//        //appIconService.changeAppIcon(to: .MainIcon)
+//        //UIApplication.shared.setAlternateIconName("MainIcon")
+//        changeIcon(name: nil)
+//        print("Icon Updated")
+//    }
+//    @IBAction func OldIcon(_ sender: Any) {
+//        print("Updating...")
+//        //appIconService.changeAppIcon(to: .OrignalIcon)
+//        //UIApplication.shared.setAlternateIconName("OrignalIcon")
+//        changeIcon(name: "original")
+//        print("Icon Updated")
+//    }
     
     
     

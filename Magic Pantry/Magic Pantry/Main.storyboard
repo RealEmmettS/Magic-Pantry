@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8nJ-Du-tnE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8nJ-Du-tnE">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -76,44 +76,6 @@
                                     <action selector="SignOutUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5qW-B1-KND"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="original.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ECc-vc-HSr">
-                                <rect key="frame" x="20" y="607" width="65" height="65"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="65" id="Dp8-FM-zMQ"/>
-                                    <constraint firstAttribute="height" constant="65" id="m52-vS-3aW"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main.png" translatesAutoresizingMaskIntoConstraints="NO" id="tiI-Zv-EED">
-                                <rect key="frame" x="20" y="511" width="65" height="65"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="65" id="Lsa-ak-ca6"/>
-                                    <constraint firstAttribute="height" constant="65" id="q2f-Bh-jgH"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="App Icons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="VHm-ur-SJA">
-                                <rect key="frame" x="20" y="443" width="126" height="32.5"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="27"/>
-                                <color key="textColor" red="0.92549019610000005" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Magic Pantry's icon by selecting one below" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jg7-Jg-yEt">
-                                <rect key="frame" x="20" y="476" width="226" height="11"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qic-GW-4Jd" userLabel="Main Icon Button">
-                                <rect key="frame" x="20" y="511" width="65" height="65"/>
-                                <connections>
-                                    <action selector="NewIcon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9wB-nY-wkK"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEA-ho-k5q" userLabel="Original Icon Button">
-                                <rect key="frame" x="20" y="607" width="65" height="65"/>
-                                <connections>
-                                    <action selector="OldIcon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="70F-mK-Mch"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="owL-fd-UhX">
                                 <rect key="frame" x="20" y="58" width="211.5" height="62.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="52"/>
@@ -145,40 +107,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="tiI-Zv-EED" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="1lo-e4-ZsU"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="trailing" secondItem="tiI-Zv-EED" secondAttribute="trailing" id="2GR-Z4-q3d"/>
                             <constraint firstItem="owL-fd-UhX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3kL-YF-MEY"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="top" secondItem="tiI-Zv-EED" secondAttribute="top" id="8B9-MP-DHf"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="bottom" secondItem="tiI-Zv-EED" secondAttribute="bottom" id="8pN-DG-mbt"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="centerY" secondItem="tiI-Zv-EED" secondAttribute="centerY" id="9bW-e0-IHU"/>
-                            <constraint firstItem="ECc-vc-HSr" firstAttribute="top" secondItem="tiI-Zv-EED" secondAttribute="bottom" constant="31" id="ABA-AG-B2O"/>
-                            <constraint firstItem="VHm-ur-SJA" firstAttribute="top" secondItem="Rvh-wU-HvD" secondAttribute="bottom" constant="101" id="EkH-3n-Lep"/>
                             <constraint firstItem="owL-fd-UhX" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="14" id="Fdr-Is-NFB"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="bottom" secondItem="ECc-vc-HSr" secondAttribute="bottom" id="GQN-kb-Gaa"/>
                             <constraint firstItem="gsU-Rg-rPT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="HGx-T2-zfo"/>
                             <constraint firstItem="6mq-42-WIL" firstAttribute="top" secondItem="ony-3n-nUU" secondAttribute="bottom" constant="8" id="HiQ-sf-cYa"/>
                             <constraint firstItem="yAn-1t-opH" firstAttribute="leading" secondItem="gsU-Rg-rPT" secondAttribute="trailing" constant="23.5" id="IRd-gX-BWQ"/>
                             <constraint firstItem="ony-3n-nUU" firstAttribute="top" secondItem="eeN-Wx-Prz" secondAttribute="bottom" constant="8" id="MHG-Ut-aqC"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="top" secondItem="ECc-vc-HSr" secondAttribute="top" id="PLm-Xf-03g"/>
                             <constraint firstItem="ony-3n-nUU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="VML-bk-GOX"/>
-                            <constraint firstItem="jg7-Jg-yEt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="a6W-pY-bhj"/>
-                            <constraint firstItem="jg7-Jg-yEt" firstAttribute="top" secondItem="Rvh-wU-HvD" secondAttribute="bottom" constant="134" id="a9Z-Rl-JBJ"/>
-                            <constraint firstItem="VHm-ur-SJA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="bKM-US-qyE"/>
                             <constraint firstItem="Rvh-wU-HvD" firstAttribute="top" secondItem="6mq-42-WIL" secondAttribute="bottom" constant="36" id="bbK-nF-Pkp"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="trailing" secondItem="ECc-vc-HSr" secondAttribute="trailing" id="bba-Su-uzV"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="centerX" secondItem="tiI-Zv-EED" secondAttribute="centerX" id="dIt-UQ-DCs"/>
                             <constraint firstItem="yAn-1t-opH" firstAttribute="centerY" secondItem="gsU-Rg-rPT" secondAttribute="centerY" id="e0W-HU-aAJ"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="centerX" secondItem="ECc-vc-HSr" secondAttribute="centerX" id="eTA-cb-6v2"/>
                             <constraint firstItem="eeN-Wx-Prz" firstAttribute="top" secondItem="gsU-Rg-rPT" secondAttribute="bottom" constant="7.5" id="ggM-51-aUN"/>
                             <constraint firstItem="gsU-Rg-rPT" firstAttribute="top" secondItem="owL-fd-UhX" secondAttribute="bottom" constant="20" id="htj-Rv-in9"/>
-                            <constraint firstItem="tiI-Zv-EED" firstAttribute="top" secondItem="jg7-Jg-yEt" secondAttribute="bottom" constant="24" id="ips-zp-aAG"/>
                             <constraint firstItem="eeN-Wx-Prz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="j18-i1-Ux2"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="centerY" secondItem="ECc-vc-HSr" secondAttribute="centerY" id="jl4-Mg-4Pt"/>
                             <constraint firstItem="Rvh-wU-HvD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="jxc-MQ-oHd"/>
-                            <constraint firstItem="KEA-ho-k5q" firstAttribute="leading" secondItem="ECc-vc-HSr" secondAttribute="leading" id="kIy-kz-PGw"/>
-                            <constraint firstItem="ECc-vc-HSr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="r0G-O4-A9h"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ECc-vc-HSr" secondAttribute="bottom" constant="3" id="z0j-rs-mTa"/>
-                            <constraint firstItem="Qic-GW-4Jd" firstAttribute="leading" secondItem="tiI-Zv-EED" secondAttribute="leading" id="zCJ-qc-XaT"/>
                             <constraint firstItem="6mq-42-WIL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="zFN-2H-qtP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -298,9 +239,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.clockwise" catalog="system" width="56" height="64"/>
-        <image name="main.png" width="3000" height="3000"/>
-        <image name="original.jpg" width="1024" height="1024"/>
-        <image name="person.circle" catalog="system" width="64" height="60"/>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
+        <image name="person.circle" catalog="system" width="128" height="121"/>
     </resources>
 </document>
