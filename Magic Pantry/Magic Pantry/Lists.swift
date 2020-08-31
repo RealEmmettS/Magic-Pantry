@@ -3,7 +3,7 @@
 //  CongressAppChallenge
 //
 //  Created by Emmett Shaughnessy on 10/31/19.
-//  Copyright © 2019 Emmett Shaughnessy. All rights reserved.
+//  Copyright © 2020 Emmett Shaughnessy. All rights reserved.
 //
 
 import Foundation
@@ -42,9 +42,9 @@ class TableViewController: UITableViewController {
             
             db = Firestore.firestore()
                    //let listsRef = db.collection("users").document(self.tableuserid!).collection("lists")
-                   print("hey")
+                   print("Login Successful. Syncing lists...")
                    listArray.removeAll()
-                   print(listArray)
+                   print(listArray) //Should be nil or at least empty
                    //LoadData()
                    print("Done Loading. Listening...")
                    checkForUpdates()
@@ -73,7 +73,7 @@ class TableViewController: UITableViewController {
     
     
     
-    //MARK: Loading Items
+    //MARK: - Loading Items
     func checkForUpdates(){
         db.collection("users").document("\(self.tableuserid!)").collection("lists").addSnapshotListener {
             querySnapshot, error in
@@ -90,10 +90,11 @@ class TableViewController: UITableViewController {
                                            
                     let list = self.listArray
                     if let sameItem = list.first(where: { $0.listName == formattedProperty.listName }) {
-                                               
+                            //This should never have to run - It's here just in case....
                             print("\(sameItem) already exists")
                                                
                         } else {
+                            //This should run
                             self.listArray.append(formattedProperty)
                             print("\(formattedProperty.listName) Added")
                         }
@@ -109,11 +110,13 @@ class TableViewController: UITableViewController {
                     
                     if diff.type == .removed {
                         self.listArray.removeAll()
+                        self.tableView.reloadData()
                         self.checkForUpdates()
                     }
                     
                     if diff.type == .modified {
                         self.listArray.removeAll()
+                        self.tableView.reloadData()
                         self.checkForUpdates()
                     }
                      
@@ -126,13 +129,13 @@ class TableViewController: UITableViewController {
     
     
     
-     //MARK: Adding Items
+     //MARK: - Adding Items
     @IBAction func addList(_ sender: Any) {
-        let alert = UIAlertController(title: "List Name", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add List", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         alert.addTextField(configurationHandler: { textField in
-            textField.placeholder = "New List Name Goes Here"
+            textField.placeholder = "List Name"
         })
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
@@ -150,7 +153,7 @@ class TableViewController: UITableViewController {
                 }
             }
             
-            self.checkForUpdates()
+            self.checkForUpdates() //Refreshes everything
             
         }))
 
@@ -208,45 +211,44 @@ class TableViewController: UITableViewController {
                     let formattedProperty = ReminderLists(listName: property)
                     
                     if formattedProperty.listName == toDelete {
-                        
-                        if self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items") != nil{
+                        //check items
+                        if self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items") != nil{ //checking if list is empty
                             
                             let items = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items")
+                            
+                            //Delete items
                             items.getDocuments { (itemsDocuments, err) in
-                            if let err = err{
-                                print("Uh Oh. Can't Delete: \(err)")
-                            }
-                            for document in snapshotDocuments!.documents{
-                                items.document(document.documentID).delete()
-                                self.listArray.removeAll()
-                                self.checkForUpdates()
-                                tableView.reloadData()
+                                if let err = err{
+                                    print("Uh Oh. Can't Delete: \(err)")
+                                }
+                                for document in snapshotDocuments!.documents{
+                                    items.document(document.documentID).delete()
+                                    self.checkForUpdates()
                                 }
                             }
-                    
-                        self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
-                            self.listArray.removeAll()
-                            self.checkForUpdates()
-                            tableView.reloadData()
                             
-                        } else {
+                            
+                        //Delete List
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
-                            self.listArray.removeAll()
                             self.checkForUpdates()
-                            tableView.reloadData()
+                            
+                        } /* end check items */else {
+                        //Runs only if list is already empty
+                        self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
+                            self.checkForUpdates()
                         }
                         
                     }
                 }
-                self.checkForUpdates()
-                tableView.reloadData()
+//                self.checkForUpdates()
+//                tableView.reloadData()
             }
-            self.checkForUpdates()
-            tableView.reloadData()
+//            self.checkForUpdates()
+//            tableView.reloadData()
         }
         
-        self.checkForUpdates()
-        tableView.reloadData()
+//        self.checkForUpdates()
+//        tableView.reloadData()
         //More editing styles
     }
     

@@ -3,7 +3,7 @@
 //  CongressAppChallenge
 //
 //  Created by Emmett Shaughnessy on 11/18/19.
-//  Copyright © 2019 Emmett Shaughnessy. All rights reserved.
+//  Copyright © 2020 Emmett Shaughnessy. All rights reserved.
 //
 
 import Foundation
@@ -54,7 +54,7 @@ class SubLists: UITableViewController {
         
     }
     
-    // MARK: - Updating the List
+    // MARK: - Loading Items
     func checkForUpdates(){
         listImIn!.addSnapshotListener {
                 querySnapshot, error in
@@ -71,10 +71,11 @@ class SubLists: UITableViewController {
                                                
                         let list = self.itemArray
                         if let sameItem = list.first(where: { $0.listName == formattedProperty.listName }) {
-                                                   
+                                //This should never have to run - It's here just in case....
                                 print("\(sameItem) already exists")
                                                    
                             } else {
+                                //This should run
                                 self.itemArray.append(formattedProperty)
                                 print("\(formattedProperty.listName) Added")
                             }
@@ -86,18 +87,19 @@ class SubLists: UITableViewController {
                         }
 
                     } else {
-                        print("Documents Were Empty/Deleted")
+                        print("Diff type is not .added")
                         
                         if diff.type == .removed {
                             self.itemArray.removeAll()
-                            self.checkForUpdates()
                             self.tableView.reloadData()
+                            self.checkForUpdates()
                         }
                         
                         if diff.type == .modified {
                             self.itemArray.removeAll()
-                            self.checkForUpdates()
                             self.tableView.reloadData()
+                            self.checkForUpdates()
+
                         }
                          
                     }
@@ -108,16 +110,16 @@ class SubLists: UITableViewController {
     
     
     
-    //MARK: Adding Items
+    //MARK: - Adding Items
        @IBAction func addItem(_ sender: Any) {
-           let alert = UIAlertController(title: "List Name", message: nil, preferredStyle: .alert)
+           let alert = UIAlertController(title: "Add Item", message: nil, preferredStyle: .alert)
            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
            alert.addTextField(configurationHandler: { textField in
-               textField.placeholder = "New List Name Goes Here"
+               textField.placeholder = "Item Name"
            })
-
-           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+        
+           alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { action in
                guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
                
                let NewList = ReminderLists(listName: NameOfList)
@@ -135,6 +137,26 @@ class SubLists: UITableViewController {
                self.checkForUpdates()
                
            }))
+        
+        alert.addAction(UIAlertAction(title: "Add Another", style: .default, handler: { action in
+            guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+            
+            let NewList = ReminderLists(listName: NameOfList)
+            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+            var ref:DocumentReference? = nil
+         ref = self.listImIn!.addDocument(data: NewList.dictionary){
+                error in
+                if let error = error{
+                    print("Error adding document: \(error.localizedDescription)")
+                } else {
+                    print("Data Saved with ID: \(ref!.documentID)")
+                }
+            }
+            
+            self.checkForUpdates()
+            self.addItem(self)
+            
+        }))
 
            self.present(alert, animated: true)
        }
@@ -147,7 +169,7 @@ class SubLists: UITableViewController {
     
     
     
-
+    //MARK: - TableView Stuff
    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -162,7 +184,7 @@ class SubLists: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
         
         let listData = itemArray[indexPath.row]
-        let errorText = "Error fetching list"
+        let errorText = "Error fetching item(s)"
         
         cell.textLabel?.text = "\(listData.listName ?? errorText)"
 
@@ -187,18 +209,16 @@ class SubLists: UITableViewController {
                    
                    for document in snapshotDocuments!.documents{
                        
+                       //Pretend listName says itemName
                        let property = (document.get("listName") as! String?)!
                        let formattedProperty = ReminderLists(listName: property)
                        
                        if formattedProperty.listName == toDelete {
                            
                         self.listImIn?.document(document.documentID).delete()
-                        self.itemArray.removeAll()
-                        print("Array: \(self.itemArray)")
                         //LoadData()
                         print("Done Loading.")
                         self.checkForUpdates()
-                        tableView.reloadData()
                        }
                    }
 
@@ -206,8 +226,6 @@ class SubLists: UITableViewController {
     
            }
            
-           self.checkForUpdates()
-           tableView.reloadData()
            //More editing styles
        }
 

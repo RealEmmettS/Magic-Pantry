@@ -24,7 +24,7 @@ protocol DocumentSerializable {
     init? (dictionary:[String : Any])
 }
 
-struct ReminderLists {
+struct ReminderLists { //Name came from What's Due. Too lazy to change it :)
     var listName:String?
     
     var dictionary:[String : Any] {
