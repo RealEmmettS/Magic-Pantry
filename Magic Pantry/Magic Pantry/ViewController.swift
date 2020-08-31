@@ -127,6 +127,12 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
           print("Oh No")
             refreshVariables()
         }
+        
+        func authUI(_ authUI: FUIAuth, didSignInWith user: User?) {
+            refreshVariables()
+        }
+        
+        refreshVariables()
     }
     
     func updateNewUser(){
