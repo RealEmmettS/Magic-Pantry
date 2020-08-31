@@ -153,6 +153,26 @@ class TableViewController: UITableViewController {
             
             
         }))
+        
+         alert.addAction(UIAlertAction(title: "Add Another", style: .default, handler: { action in
+                   guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+                   
+                   let NewList = ReminderLists(listName: NameOfList)
+                   print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+                   var ref:DocumentReference? = nil
+                ref = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").addDocument(data: NewList.dictionary){
+                       error in
+                       if let error = error{
+                           print("Error adding document: \(error.localizedDescription)")
+                       } else {
+                           print("Data Saved with ID: \(ref!.documentID)")
+                       }
+                   }
+                   
+                   
+                   self.addList(self)
+                   
+               }))
 
         self.present(alert, animated: true)
     }
@@ -227,9 +247,13 @@ class TableViewController: UITableViewController {
                         //Delete List
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
                             
+                        self.listArray.remove(at: indexPath.row)
+                            
                         } /* end check items */else {
                         //Runs only if list is already empty
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
+                            
+                            self.listArray.remove(at: indexPath.row)
                         }
                         
                     }
