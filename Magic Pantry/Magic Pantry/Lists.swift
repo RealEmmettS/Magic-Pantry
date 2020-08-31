@@ -63,7 +63,6 @@ class TableViewController: UITableViewController {
     }
     
     @objc func refreshTable() {
-        checkForUpdates()
         tableView.reloadData()
         refreshControl?.endRefreshing()
     }
@@ -84,6 +83,7 @@ class TableViewController: UITableViewController {
                 diff in
 
                 if diff.type == .added {
+                    print("Adding Lists")
                     let property = (diff.document.get("listName") as! String?)!
                     let formattedProperty = ReminderLists(listName: property)
                     print("\n\n Print: \( formattedProperty ) \n\n")
@@ -106,18 +106,16 @@ class TableViewController: UITableViewController {
                     }
 
                 } else {
-                    print("Documents Were Empty/Deleted")
+                    
                     
                     if diff.type == .removed {
-                        self.listArray.removeAll()
+                        print("Removing Lists")
                         self.tableView.reloadData()
-                        self.checkForUpdates()
                     }
                     
                     if diff.type == .modified {
-                        self.listArray.removeAll()
+                        print("Editing Lists")
                         self.tableView.reloadData()
-                        self.checkForUpdates()
                     }
                      
                 }
@@ -153,7 +151,6 @@ class TableViewController: UITableViewController {
                 }
             }
             
-            self.checkForUpdates() //Refreshes everything
             
         }))
 
@@ -223,32 +220,22 @@ class TableViewController: UITableViewController {
                                 }
                                 for document in snapshotDocuments!.documents{
                                     items.document(document.documentID).delete()
-                                    self.checkForUpdates()
                                 }
                             }
                             
                             
                         //Delete List
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
-                            self.checkForUpdates()
                             
                         } /* end check items */else {
                         //Runs only if list is already empty
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
-                            self.checkForUpdates()
                         }
                         
                     }
                 }
-//                self.checkForUpdates()
-//                tableView.reloadData()
             }
-//            self.checkForUpdates()
-//            tableView.reloadData()
         }
-        
-//        self.checkForUpdates()
-//        tableView.reloadData()
         //More editing styles
     }
     

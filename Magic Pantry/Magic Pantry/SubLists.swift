@@ -65,6 +65,7 @@ class SubLists: UITableViewController {
                     diff in
 
                     if diff.type == .added {
+                        print("Adding Items")
                         let property = (diff.document.get("listName") as! String?)!
                         let formattedProperty = ReminderLists(listName: property)
                         print("\n\n Print: \( formattedProperty ) \n\n")
@@ -87,18 +88,17 @@ class SubLists: UITableViewController {
                         }
 
                     } else {
-                        print("Diff type is not .added")
                         
                         if diff.type == .removed {
-                            self.itemArray.removeAll()
+                            print("Removing Items")
                             self.tableView.reloadData()
-                            self.checkForUpdates()
+                            
                         }
                         
                         if diff.type == .modified {
-                            self.itemArray.removeAll()
+                            print("Editing Items")
                             self.tableView.reloadData()
-                            self.checkForUpdates()
+                            
 
                         }
                          
@@ -134,7 +134,7 @@ class SubLists: UITableViewController {
                    }
                }
                
-               self.checkForUpdates()
+               
                
            }))
         
@@ -153,7 +153,7 @@ class SubLists: UITableViewController {
                 }
             }
             
-            self.checkForUpdates()
+            
             self.addItem(self)
             
         }))
@@ -216,9 +216,10 @@ class SubLists: UITableViewController {
                        if formattedProperty.listName == toDelete {
                            
                         self.listImIn?.document(document.documentID).delete()
+                        self.itemArray.remove(at: indexPath.row)
                         //LoadData()
                         print("Done Loading.")
-                        self.checkForUpdates()
+                        
                        }
                    }
 
