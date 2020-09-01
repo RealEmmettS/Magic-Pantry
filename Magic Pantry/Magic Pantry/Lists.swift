@@ -116,11 +116,13 @@ class TableViewController: UITableViewController {
                     if diff.type == .modified {
                         print("Editing Lists")
                         self.tableView.reloadData()
-                    }
+
+                        
+                    }//end of .modified
                      
                 }
             }
-                
+                //sorry for the mess of curly brackets
             }
         }
     
@@ -130,13 +132,13 @@ class TableViewController: UITableViewController {
      //MARK: - Adding Items
     @IBAction func addList(_ sender: Any) {
         let alert = UIAlertController(title: "Add List", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
 
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "List Name"
         })
 
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
             guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
             
             let NewList = ReminderLists(listName: NameOfList)

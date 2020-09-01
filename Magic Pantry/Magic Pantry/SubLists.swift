@@ -113,13 +113,13 @@ class SubLists: UITableViewController {
     //MARK: - Adding Items
        @IBAction func addItem(_ sender: Any) {
            let alert = UIAlertController(title: "Add Item", message: nil, preferredStyle: .alert)
-           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+           alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
 
            alert.addTextField(configurationHandler: { textField in
                textField.placeholder = "Item Name"
            })
         
-           alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { action in
+           alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
                guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
                
                let NewList = ReminderLists(listName: NameOfList)
@@ -193,42 +193,131 @@ class SubLists: UITableViewController {
     
     
     
-    //MARK: Deleting (Editing) Cells
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-           if editingStyle == .delete {
-               
-               let itemRef = listImIn!
-               
-               itemRef.getDocuments { (snapshotDocuments, err) in
-                   if let err = err{
-                       print("Uh Oh. Can't Delete: \(err)")
-                   }
-                   
-                guard let toDelete = self.itemArray[indexPath.row].listName else {return}
-               
-                   
-                   for document in snapshotDocuments!.documents{
-                       
-                       //Pretend listName says itemName
-                       let property = (document.get("listName") as! String?)!
-                       let formattedProperty = ReminderLists(listName: property)
-                       
-                       if formattedProperty.listName == toDelete {
-                           
-                        self.listImIn?.document(document.documentID).delete()
-                        self.itemArray.remove(at: indexPath.row)
-                        //LoadData()
-                        print("Done Loading.")
-                        
-                       }
-                   }
+//    MARK: Deleting (Editing) Cells
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //Delete Option
+        let delete = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
+            let itemRef = self.listImIn!
 
-               }
+            itemRef.getDocuments { (snapshotDocuments, err) in
+                if let err = err{
+                    print("Uh Oh. Can't Delete: \(err)")
+                }
+
+             guard let toDelete = self.itemArray[indexPath.row].listName else {return}
+
+
+                for document in snapshotDocuments!.documents{
+
+                    //Pretend listName says itemName
+                    let property = (document.get("listName") as! String?)!
+                    let formattedProperty = ReminderLists(listName: property)
+
+                    if formattedProperty.listName == toDelete {
+
+                     self.listImIn?.document(document.documentID).delete()
+                     self.itemArray.remove(at: indexPath.row)
+                     //LoadData()
+                     print("Done Loading.")
+
+                    }
+                }
+
+            }
+        }
+        
+        //Edit Option
+        let edit = UIContextualAction(style: .normal, title: "Edit") {  (contextualAction, view, boolValue) in
+            self.getNewItemName(itemSelected: indexPath.row)
+            
+        }
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [delete, edit])
+        return swipeActions
+    }
     
-           }
-           
-           //More editing styles
-       }
+    
+    //MARK: - Extra Functions
+    func getNewItemName(itemSelected: Int){
+        let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
+
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "New Item Name"
+        })
+        
+        var newName:String?
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+            guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+            
+            let NewList = ReminderLists(listName: NameOfList)
+            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+            newName = NameOfList
+            
+            //Begin Editing
+            let itemRef = self.listImIn!
+            itemRef.getDocuments { (snapshotDocuments, err) in
+            if let err = err{
+                print("Uh Oh. Can't Edit: \(err)")
+            }
+            
+                
+            guard let toEdit = self.itemArray[itemSelected].listName else {return}
+            
+                
+            for document in snapshotDocuments!.documents{
+                
+                //The following checks to make sure item to edit actually exists locally
+                //Pretend listName says itemName
+                let property = (document.get("listName") as! String?)!
+                let formattedProperty = ReminderLists(listName: property)
+
+                if formattedProperty.listName == toEdit {
+                    
+                    //self.listImIn?.document(document.documentID).delete()
+                    self.listImIn?.document(document.documentID).setData([ "listName": NameOfList ], merge: true)
+                    self.itemArray[itemSelected].listName = NameOfList
+                    //LoadData()
+                    print("Done Loading.")
+
+                }
+            }
+                
+                
+            }
+            
+            
+            
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    func getNewItemNameARRAY() -> ReminderLists {
+        let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
+
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "New Item Name"
+        })
+        
+        var newName:ReminderLists?
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+            guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+            
+            let NewList = ReminderLists(listName: NameOfList)
+            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+            newName = NewList
+            
+            
+            
+        }))
+        self.present(alert, animated: true)
+        return newName!
+    }
+    
 
     
 
