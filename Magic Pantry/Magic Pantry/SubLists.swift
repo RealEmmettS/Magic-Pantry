@@ -66,12 +66,13 @@ class SubLists: UITableViewController {
 
                     if diff.type == .added {
                         print("Adding Items")
-                        let property = (diff.document.get("listName") as! String?)!
-                        let formattedProperty = ReminderLists(listName: property)
+                        let name = (diff.document.get("listName") as! String?)!
+                        let id = (diff.document.documentID as! String?)!
+                        let formattedProperty = ReminderLists(listName: name, id: id)
                         print("\n\n Print: \( formattedProperty ) \n\n")
                                                
                         let list = self.itemArray
-                        if let sameItem = list.first(where: { $0.listName == formattedProperty.listName }) {
+                        if let sameItem = list.first(where: { $0.id == formattedProperty.id }) {
                                 //This should never have to run - It's here just in case....
                                 print("\(sameItem) already exists")
                                                    
@@ -91,12 +92,36 @@ class SubLists: UITableViewController {
                         
                         if diff.type == .removed {
                             print("Removing Items")
+                            let name = (diff.document.get("listName") as! String?)!
+                            let id = (diff.document.documentID as! String?)!
+                            let formattedProperty = ReminderLists(listName: name, id:id)
+                            
+                            var index = 0
+                            for i in self.itemArray{
+                                if i.id == formattedProperty.id{
+                                    print("Found at \(index)")
+                                    self.itemArray.remove(at: index)
+                                }
+                                index += 1
+                            }
                             self.tableView.reloadData()
                             
                         }
                         
                         if diff.type == .modified {
                             print("Editing Items")
+                            let name = (diff.document.get("listName") as! String?)!
+                            let id = (diff.document.documentID as! String?)!
+                            let formattedProperty = ReminderLists(listName: name, id:id)
+                            
+                            var index = 0
+                            for i in self.itemArray{
+                                if i.id == formattedProperty.id{
+                                    print("Found at \(index)")
+                                    self.itemArray[index].listName = formattedProperty.listName
+                                }
+                                index += 1
+                            }
                             self.tableView.reloadData()
                             
 
@@ -210,7 +235,7 @@ class SubLists: UITableViewController {
 
                 for document in snapshotDocuments!.documents{
 
-                    //Pretend listName says itemName
+                    //Pretend listName says itemName (it represents items in the lists not the list itself)
                     let property = (document.get("listName") as! String?)!
                     let formattedProperty = ReminderLists(listName: property)
 
@@ -241,7 +266,7 @@ class SubLists: UITableViewController {
     //MARK: - Extra Functions
     func getNewItemName(itemSelected: Int){
         let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "New Item Name"

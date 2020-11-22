@@ -16,6 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "TargetConditionals.h"
+
+#if !TARGET_OS_TV
+
 #import "FBSDKEventBindingManager.h"
 
 #import <objc/runtime.h>
@@ -87,7 +91,7 @@
 
   for (NSDictionary *json in array) {
     FBSDKEventBinding *binding = [[FBSDKEventBinding alloc] initWithJSON:json];
-    [result addObject:binding];
+    [FBSDKTypeUtility array:result addObject:binding];
   }
 
   return [result copy];
@@ -100,7 +104,7 @@
     NSMutableArray *bindings = [NSMutableArray array];
     for (NSDictionary *d in eventBindingsDict) {
       FBSDKEventBinding *e = [[FBSDKEventBinding alloc] initWithJSON:d];
-      [bindings addObject:e];
+      [FBSDKTypeUtility array:bindings addObject:e];
     }
     eventBindings = [bindings copy];
   }
@@ -295,7 +299,7 @@
               if (view) {
                 NSNumber *reactTag = [FBSDKViewHierarchy getViewReactTag:view];
                 if (reactTag != nil) {
-                  self->reactBindings[reactTag] = binding;
+                  [FBSDKTypeUtility dictionary:self->reactBindings setObject:binding forKey:reactTag];
                 }
               }
             });
@@ -377,6 +381,21 @@
 
 #pragma clang diagnostic pop
 - (void)updateBindings:(NSArray *)bindings {
+  if (eventBindings.count > 0 && eventBindings.count == bindings.count) {
+    // Check whether event bindings are the same
+    BOOL isSame = YES;
+    for (int i = 0; i < eventBindings.count; i++) {
+      if (![[FBSDKTypeUtility array:eventBindings objectAtIndex:i] isEqualToBinding:[FBSDKTypeUtility array:bindings objectAtIndex:i]]) {
+        isSame = NO;
+        break;
+      }
+    }
+
+    if (isSame) {
+      return;
+    }
+  }
+
   eventBindings = bindings;
   [reactBindings removeAllObjects];
   if (!isStarted) {
@@ -389,3 +408,5 @@
 }
 
 @end
+
+#endif
