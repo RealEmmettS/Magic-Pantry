@@ -17,11 +17,11 @@
 #include <ostream>
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 std::ostream& operator<<(std::ostream& os, absl::LogSeverity s) {
   if (s == absl::NormalizeLogSeverity(s)) return os << absl::LogSeverityName(s);
   return os << "absl::LogSeverity(" << static_cast<int>(s) << ")";
 }
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

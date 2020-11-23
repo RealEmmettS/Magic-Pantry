@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKBridgeAPI.h"
 
 #import "FBSDKCoreKit+Internal.h"
@@ -76,29 +72,6 @@ typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackUR
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-  if (@available(iOS 11.0, *)) {
-    if (_active && _authenticationSession) {
-      // applicationDidBecomeActive: is called after tapping Continue or Cancel in the "{app name} wants to use facebook.com to Sign In" alert.
-      // authenticationSession will be nil when it's Cancel.
-      _isRequestingSFAuthenticationSession = YES;
-    } else if (_active && !_authenticationSession) {
-      // In theory, this should be done whenever authenticationSession is set to nil, but just in case.
-      _isRequestingSFAuthenticationSession = NO;
-    } else if (!_active && !_isRequestingSFAuthenticationSession && _authenticationSession) {
-      // Handle the case where the app is backgrounded while the "ExampleApp wants to use facebook.com to Sign In" alert is still open
-      // Call the completion handler with a Cancel
-      [_authenticationSession cancel];
-      _authenticationSession = nil;
-      NSString *errorDomain;
-      if (@available(iOS 12.0, *)) {
-        errorDomain = @"com.apple.AuthenticationServices.WebAuthenticationSession";
-      } else {
-        errorDomain = @"com.apple.SafariServices.Authentication";
-      }
-      NSError *error = [FBSDKError errorWithDomain:errorDomain code:1 message:nil];
-      _authenticationSessionCompletionHandler(nil, error);
-    }
-  }
   //  _expectingBackground can be YES if the caller started doing work (like login)
   // within the app delegate's lifecycle like openURL, in which case there
   // might have been a "didBecomeActive" event pending that we want to ignore.
@@ -115,6 +88,7 @@ typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackUR
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+  _isRequestingSFAuthenticationSession = NO;
   _active = NO;
   _expectingBackground = NO;
 }
@@ -125,16 +99,6 @@ typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackUR
          annotation:(id)annotation
 {
   id<FBSDKURLOpening> pendingURLOpen = _pendingURLOpen;
-
-  if ([pendingURLOpen respondsToSelector:@selector(shouldStopPropagationOfURL:)]
-      && [pendingURLOpen shouldStopPropagationOfURL:url]) {
-    return YES;
-  }
-
-  BOOL canOpenURL = [pendingURLOpen canOpenURL:url
-                                forApplication:application
-                             sourceApplication:sourceApplication
-                                    annotation:annotation];
 
   void (^completePendingOpenURLBlock)(void) = ^{
     self->_pendingURLOpen = nil;
@@ -155,28 +119,15 @@ typedef void (^FBSDKAuthenticationCompletionHandler)(NSURL *_Nullable callbackUR
       if (_authenticationSession != nil) {
         [_authenticationSession cancel];
         _authenticationSession = nil;
-
-        // This check is needed in case another sdk / message / ad etc... tries to open the app
-        // during the login flow.
-        // This dismisses the authentication browser without triggering any login callbacks.
-        // Hence we need to explicitly call the authentication session's completion handler.
-        if (!canOpenURL) {
-          NSString *errorMessage = [[NSString alloc]
-                                    initWithFormat:@"Login attempt cancelled by alternate call to openURL from: %@",
-                                    url];
-          NSError *loginError = [[NSError alloc]
-                                 initWithDomain:FBSDKErrorDomain
-                                 code:FBSDKErrorBridgeAPIInterruption
-                                 userInfo:@{FBSDKErrorLocalizedDescriptionKey: errorMessage}];
-          _authenticationSessionCompletionHandler(url, loginError);
-          _authenticationSessionCompletionHandler = nil;
-        }
       }
     }
     completePendingOpenURLBlock();
   }
 
-  if (canOpenURL) {
+  if ([pendingURLOpen canOpenURL:url
+                  forApplication:application
+               sourceApplication:sourceApplication
+                      annotation:annotation]) {
     return YES;
   }
 
@@ -211,8 +162,6 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
 
 #pragma mark - Internal Methods
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)openURL:(NSURL *)url sender:(id<FBSDKURLOpening>)sender handler:(FBSDKSuccessBlock)handler
 {
   _expectingBackground = YES;
@@ -243,7 +192,6 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
     }
   });
 }
-#pragma clang diagnostic pop
 
 - (void)openBridgeAPIRequest:(FBSDKBridgeAPIRequest *)request
      useSafariViewController:(BOOL)useSafariViewController
@@ -378,6 +326,7 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
         [_authenticationSession setPresentationContextProvider:self];
       }
     }
+    _isRequestingSFAuthenticationSession = YES;
     [_authenticationSession start];
   }
 }
@@ -388,9 +337,8 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
   _authenticationSessionCompletionHandler = ^ (NSURL *aURL, NSError *error) {
     FBSDKBridgeAPI *strongSelf = weakSelf;
     strongSelf->_isRequestingSFAuthenticationSession = NO;
-    BOOL didSucceed = (error == nil && aURL != nil);
-    handler(didSucceed, error);
-    if (didSucceed) {
+    handler(error == nil, error);
+    if (error == nil) {
       [strongSelf application:[UIApplication sharedApplication] openURL:aURL sourceApplication:@"com.apple" annotation:nil];
     }
     strongSelf->_authenticationSession = nil;
@@ -475,8 +423,6 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
   _pendingRequestCompletionBlock = NULL;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma mark - ASWebAuthenticationPresentationContextProviding
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13.0)){
@@ -485,8 +431,5 @@ didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *
 #endif
   return UIApplication.sharedApplication.keyWindow;
 }
-#pragma clang diagnostic pop
 
 @end
-
-#endif

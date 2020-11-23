@@ -28,6 +28,7 @@
 #include <grpc/support/thd_id.h>
 #include <grpc/support/time.h>
 
+#include "src/core/lib/gprpp/abstract.h"
 #include "src/core/lib/gprpp/memory.h"
 
 namespace grpc_core {
@@ -37,8 +38,9 @@ namespace internal {
 class ThreadInternalsInterface {
  public:
   virtual ~ThreadInternalsInterface() {}
-  virtual void Start() = 0;
-  virtual void Join() = 0;
+  virtual void Start() GRPC_ABSTRACT;
+  virtual void Join() GRPC_ABSTRACT;
+  GRPC_ABSTRACT_BASE_CLASS
 };
 
 }  // namespace internal
@@ -47,7 +49,7 @@ class Thread {
  public:
   class Options {
    public:
-    Options() : joinable_(true), tracked_(true), stack_size_(0) {}
+    Options() : joinable_(true), tracked_(true) {}
     /// Set whether the thread is joinable or detached.
     Options& set_joinable(bool joinable) {
       joinable_ = joinable;
@@ -62,18 +64,9 @@ class Thread {
     }
     bool tracked() const { return tracked_; }
 
-    /// Sets thread stack size (in bytes). Sets to 0 will use the default stack
-    /// size which is 64KB for Windows threads and 2MB for Posix(x86) threads.
-    Options& set_stack_size(size_t bytes) {
-      stack_size_ = bytes;
-      return *this;
-    }
-    size_t stack_size() const { return stack_size_; }
-
    private:
     bool joinable_;
     bool tracked_;
-    size_t stack_size_;
   };
   /// Default constructor only to allow use in structs that lack constructors
   /// Does not produce a validly-constructed thread; must later
@@ -144,7 +137,7 @@ class Thread {
   void Join() {
     if (impl_ != nullptr) {
       impl_->Join();
-      delete impl_;
+      grpc_core::Delete(impl_);
       state_ = DONE;
       impl_ = nullptr;
     } else {

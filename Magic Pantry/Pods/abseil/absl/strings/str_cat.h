@@ -64,7 +64,7 @@
 #include "absl/strings/string_view.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 namespace strings_internal {
 // AlphaNumBuffer allows a way to pass a string to StrCat without having to do
@@ -291,8 +291,7 @@ class AlphaNum {
 // StrCat()
 // -----------------------------------------------------------------------------
 //
-// Merges given strings or numbers, using no delimiter(s), returning the merged
-// result as a string.
+// Merges given strings or numbers, using no delimiter(s).
 //
 // `StrCat()` is designed to be the fastest possible way to construct a string
 // out of a mix of raw C strings, string_views, strings, bool values,
@@ -402,7 +401,7 @@ SixDigits(double d) {
   return result;
 }
 
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #endif  // ABSL_STRINGS_STR_CAT_H_

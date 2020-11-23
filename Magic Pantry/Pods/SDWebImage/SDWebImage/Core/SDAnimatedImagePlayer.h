@@ -10,25 +10,6 @@
 #import "SDWebImageCompat.h"
 #import "SDImageCoder.h"
 
-typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
-    /**
-     * From first to last frame and stop or next loop.
-     */
-    SDAnimatedImagePlaybackModeNormal = 0,
-    /**
-     * From last frame to first frame and stop or next loop.
-     */
-    SDAnimatedImagePlaybackModeReverse,
-    /**
-     * From first frame to last frame and reverse again, like reciprocating.
-     */
-    SDAnimatedImagePlaybackModeBounce,
-    /**
-     * From last frame to first frame and reverse again, like reversed reciprocating.
-     */
-    SDAnimatedImagePlaybackModeReversedBounce,
-};
-
 /// A player to control the playback of animated image, which can be used to drive Animated ImageView or any rendering usage, like CALayer/WatchKit/SwiftUI rendering.
 @interface SDAnimatedImagePlayer : NSObject
 
@@ -41,7 +22,7 @@ typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
 /// Current loop count since its latest animating. This value is KVO Compliance.
 @property (nonatomic, readonly) NSUInteger currentLoopCount;
 
-/// Total frame count for animated image rendering. Defaults is animated image's frame count.
+/// Total frame count for niamted image rendering. Defaults is animated image's frame count.
 /// @note For progressive animation, you can update this value when your provider receive more frames.
 @property (nonatomic, assign) NSUInteger totalFrameCount;
 
@@ -56,9 +37,6 @@ typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
 /// `< 0.0` is not supported currently and stop animation. (may support reverse playback in the future)
 @property (nonatomic, assign) double playbackRate;
 
-/// Asynchronous setup animation playback mode. Default mode is SDAnimatedImagePlaybackModeNormal.
-@property (nonatomic, assign) SDAnimatedImagePlaybackMode playbackMode;
-
 /// Provide a max buffer size by bytes. This is used to adjust frame buffer count and can be useful when the decoding cost is expensive (such as Animated WebP software decoding). Default is 0.
 /// `0` means automatically adjust by calculating current memory usage.
 /// `1` means without any buffer cache, each of frames will be decoded and then be freed after rendering. (Lowest Memory and Highest CPU)
@@ -71,13 +49,13 @@ typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
 
 /// Create a player with animated image provider. If the provider's `animatedImageFrameCount` is less than 1, returns nil.
 /// The provider can be any protocol implementation, like `SDAnimatedImage`, `SDImageGIFCoder`, etc.
-/// @note This provider can represent mutable content, like progressive animated loading. But you need to update the frame count by yourself
+/// @note This provider can represent mutable content, like prorgessive animated loading. But you need to update the frame count by yourself
 /// @param provider The animated provider
 - (nullable instancetype)initWithProvider:(nonnull id<SDAnimatedImageProvider>)provider;
 
 /// Create a player with animated image provider. If the provider's `animatedImageFrameCount` is less than 1, returns nil.
 /// The provider can be any protocol implementation, like `SDAnimatedImage` or `SDImageGIFCoder`, etc.
-/// @note This provider can represent mutable content, like progressive animated loading. But you need to update the frame count by yourself
+/// @note This provider can represent mutable content, like prorgessive animated loading. But you need to update the frame count by yourself
 /// @param provider The animated provider
 + (nullable instancetype)playerWithProvider:(nonnull id<SDAnimatedImageProvider>)provider;
 
@@ -87,13 +65,13 @@ typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
 /// The handler block when one loop count finished.
 @property (nonatomic, copy, nullable) void (^animationLoopHandler)(NSUInteger loopCount);
 
-/// Return the status whether animation is playing.
+/// Return the status whehther animation is playing.
 @property (nonatomic, readonly) BOOL isPlaying;
 
 /// Start the animation. Or resume the previously paused animation.
 - (void)startPlaying;
 
-/// Pause the animation. Keep the current frame index and loop count.
+/// Pause the aniamtion. Keep the current frame index and loop count.
 - (void)pausePlaying;
 
 /// Stop the animation. Reset the current frame index and loop count.
@@ -105,7 +83,7 @@ typedef NS_ENUM(NSUInteger, SDAnimatedImagePlaybackMode) {
 /// @param loopCount The loop count
 - (void)seekToFrameAtIndex:(NSUInteger)index loopCount:(NSUInteger)loopCount;
 
-/// Clear the frame cache buffer. The frame cache buffer size can be controlled by `maxBufferSize`.
+/// Clear the frame cache buffer. The frame cache buffer size can be controled by `maxBufferSize`.
 /// By default, when stop or pause the animation, the frame buffer is still kept to ready for the next restart
 - (void)clearFrameBuffer;
 

@@ -17,7 +17,7 @@
 #include "absl/strings/str_cat.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace strings_internal {
 
 using FixedMapping =
@@ -78,5 +78,5 @@ int StrReplaceAll(strings_internal::FixedMapping replacements,
   return StrReplaceAll<strings_internal::FixedMapping>(replacements, target);
 }
 
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

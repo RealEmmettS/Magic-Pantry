@@ -36,6 +36,7 @@
 #include "src/core/lib/gpr/alloc.h"
 #include "src/core/lib/gpr/spinlock.h"
 #include "src/core/lib/gprpp/atomic.h"
+#include "src/core/lib/gprpp/pair.h"
 
 #include <stddef.h>
 
@@ -49,8 +50,8 @@ class Arena {
   // Create an arena, with \a initial_size bytes in the first allocated buffer,
   // and return both a void pointer to the returned arena and a void* with the
   // first allocation.
-  static std::pair<Arena*, void*> CreateWithAlloc(size_t initial_size,
-                                                  size_t alloc_size);
+  static Pair<Arena*, void*> CreateWithAlloc(size_t initial_size,
+                                             size_t alloc_size);
 
   // Destroy an arena, returning the total number of bytes allocated.
   size_t Destroy();

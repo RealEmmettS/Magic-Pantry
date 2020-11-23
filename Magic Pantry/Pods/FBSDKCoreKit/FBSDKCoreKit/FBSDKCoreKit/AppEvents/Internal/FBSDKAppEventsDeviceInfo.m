@@ -75,7 +75,7 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024;  // bytes
 
 + (void)extendDictionaryWithDeviceInfo:(NSMutableDictionary *)dictionary
 {
-  [FBSDKTypeUtility dictionary:dictionary setObject:[[self sharedDeviceInfo] encodedDeviceInfo] forKey:@"extinfo"];
+  dictionary[@"extinfo"] = [[self sharedDeviceInfo] encodedDeviceInfo];
 }
 
 #pragma mark - Internal Methods
@@ -264,8 +264,6 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024;  // bytes
   return value;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 + (NSString *)_getCarrier
 {
 #if TARGET_OS_TV || TARGET_IPHONE_SIMULATOR
@@ -277,6 +275,5 @@ static const u_int FB_GIGABYTE = 1024 * 1024 * 1024;  // bytes
   return carrier.carrierName ?: @"NoCarrier";
 #endif
 }
-#pragma clang diagnostic pop
 
 @end

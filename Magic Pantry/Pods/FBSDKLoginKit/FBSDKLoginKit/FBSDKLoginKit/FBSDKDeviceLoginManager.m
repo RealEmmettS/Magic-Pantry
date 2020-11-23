@@ -57,7 +57,7 @@ static NSMutableArray<FBSDKDeviceLoginManager *> *g_loginManagerInstances;
 - (void)start
 {
   [FBSDKInternalUtility validateAppID];
-  [FBSDKTypeUtility array:g_loginManagerInstances addObject:self];
+  [g_loginManagerInstances addObject:self];
 
   NSDictionary *parameters = @{
                                @"scope": [self.permissions componentsJoinedByString:@","] ?: @"",
@@ -162,8 +162,7 @@ static NSMutableArray<FBSDKDeviceLoginManager *> *g_loginManagerInstances;
                                                                                userID:userID
                                                                        expirationDate:nil
                                                                           refreshDate:nil
-                                                             dataAccessExpirationDate:nil
-                                                                          graphDomain:nil];
+                                                             dataAccessExpirationDate:nil];
         FBSDKDeviceLoginManagerResult *result = [[FBSDKDeviceLoginManagerResult alloc] initWithToken:accessToken
                                                                                          isCancelled:NO];
         completeWithResult(result);

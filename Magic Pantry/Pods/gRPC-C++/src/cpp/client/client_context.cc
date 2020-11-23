@@ -34,16 +34,19 @@
 namespace grpc_impl {
 
 class Channel;
+}
+
+namespace grpc {
 
 class DefaultGlobalClientCallbacks final
     : public ClientContext::GlobalCallbacks {
  public:
   ~DefaultGlobalClientCallbacks() override {}
-  void DefaultConstructor(ClientContext* /*context*/) override {}
-  void Destructor(ClientContext* /*context*/) override {}
+  void DefaultConstructor(ClientContext* context) override {}
+  void Destructor(ClientContext* context) override {}
 };
 
-static grpc::internal::GrpcLibraryInitializer g_gli_initializer;
+static internal::GrpcLibraryInitializer g_gli_initializer;
 static DefaultGlobalClientCallbacks* g_default_client_callbacks =
     new DefaultGlobalClientCallbacks();
 static ClientContext::GlobalCallbacks* g_client_callbacks =
@@ -72,40 +75,12 @@ ClientContext::~ClientContext() {
   g_client_callbacks->Destructor(this);
 }
 
-void ClientContext::set_credentials(
-    const std::shared_ptr<grpc_impl::CallCredentials>& creds) {
-  creds_ = creds;
-  // If call_ is set, we have already created the call, and set the call
-  // credentials. This should only be done before we have started the batch
-  // for sending initial metadata.
-  if (creds_ != nullptr && call_ != nullptr) {
-    if (!creds_->ApplyToCall(call_)) {
-      SendCancelToInterceptors();
-      grpc_call_cancel_with_status(call_, GRPC_STATUS_CANCELLED,
-                                   "Failed to set credentials to rpc.",
-                                   nullptr);
-    }
-  }
-}
-
-std::unique_ptr<ClientContext> ClientContext::FromInternalServerContext(
-    const grpc_impl::ServerContextBase& context, PropagationOptions options) {
+std::unique_ptr<ClientContext> ClientContext::FromServerContext(
+    const ServerContext& context, PropagationOptions options) {
   std::unique_ptr<ClientContext> ctx(new ClientContext);
   ctx->propagate_from_call_ = context.call_;
   ctx->propagation_options_ = options;
   return ctx;
-}
-
-std::unique_ptr<ClientContext> ClientContext::FromServerContext(
-    const grpc_impl::ServerContext& server_context,
-    PropagationOptions options) {
-  return FromInternalServerContext(server_context, options);
-}
-
-std::unique_ptr<ClientContext> ClientContext::FromCallbackServerContext(
-    const grpc_impl::CallbackServerContext& server_context,
-    PropagationOptions options) {
-  return FromInternalServerContext(server_context, options);
 }
 
 void ClientContext::AddMetadata(const grpc::string& meta_key,
@@ -155,7 +130,7 @@ void ClientContext::TryCancel() {
 }
 
 void ClientContext::SendCancelToInterceptors() {
-  grpc::internal::CancelInterceptorBatchMethods cancel_methods;
+  internal::CancelInterceptorBatchMethods cancel_methods;
   for (size_t i = 0; i < rpc_info_.interceptors_.size(); i++) {
     rpc_info_.RunInterceptor(&cancel_methods, i);
   }
@@ -178,4 +153,4 @@ void ClientContext::SetGlobalCallbacks(GlobalCallbacks* client_callbacks) {
   g_client_callbacks = client_callbacks;
 }
 
-}  // namespace grpc_impl
+}  // namespace grpc

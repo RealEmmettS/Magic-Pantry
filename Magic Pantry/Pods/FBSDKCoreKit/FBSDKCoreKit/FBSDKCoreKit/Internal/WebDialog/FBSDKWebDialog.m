@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKWebDialog.h"
 
 #import "FBSDKAccessToken.h"
@@ -29,7 +25,6 @@
 #import "FBSDKSettings.h"
 #import "FBSDKTypeUtility.h"
 #import "FBSDKWebDialogView.h"
-#import "FBSDKInternalUtility.h"
 
 #define FBSDK_WEB_DIALOG_SHOW_ANIMATION_DURATION 0.2
 #define FBSDK_WEB_DIALOG_DISMISS_ANIMATION_DURATION 0.3
@@ -220,11 +215,11 @@ static FBSDKWebDialog *g_currentDialog = nil;
 - (NSURL *)_generateURL:(NSError **)errorRef
 {
   NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-  [FBSDKTypeUtility dictionary:parameters setObject:@"touch" forKey:@"display"];
-  [FBSDKTypeUtility dictionary:parameters setObject:[NSString stringWithFormat:@"ios-%@", [FBSDKSettings sdkVersion]] forKey:@"sdk"];
-  [FBSDKTypeUtility dictionary:parameters setObject:@"fbconnect://success" forKey:@"redirect_uri"];
-  [FBSDKTypeUtility dictionary:parameters setObject:[FBSDKSettings appID] forKey:@"app_id"];
-  [FBSDKTypeUtility dictionary:parameters
+  parameters[@"display"] = @"touch";
+  parameters[@"sdk"] = [NSString stringWithFormat:@"ios-%@", [FBSDKSettings sdkVersion]];
+  parameters[@"redirect_uri"] = @"fbconnect://success";
+  [FBSDKBasicUtility dictionary:parameters setObject:[FBSDKSettings appID] forKey:@"app_id"];
+  [FBSDKBasicUtility dictionary:parameters
                       setObject:[FBSDKAccessToken currentAccessToken].tokenString
                          forKey:@"access_token"];
   [parameters addEntriesFromDictionary:self.parameters];
@@ -268,7 +263,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
   // iOS 8 simply adjusts the application frame to adapt to the current orientation and deprecated the concept of
   // interface orientations
   if ([FBSDKInternalUtility shouldManuallyAdjustOrientation]) {
-    switch (FBSDKInternalUtility.statusBarOrientation) {
+    switch ([UIApplication sharedApplication].statusBarOrientation) {
       case UIInterfaceOrientationLandscapeLeft:
         return CGAffineTransformMakeRotation(M_PI * 1.5);
       case UIInterfaceOrientationLandscapeRight:
@@ -296,10 +291,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
 #endif
 
   if (insets.top == 0.0) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     insets.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
-#pragma clang diagnostic pop
   }
   applicationFrame.origin.x += insets.left;
   applicationFrame.origin.y += insets.top;
@@ -307,7 +299,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
   applicationFrame.size.height -= insets.top + insets.bottom;
 
   if ([FBSDKInternalUtility shouldManuallyAdjustOrientation]) {
-    switch (FBSDKInternalUtility.statusBarOrientation) {
+    switch ([UIApplication sharedApplication].statusBarOrientation) {
       case UIInterfaceOrientationLandscapeLeft:
       case UIInterfaceOrientationLandscapeRight:
         return CGRectMake(0, 0, CGRectGetHeight(applicationFrame), CGRectGetWidth(applicationFrame));
@@ -350,5 +342,3 @@ static FBSDKWebDialog *g_currentDialog = nil;
 }
 
 @end
-
-#endif

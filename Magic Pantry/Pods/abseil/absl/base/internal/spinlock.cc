@@ -54,11 +54,11 @@
 //          holder to acquire the lock.  There may be outstanding waiter(s).
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
 
-ABSL_INTERNAL_ATOMIC_HOOK_ATTRIBUTES static base_internal::AtomicHook<void (*)(
-    const void *lock, int64_t wait_cycles)>
+ABSL_CONST_INIT static base_internal::AtomicHook<void (*)(const void *lock,
+                                                          int64_t wait_cycles)>
     submit_profile_data;
 
 void RegisterSpinLockProfiler(void (*fn)(const void *contendedlock,
@@ -229,5 +229,5 @@ uint64_t SpinLock::DecodeWaitCycles(uint32_t lock_value) {
 }
 
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

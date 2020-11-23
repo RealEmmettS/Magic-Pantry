@@ -84,9 +84,8 @@ class TableViewController: UITableViewController {
 
                 if diff.type == .added {
                     print("Adding Lists")
-                    let name = (diff.document.get("listName") as! String?)!
-                    let id = (diff.document.documentID as! String?)!
-                    let formattedProperty = ReminderLists(listName: name, id: id)
+                    let property = (diff.document.get("listName") as! String?)!
+                    let formattedProperty = ReminderLists(listName: property)
                     print("\n\n Print: \( formattedProperty ) \n\n")
                                            
                     let list = self.listArray
@@ -110,36 +109,12 @@ class TableViewController: UITableViewController {
                     
                     
                     if diff.type == .removed {
-                        print("Removing Items")
-                        let name = (diff.document.get("listName") as! String?)!
-                        let id = (diff.document.documentID as! String?)!
-                        let formattedProperty = ReminderLists(listName: name, id:id)
-                        
-                        var index = 0
-                        for i in self.listArray{
-                            if i.id == formattedProperty.id{
-                                print("Found at \(index)")
-                                self.listArray.remove(at: index)
-                            }
-                            index += 1
-                        }
+                        print("Removing Lists")
                         self.tableView.reloadData()
                     }
                     
                     if diff.type == .modified {
-                        print("Editing Items")
-                        let name = (diff.document.get("listName") as! String?)!
-                        let id = (diff.document.documentID as! String?)!
-                        let formattedProperty = ReminderLists(listName: name, id:id)
-                        
-                        var index = 0
-                        for i in self.listArray{
-                            if i.id == formattedProperty.id{
-                                print("Found at \(index)")
-                                self.listArray[index].listName = formattedProperty.listName
-                            }
-                            index += 1
-                        }
+                        print("Editing Lists")
                         self.tableView.reloadData()
 
                         

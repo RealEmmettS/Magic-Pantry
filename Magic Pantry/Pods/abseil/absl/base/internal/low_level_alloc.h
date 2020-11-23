@@ -55,7 +55,7 @@
 #include "absl/base/port.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
 
 class LowLevelAlloc {
@@ -120,7 +120,7 @@ class LowLevelAlloc {
 };
 
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #endif  // ABSL_BASE_INTERNAL_LOW_LEVEL_ALLOC_H_

@@ -21,7 +21,6 @@
 #import "FBSDKBasicUtility.h"
 #import "FBSDKEventDeactivationManager.h"
 #import "FBSDKRestrictiveDataFilterManager.h"
-#import "FBSDKTypeUtility.h"
 
 #define FBSDK_APPEVENTSTATE_ISIMPLICIT_KEY @"isImplicit"
 
@@ -113,7 +112,7 @@
   if (_mutableEvents.count >= FBSDK_APPEVENTSSTATE_MAX_EVENTS) {
     _numSkipped++;
   } else {
-    [FBSDKTypeUtility array:_mutableEvents addObject:@{
+    [_mutableEvents addObject:@{
                                 @"event" : [eventDictionary mutableCopy],
                                 FBSDK_APPEVENTSTATE_ISIMPLICIT_KEY : @(isImplicit)
                                 }];
@@ -131,7 +130,7 @@
     // Receipt data will be sent as post parameter rather than the event parameter
     if (receipt) {
       NSString* idKey = [NSString stringWithFormat:@"receipt_%ld", (long)transactionId];
-      [FBSDKTypeUtility dictionary:event setObject:idKey forKey:FBSDK_APPEVENTSTATE_RECEIPTID_KEY];
+      event[FBSDK_APPEVENTSTATE_RECEIPTID_KEY] = idKey;
       NSString* receiptWithId = [NSString stringWithFormat:@"%@::%@;;;", idKey, receipt];
       [receipts_string appendString:receiptWithId];
       transactionId++;
@@ -167,7 +166,6 @@
 - (NSString *)JSONStringForEvents:(BOOL)includeImplicitEvents
 {
   [FBSDKEventDeactivationManager processEvents:_mutableEvents];
-  [FBSDKRestrictiveDataFilterManager processEvents:_mutableEvents];
 
   NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:_mutableEvents.count];
   for (NSDictionary *eventAndImplicitFlag in _mutableEvents) {
@@ -178,7 +176,7 @@
     NSAssert(event != nil, @"event cannot be nil");
     [event removeObjectForKey:FBSDK_APPEVENTSTATE_RECEIPTDATA_KEY];
 
-    [FBSDKTypeUtility array:events addObject:event];
+    [events addObject:event];
   }
 
   return [FBSDKBasicUtility JSONStringForObject:events error:NULL invalidObjectHandler:NULL];

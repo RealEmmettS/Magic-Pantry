@@ -50,11 +50,6 @@ static NSString *const kGoogleUserInfoProfileScope = @"https://www.googleapis.co
  */
 @property(nonatomic, copy, readonly) NSArray<NSString *> *scopes;
 
-/** @property buttonAlignment
-    @brief The alignment of the icon and text of the button.
- */
-@property(nonatomic, readwrite) FUIButtonAlignment buttonAlignment;
-
 /** @fn init
     @brief Convenience initializer. Calls designated init with default
         scopes of "email" and "profile".

@@ -41,8 +41,6 @@ static NSString *const kFBSDKAccessTokenEncodedKey = @"tokenEncoded";
   return self;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (FBSDKAccessToken *)accessToken
 {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -88,7 +86,6 @@ static NSString *const kFBSDKAccessTokenEncodedKey = @"tokenEncoded";
                          forKey:kFBSDKAccessTokenKeychainKey
                   accessibility:[FBSDKDynamicFrameworkLoader loadkSecAttrAccessibleAfterFirstUnlockThisDeviceOnly]];
 }
-#pragma clang diagnostic pop
 
 - (void)clearCache
 {

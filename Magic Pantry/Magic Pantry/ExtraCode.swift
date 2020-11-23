@@ -26,12 +26,10 @@ protocol DocumentSerializable {
 
 struct ReminderLists { //Name came from What's Due. Too lazy to change it :)
     var listName:String?
-    var id:String?
     
     var dictionary:[String : Any] {
         return [
-            "listName":listName!,
-            "id":id!
+            "listName":listName!
         ]
         
     }
@@ -44,7 +42,7 @@ extension ReminderLists: DocumentSerializable{
             print("Item Not String")
             return nil}
         
-        ReminderLists.init(listName: listName, id: id)
+        ReminderLists.init(listName: listName)
         
     }
 }

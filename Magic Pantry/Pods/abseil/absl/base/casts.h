@@ -34,7 +34,7 @@
 #include "absl/meta/type_traits.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 namespace internal_casts {
 
@@ -178,7 +178,7 @@ inline Dest bit_cast(const Source& source) {
   return dest;
 }
 
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #endif  // ABSL_BASE_CASTS_H_

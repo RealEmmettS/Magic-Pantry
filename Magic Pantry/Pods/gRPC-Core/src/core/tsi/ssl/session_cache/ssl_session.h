@@ -26,11 +26,7 @@
 #include <grpc/slice.h>
 
 extern "C" {
-#if COCOAPODS==1
-  #include <openssl_grpc/ssl.h>
-#else
-  #include <openssl/ssl.h>
-#endif
+#include <openssl_grpc/ssl.h>
 }
 
 #include "src/core/lib/gprpp/ref_counted.h"
@@ -61,12 +57,14 @@ class SslCachedSession {
   SslCachedSession& operator=(const SslCachedSession&) = delete;
 
   /// Create single cached instance of \a session.
-  static std::unique_ptr<SslCachedSession> Create(SslSessionPtr session);
+  static grpc_core::UniquePtr<SslCachedSession> Create(SslSessionPtr session);
 
   virtual ~SslCachedSession() = default;
 
   /// Returns a copy of previously cached session.
-  virtual SslSessionPtr CopySession() const = 0;
+  virtual SslSessionPtr CopySession() const GRPC_ABSTRACT;
+
+  GRPC_ABSTRACT_BASE_CLASS
 
  protected:
   SslCachedSession() = default;

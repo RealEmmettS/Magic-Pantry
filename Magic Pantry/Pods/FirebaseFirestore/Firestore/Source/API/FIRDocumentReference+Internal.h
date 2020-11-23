@@ -18,15 +18,9 @@
 
 #include <memory>
 
-#include "Firestore/core/src/api/api_fwd.h"
-namespace firebase {
-namespace firestore {
-namespace model {
-class DocumentKey;
-class ResourcePath;
-}  // namespace model
-}  // namespace firestore
-}  // namespace firebase
+#include "Firestore/core/src/firebase/firestore/api/document_reference.h"
+#include "Firestore/core/src/firebase/firestore/model/document_key.h"
+#include "Firestore/core/src/firebase/firestore/model/resource_path.h"
 
 namespace api = firebase::firestore::api;
 namespace model = firebase::firestore::model;

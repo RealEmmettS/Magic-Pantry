@@ -38,21 +38,21 @@
 #include "absl/base/config.h"   // TODO(calabrese) IWYU removal?
 #include "absl/utility/utility.h"
 
-#ifdef ABSL_USES_STD_OPTIONAL
+#ifdef ABSL_HAVE_STD_OPTIONAL
 
 #include <optional>  // IWYU pragma: export
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 using std::bad_optional_access;
 using std::optional;
 using std::make_optional;
 using std::nullopt_t;
 using std::nullopt;
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
-#else  // ABSL_USES_STD_OPTIONAL
+#else  // ABSL_HAVE_STD_OPTIONAL
 
 #include <cassert>
 #include <functional>
@@ -67,7 +67,7 @@ ABSL_NAMESPACE_END
 #include "absl/types/internal/optional.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 // nullopt_t
 //
@@ -757,7 +757,7 @@ constexpr auto operator>=(const U& v, const optional<T>& x)
   return static_cast<bool>(x) ? static_cast<bool>(v >= *x) : true;
 }
 
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 namespace std {
@@ -771,6 +771,6 @@ struct hash<absl::optional<T> >
 
 #undef ABSL_MSVC_CONSTEXPR_BUG_IN_UNION_LIKE_CLASS
 
-#endif  // ABSL_USES_STD_OPTIONAL
+#endif  // ABSL_HAVE_STD_OPTIONAL
 
 #endif  // ABSL_TYPES_OPTIONAL_H_

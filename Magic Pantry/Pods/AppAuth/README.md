@@ -76,18 +76,7 @@ client info to try the demo).
 
 ## Setup
 
-AppAuth supports four options for dependency management.
-
-### Swift Package Manager
-
-With [Swift Package Manager](https://swift.org/package-manager), 
-add the following `dependency` to your `Package.swift`:
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/openid/AppAuth-iOS.git", .upToNextMajor(from: "1.3.0"))
-]
-```
+AppAuth supports three options for dependency management.
 
 ### CocoaPods
 
@@ -514,12 +503,12 @@ First, add the following array to your
 (in XCode, right click -> Open As -> Source Code)
 
 ```
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>googlechromes</string>
-        <string>opera-https</string>
-        <string>firefox</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechromes</string>
+		<string>opera-https</string>
+		<string>firefox</string>
+	</array>
 ```
 
 This is required so that AppAuth can test for the browser and open the app store

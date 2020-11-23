@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKURL_Internal.h"
 
 #import "FBSDKAppLinkTarget.h"
@@ -50,7 +46,7 @@ NSString *const AutoAppLinkFlagKey = @"is_auto_applink";
         // Try to parse the JSON
         NSError *error = nil;
         NSDictionary<NSString *, id> *applinkData =
-         [FBSDKTypeUtility JSONObjectWithData:[appLinkDataString dataUsingEncoding:NSUTF8StringEncoding]
+         [NSJSONSerialization JSONObjectWithData:[appLinkDataString dataUsingEncoding:NSUTF8StringEncoding]
                                          options:0
                                            error:&error];
         if (!error && [applinkData isKindOfClass:[NSDictionary class]]) {
@@ -86,27 +82,27 @@ NSString *const AutoAppLinkFlagKey = @"is_auto_applink";
                 NSString *const EVENT_YES_VAL = @"1";
                 NSString *const EVENT_NO_VAL = @"0";
                 NSMutableDictionary<NSString *, id> *logData = [[NSMutableDictionary alloc] init];
-                [FBSDKTypeUtility dictionary:logData setObject:version forKey:@"version"];
+                logData[@"version"] = version;
                 if (refererURLString) {
-                    [FBSDKTypeUtility dictionary:logData setObject:refererURLString forKey:@"refererURL"];
+                    logData[@"refererURL"] = refererURLString;
                 }
                 if (refererAppName) {
-                    [FBSDKTypeUtility dictionary:logData setObject:refererAppName forKey:@"refererAppName"];
+                    logData[@"refererAppName"] = refererAppName;
                 }
                 if (sourceApplication) {
-                    [FBSDKTypeUtility dictionary:logData setObject:sourceApplication forKey:@"sourceApplication"];
+                    logData[@"sourceApplication"] = sourceApplication;
                 }
                 if (_targetURL.absoluteString) {
-                    [FBSDKTypeUtility dictionary:logData setObject:_targetURL.absoluteString forKey:@"targetURL"];
+                    logData[@"targetURL"] = _targetURL.absoluteString;
                 }
                 if (_inputURL.absoluteString) {
-                    [FBSDKTypeUtility dictionary:logData setObject:_inputURL.absoluteString forKey:@"inputURL"];
+                    logData[@"inputURL"] = _inputURL.absoluteString;
                 }
                 if (_inputURL.scheme) {
-                    [FBSDKTypeUtility dictionary:logData setObject:_inputURL.scheme forKey:@"inputURLScheme"];
+                    logData[@"inputURLScheme"] = _inputURL.scheme;
                 }
-                [FBSDKTypeUtility dictionary:logData setObject:forRenderBackToReferrerBar ? EVENT_YES_VAL : EVENT_NO_VAL forKey:@"forRenderBackToReferrerBar"];
-                [FBSDKTypeUtility dictionary:logData setObject:forOpenURLEvent ? EVENT_YES_VAL : EVENT_NO_VAL forKey:@"forOpenUrl"];
+                logData[@"forRenderBackToReferrerBar"] = forRenderBackToReferrerBar ? EVENT_YES_VAL : EVENT_NO_VAL;
+                logData[@"forOpenUrl"] = forOpenURLEvent ? EVENT_YES_VAL : EVENT_NO_VAL;
                 [FBSDKMeasurementEvent postNotificationForEventName:FBSDKAppLinkParseEventName args:logData];
                 if (forOpenURLEvent) {
                     [FBSDKMeasurementEvent postNotificationForEventName:FBSDKAppLinkNavigateInEventName args:logData];
@@ -150,16 +146,14 @@ NSString *const AutoAppLinkFlagKey = @"is_auto_applink";
         NSRange equalsLocation = [component rangeOfString:@"="];
         if (equalsLocation.location == NSNotFound) {
             // There's no equals, so associate the key with NSNull
-            [FBSDKTypeUtility dictionary:parameters setObject:[NSNull null] forKey:[FBSDKBasicUtility URLDecode:component]];
+            parameters[[FBSDKBasicUtility URLDecode:component]] = [NSNull null];
         } else {
             NSString *key = [FBSDKBasicUtility URLDecode:[component substringToIndex:equalsLocation.location]];
             NSString *value = [FBSDKBasicUtility URLDecode:[component substringFromIndex:equalsLocation.location + 1]];
-            [FBSDKTypeUtility dictionary:parameters setObject:value forKey:key];
+            parameters[key] = value;
         }
     }
     return [NSDictionary dictionaryWithDictionary:parameters];
 }
 
 @end
-
-#endif

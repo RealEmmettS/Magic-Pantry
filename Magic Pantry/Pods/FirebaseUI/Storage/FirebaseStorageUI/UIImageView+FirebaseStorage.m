@@ -17,6 +17,15 @@
 #import "UIImageView+FirebaseStorage.h"
 #import "FUIStorageImageLoader.h"
 
+static SDWebImageManager *DefaultWebImageManager(void) {
+  static dispatch_once_t onceToken;
+  static SDWebImageManager *manager;
+  dispatch_once(&onceToken, ^{
+    manager = [[SDWebImageManager alloc] initWithCache:SDImageCache.sharedImageCache loader:FUIStorageImageLoader.sharedLoader];
+  });
+  return manager;
+}
+
 @implementation UIImageView (FirebaseStorage)
 
 - (void)sd_setImageWithStorageReference:(FIRStorageReference *)storageRef {
@@ -112,8 +121,12 @@
   } else {
     mutableContext = [NSMutableDictionary dictionary];
   }
-  mutableContext[SDWebImageContextImageLoader] = FUIStorageImageLoader.sharedLoader;
-  mutableContext[SDWebImageContextFUIStorageMaxImageSize] = @(size);
+  if (!mutableContext[SDWebImageContextCustomManager]) {
+    mutableContext[SDWebImageContextCustomManager] = DefaultWebImageManager();
+  }
+  if (!mutableContext[SDWebImageContextFUIStorageMaxImageSize]) {
+    mutableContext[SDWebImageContextFUIStorageMaxImageSize] = @(size);
+  }
   
   [self sd_setImageWithURL:url placeholderImage:placeholder options:options context:[mutableContext copy] progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
     if (progressBlock) {

@@ -17,8 +17,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "FBSDKEventDeactivationManager.h"
-#import "FBSDKTypeUtility.h"
-#import "FBSDKServerConfigurationManager.h"
 
 static NSString *const DEPRECATED_PARAM_KEY = @"deprecated_param";
 static NSString *const DEPRECATED_EVENT_KEY = @"is_deprecated_event";
@@ -58,17 +56,12 @@ static NSMutableArray<FBSDKDeactivatedEvent *>  *_eventsWithDeactivatedParams;
 
 + (void)enable
 {
-  NSDictionary<NSString *, id> *restrictiveParams = [FBSDKServerConfigurationManager cachedServerConfiguration].restrictiveParams;
-  if (restrictiveParams) {
-    [FBSDKEventDeactivationManager updateDeactivatedEvents:restrictiveParams];
-    isEventDeactivationEnabled = YES;
-  }
+  isEventDeactivationEnabled = YES;
 }
 
 + (void)updateDeactivatedEvents:(nullable NSDictionary<NSString *, id> *)events
 {
-  events = [FBSDKTypeUtility dictionaryValue:events];
-  if (events.count == 0) {
+  if (!isEventDeactivationEnabled || events.count == 0) {
     return;
   }
   [_deactivatedEvents removeAllObjects];
@@ -76,9 +69,9 @@ static NSMutableArray<FBSDKDeactivatedEvent *>  *_eventsWithDeactivatedParams;
   NSMutableArray<FBSDKDeactivatedEvent *> *deactivatedParamsArray = [NSMutableArray array];
   NSMutableSet<NSString *> *deactivatedEventSet = [NSMutableSet set];
   for (NSString *eventName in events.allKeys) {
-    NSDictionary<NSString *, id> *eventInfo = [FBSDKTypeUtility dictionary:events objectForKey:eventName ofType:NSDictionary.class];
+    NSDictionary<NSString *, id> *eventInfo = events[eventName];
     if (!eventInfo) {
-      continue;
+      return;
     }
     if (eventInfo[DEPRECATED_EVENT_KEY]) {
       [deactivatedEventSet addObject:eventName];
@@ -86,7 +79,7 @@ static NSMutableArray<FBSDKDeactivatedEvent *>  *_eventsWithDeactivatedParams;
     if (eventInfo[DEPRECATED_PARAM_KEY]) {
       FBSDKDeactivatedEvent *eventWithDeactivatedParams = [[FBSDKDeactivatedEvent alloc] initWithEventName:eventName
                                                                                          deactivatedParams:[NSSet setWithArray:eventInfo[DEPRECATED_PARAM_KEY]]];
-      [FBSDKTypeUtility array:deactivatedParamsArray addObject:eventWithDeactivatedParams];
+      [deactivatedParamsArray addObject:eventWithDeactivatedParams];
     }
   }
   _deactivatedEvents = deactivatedEventSet;

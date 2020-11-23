@@ -31,7 +31,6 @@
 #include <cassert>
 #include <cstddef>
 
-#include "absl/base/attributes.h"
 #include "absl/base/optimization.h"
 #include "absl/base/port.h"
 
@@ -44,14 +43,14 @@
   (sizeof(::absl::macros_internal::ArraySizeHelper(array)))
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace macros_internal {
 // Note: this internal template function declaration is used by ABSL_ARRAYSIZE.
 // The function doesn't need a definition, as we only use its type.
 template <typename T, size_t N>
 auto ArraySizeHelper(const T (&array)[N]) -> char (&)[N];
 }  // namespace macros_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 // kLinkerInitialized
@@ -75,13 +74,13 @@ ABSL_NAMESPACE_END
 //       // Invocation
 //       static MyClass my_global(absl::base_internal::kLinkerInitialized);
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
 enum LinkerInitialized {
   kLinkerInitialized = 0,
 };
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 // ABSL_FALLTHROUGH_INTENDED
@@ -112,7 +111,7 @@ ABSL_NAMESPACE_END
 // when  performing switch labels fall-through diagnostic
 // (`-Wimplicit-fallthrough`). See clang documentation on language extensions
 // for details:
-// https://clang.llvm.org/docs/AttributeReference.html#fallthrough-clang-fallthrough
+// http://clang.llvm.org/docs/AttributeReference.html#fallthrough-clang-fallthrough
 //
 // When used with unsupported compilers, the ABSL_FALLTHROUGH_INTENDED macro
 // has no effect on diagnostics. In any case this macro has no effect on runtime
@@ -142,15 +141,10 @@ ABSL_NAMESPACE_END
 // declarations. The macro argument is used as a custom diagnostic message (e.g.
 // suggestion of a better alternative).
 //
-// Examples:
+// Example:
 //
 //   class ABSL_DEPRECATED("Use Bar instead") Foo {...};
-//
-//   ABSL_DEPRECATED("Use Baz() instead") void Bar() {...}
-//
-//   template <typename T>
-//   ABSL_DEPRECATED("Use DoThat() instead")
-//   void DoThis();
+//   ABSL_DEPRECATED("Use Baz instead") void Bar() {...}
 //
 // Every usage of a deprecated entity will trigger a warning when compiled with
 // clang's `-Wdeprecated-declarations` option. This option is turned off by
@@ -168,7 +162,7 @@ ABSL_NAMESPACE_END
 // Used on a function overload to trap bad calls: any call that matches the
 // overload will cause a compile-time error. This macro uses a clang-specific
 // "enable_if" attribute, as described at
-// https://clang.llvm.org/docs/AttributeReference.html#enable-if
+// http://clang.llvm.org/docs/AttributeReference.html#enable-if
 //
 // Overloads which use this macro should be bracketed by
 // `#ifdef ABSL_BAD_CALL_IF`.
@@ -181,9 +175,12 @@ ABSL_NAMESPACE_END
 //     ABSL_BAD_CALL_IF(c <= -1 || c > 255,
 //                       "'c' must have the value of an unsigned char or EOF");
 //   #endif // ABSL_BAD_CALL_IF
-#if ABSL_HAVE_ATTRIBUTE(enable_if)
-#define ABSL_BAD_CALL_IF(expr, msg) \
-  __attribute__((enable_if(expr, "Bad call trap"), unavailable(msg)))
+
+#if defined(__clang__)
+# if __has_attribute(enable_if)
+#  define ABSL_BAD_CALL_IF(expr, msg) \
+    __attribute__((enable_if(expr, "Bad call trap"), unavailable(msg)))
+# endif
 #endif
 
 // ABSL_ASSERT()

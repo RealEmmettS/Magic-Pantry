@@ -237,11 +237,15 @@ static NSString *const kFirebaseAuthUIFrameworkMarker = @"FirebaseUI-iOS";
     if (error) {
       // Check for "credential in use" conflict error and handle appropriately.
       if (error.code == FIRAuthErrorCodeCredentialAlreadyInUse) {
-        FIRAuthCredential *newCredential = error.userInfo[FIRAuthErrorUserInfoUpdatedCredentialKey];
-        NSDictionary *userInfo = @{ };
-        if (newCredential) {
-          userInfo = @{ FUIAuthCredentialKey : newCredential };
+        FIRAuthCredential *newCredential = credential;
+        // Check for and handle special case for Phone Auth Provider.
+        if (providerUI.providerID == FIRPhoneAuthProviderID) {
+          // Obtain temporary Phone Auth credential.
+          newCredential = error.userInfo[FIRAuthErrorUserInfoUpdatedCredentialKey];
         }
+        NSDictionary *userInfo = @{
+          FUIAuthCredentialKey : newCredential,
+        };
         NSError *mergeError = [FUIAuthErrorUtils mergeConflictErrorWithUserInfo:userInfo
                                                                 underlyingError:error];
         [self completeSignInWithResult:authResult

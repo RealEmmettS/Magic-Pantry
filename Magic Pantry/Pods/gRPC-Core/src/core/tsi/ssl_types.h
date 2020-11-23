@@ -31,11 +31,7 @@
 
 #include "src/core/tsi/grpc_shadow_boringssl.h"
 
-#if COCOAPODS==1
-  #include <openssl_grpc/ssl.h>
-#else
-  #include <openssl/ssl.h>
-#endif
+#include <openssl_grpc/ssl.h>
 
 #ifdef OPENSSL_IS_BORINGSSL
 #define TSI_INT_AS_SIZE(x) ((size_t)(x))

@@ -39,8 +39,7 @@ struct grpc_plugin_credentials final : public grpc_call_credentials {
     struct pending_request* next;
   };
 
-  explicit grpc_plugin_credentials(grpc_metadata_credentials_plugin plugin,
-                                   grpc_security_level min_security_level);
+  explicit grpc_plugin_credentials(grpc_metadata_credentials_plugin plugin);
   ~grpc_plugin_credentials() override;
 
   bool get_request_metadata(grpc_polling_entity* pollent,

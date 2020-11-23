@@ -16,10 +16,8 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
 
-#if !TARGET_OS_TV
-
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 NS_SWIFT_NAME(EventBinding)
@@ -36,8 +34,5 @@ NS_SWIFT_NAME(EventBinding)
 + (BOOL)isPath:(NSArray *)path matchViewPath:(NSArray *)viewPath;
 - (FBSDKEventBinding *)initWithJSON:(NSDictionary *)dict;
 - (void)trackEvent:(id)sender;
-- (BOOL)isEqualToBinding:(FBSDKEventBinding *)binding;
 
 @end
-
-#endif

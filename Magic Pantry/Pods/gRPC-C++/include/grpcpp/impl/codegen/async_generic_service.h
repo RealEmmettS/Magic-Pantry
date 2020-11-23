@@ -19,38 +19,33 @@
 #ifndef GRPCPP_IMPL_CODEGEN_ASYNC_GENERIC_SERVICE_H
 #define GRPCPP_IMPL_CODEGEN_ASYNC_GENERIC_SERVICE_H
 
-#include <grpc/impl/codegen/port_platform.h>
-
-#include <grpcpp/impl/codegen/async_stream_impl.h>
+#include <grpcpp/impl/codegen/async_stream.h>
 #include <grpcpp/impl/codegen/byte_buffer.h>
-#include <grpcpp/impl/codegen/server_callback_handlers.h>
-#include <grpcpp/impl/codegen/server_callback_impl.h>
+#include <grpcpp/impl/codegen/server_callback.h>
 
 struct grpc_server;
 
 namespace grpc {
 
-typedef ::grpc_impl::ServerAsyncReaderWriter<ByteBuffer, ByteBuffer>
+typedef ServerAsyncReaderWriter<ByteBuffer, ByteBuffer>
     GenericServerAsyncReaderWriter;
-typedef ::grpc_impl::ServerAsyncResponseWriter<ByteBuffer>
-    GenericServerAsyncResponseWriter;
-typedef ::grpc_impl::ServerAsyncReader<ByteBuffer, ByteBuffer>
-    GenericServerAsyncReader;
-typedef ::grpc_impl::ServerAsyncWriter<ByteBuffer> GenericServerAsyncWriter;
+typedef ServerAsyncResponseWriter<ByteBuffer> GenericServerAsyncResponseWriter;
+typedef ServerAsyncReader<ByteBuffer, ByteBuffer> GenericServerAsyncReader;
+typedef ServerAsyncWriter<ByteBuffer> GenericServerAsyncWriter;
 
-class GenericServerContext final : public ::grpc_impl::ServerContext {
+class GenericServerContext final : public ServerContext {
  public:
   const grpc::string& method() const { return method_; }
   const grpc::string& host() const { return host_; }
 
  private:
   friend class grpc_impl::Server;
-  friend class grpc::ServerInterface;
+  friend class ServerInterface;
 
   void Clear() {
     method_.clear();
     host_.clear();
-    ::grpc_impl::ServerContext::Clear();
+    ServerContext::Clear();
   }
 
   grpc::string method_;
@@ -80,44 +75,49 @@ class AsyncGenericService final {
 
   void RequestCall(GenericServerContext* ctx,
                    GenericServerAsyncReaderWriter* reader_writer,
-                   ::grpc_impl::CompletionQueue* call_cq,
-                   ::grpc_impl::ServerCompletionQueue* notification_cq,
-                   void* tag);
+                   CompletionQueue* call_cq,
+                   ServerCompletionQueue* notification_cq, void* tag);
 
  private:
   friend class grpc_impl::Server;
   grpc_impl::Server* server_;
 };
 
-#ifndef GRPC_CALLBACK_API_NONEXPERIMENTAL
 namespace experimental {
-#endif
 
 /// \a ServerGenericBidiReactor is the reactor class for bidi streaming RPCs
-/// invoked on a CallbackGenericService. It is just a ServerBidi reactor with
-/// ByteBuffer arguments.
-using ServerGenericBidiReactor =
-    ::grpc_impl::ServerBidiReactor<ByteBuffer, ByteBuffer>;
-
-class GenericCallbackServerContext final
-    : public ::grpc_impl::CallbackServerContext {
+/// invoked on a CallbackGenericService. The API difference relative to
+/// ServerBidiReactor is that the argument to OnStarted is a
+/// GenericServerContext rather than a ServerContext. All other reaction and
+/// operation initiation APIs are the same as ServerBidiReactor.
+class ServerGenericBidiReactor
+    : public ServerBidiReactor<ByteBuffer, ByteBuffer> {
  public:
-  const grpc::string& method() const { return method_; }
-  const grpc::string& host() const { return host_; }
+  /// Similar to ServerBidiReactor::OnStarted except for argument type.
+  ///
+  /// \param[in] context The context object associated with this RPC.
+  virtual void OnStarted(GenericServerContext* context) {}
 
  private:
-  friend class ::grpc_impl::Server;
-  friend class ::grpc::ServerInterface;
-
-  void Clear() {
-    method_.clear();
-    host_.clear();
-    ::grpc_impl::CallbackServerContext::Clear();
+  void OnStarted(ServerContext* ctx) final {
+    OnStarted(static_cast<GenericServerContext*>(ctx));
   }
-
-  grpc::string method_;
-  grpc::string host_;
 };
+
+}  // namespace experimental
+
+namespace internal {
+class UnimplementedGenericBidiReactor
+    : public experimental::ServerGenericBidiReactor {
+ public:
+  void OnDone() override { delete this; }
+  void OnStarted(GenericServerContext*) override {
+    this->Finish(Status(StatusCode::UNIMPLEMENTED, ""));
+  }
+};
+}  // namespace internal
+
+namespace experimental {
 
 /// \a CallbackGenericService is the base class for generic services implemented
 /// using the callback API and registered through the ServerBuilder using
@@ -128,36 +128,23 @@ class CallbackGenericService {
   virtual ~CallbackGenericService() {}
 
   /// The "method handler" for the generic API. This function should be
-  /// overridden to provide a ServerGenericBidiReactor that implements the
-  /// application-level interface for this RPC. Unimplemented by default.
-  virtual ServerGenericBidiReactor* CreateReactor(
-      GenericCallbackServerContext* /*ctx*/) {
-    class Reactor : public ServerGenericBidiReactor {
-     public:
-      Reactor() { this->Finish(Status(StatusCode::UNIMPLEMENTED, "")); }
-      void OnDone() override { delete this; }
-    };
-    return new Reactor;
+  /// overridden to return a ServerGenericBidiReactor that implements the
+  /// application-level interface for this RPC.
+  virtual ServerGenericBidiReactor* CreateReactor() {
+    return new internal::UnimplementedGenericBidiReactor;
   }
 
  private:
   friend class ::grpc_impl::Server;
 
-  ::grpc_impl::internal::CallbackBidiHandler<ByteBuffer, ByteBuffer>*
-  Handler() {
-    return new ::grpc_impl::internal::CallbackBidiHandler<ByteBuffer,
-                                                          ByteBuffer>(
-        [this](::grpc_impl::CallbackServerContext* ctx) {
-          return CreateReactor(static_cast<GenericCallbackServerContext*>(ctx));
-        });
+  internal::CallbackBidiHandler<ByteBuffer, ByteBuffer>* Handler() {
+    return new internal::CallbackBidiHandler<ByteBuffer, ByteBuffer>(
+        [this] { return CreateReactor(); });
   }
 
   grpc_impl::Server* server_{nullptr};
 };
-
-#ifndef GRPC_CALLBACK_API_NONEXPERIMENTAL
 }  // namespace experimental
-#endif
 }  // namespace grpc
 
 #endif  // GRPCPP_IMPL_CODEGEN_ASYNC_GENERIC_SERVICE_H

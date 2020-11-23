@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "GoogleUtilities/Logger/Public/GoogleUtilities/GULLogger.h"
+#import "Private/GULLogger.h"
 
 #include <asl.h>
 
-#import "GoogleUtilities/Environment/Public/GoogleUtilities/GULAppEnvironmentUtil.h"
-#import "GoogleUtilities/Logger/Public/GoogleUtilities/GULLoggerLevel.h"
+#import <GoogleUtilities/GULAppEnvironmentUtil.h>
+#import <GoogleUtilities/GULLoggerLevel.h>
 
 /// ASL client facility name used by GULLogger.
 const char *kGULLoggerASLClientFacilityName = "com.google.utilities.logger";
@@ -33,7 +33,7 @@ static BOOL sGULLoggerDebugMode;
 static GULLoggerLevel sGULLoggerMaximumLevel;
 
 // Allow clients to register a version to include in the log.
-static NSString *sVersion = @"";
+static const char *sVersion = "";
 
 static GULLoggerService kGULLoggerLogger = @"[GULLogger]";
 
@@ -123,7 +123,6 @@ __attribute__((no_sanitize("thread"))) BOOL GULIsLoggableLevel(GULLoggerLevel lo
 #ifdef DEBUG
 void GULResetLogger() {
   sGULLoggerOnceToken = 0;
-  sGULLoggerDebugMode = NO;
 }
 
 aslclient getGULLoggerClient() {
@@ -139,7 +138,7 @@ BOOL getGULLoggerDebugMode() {
 }
 #endif
 
-void GULLoggerRegisterVersion(NSString *version) {
+void GULLoggerRegisterVersion(const char *version) {
   sVersion = version;
 }
 
@@ -168,7 +167,7 @@ void GULLogBasic(GULLoggerLevel level,
   } else {
     logMsg = [[NSString alloc] initWithFormat:message arguments:args_ptr];
   }
-  logMsg = [NSString stringWithFormat:@"%@ - %@[%@] %@", sVersion, service, messageCode, logMsg];
+  logMsg = [NSString stringWithFormat:@"%s - %@[%@] %@", sVersion, service, messageCode, logMsg];
   dispatch_async(sGULClientQueue, ^{
     asl_log(sGULLoggerClient, NULL, (int)level, "%s", logMsg.UTF8String);
   });

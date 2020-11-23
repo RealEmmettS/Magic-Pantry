@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKFeatureExtractor.h"
 
 #import "FBSDKCoreKit+Internal.h"
@@ -70,45 +66,40 @@ void sum(float *val0, float *val1);
                     };
 }
 
-+ (void)loadRulesForKey:(NSString *)useCaseKey
++ (void)loadRules
 {
-  _rules = [FBSDKModelManager getRulesForKey:useCaseKey];
+  _rules = [FBSDKModelManager getRules];
 }
 
 + (NSString *)getTextFeature:(NSString *)text
               withScreenName:(NSString *)screenName
 {
   // use "|" and "," to separate different text based on the rule of how text processed during training
-  NSString *appName = [FBSDKTypeUtility dictionary:[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey ofType:NSObject.class];
+  NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleNameKey];
   return [[NSString stringWithFormat:@"%@ | %@, %@", appName, screenName, text] lowercaseString];
 }
 
-+ (nullable float *)getDenseFeatures:(NSDictionary *)viewHierarchy
++ (float *)getDenseFeatures:(NSDictionary *)viewHierarchy
 {
   if (!_rules) {
     return nil;
   }
-  viewHierarchy = [FBSDKTypeUtility dictionaryValue:viewHierarchy];
-
-  NSMutableArray<NSMutableDictionary<NSString *, id> *> *viewTree = [[FBSDKTypeUtility arrayValue:viewHierarchy[VIEW_HIERARCHY_VIEW_KEY]] mutableCopy];
+  NSMutableArray<NSMutableDictionary<NSString *, id> *> *viewTree = [viewHierarchy[VIEW_HIERARCHY_VIEW_KEY] mutableCopy];
   NSString *screenName = viewHierarchy[VIEW_HIERARCHY_SCREEN_NAME_KEY];
   NSMutableArray<NSMutableDictionary<NSString *, id> *> *siblings = [NSMutableArray array];
 
-  [self pruneTree:[[FBSDKTypeUtility array:viewTree objectAtIndex:0] mutableCopy] siblings:siblings];
+  [self pruneTree:[viewTree[0] mutableCopy] siblings:siblings];
 
-  float *result =  [self parseFeatures:[FBSDKTypeUtility array:viewTree objectAtIndex:0]];
+  float *result =  [self parseFeatures:viewTree[0]];
 
   NSMutableDictionary<NSString *, id> *interactedNode;
   for (NSMutableDictionary<NSString *, id> *node in siblings) {
-    if ([[FBSDKTypeUtility dictionary:node objectForKey:VIEW_HIERARCHY_IS_INTERACTED_KEY ofType:NSObject.class] boolValue]) {
+    if ([[node objectForKey:VIEW_HIERARCHY_IS_INTERACTED_KEY] boolValue]) {
       interactedNode = node;
     }
   }
 
-  NSString *viewTreeString;
-  if ([FBSDKTypeUtility isValidJSONObject:viewTree]) {
-    viewTreeString = [[NSString alloc] initWithData:[FBSDKTypeUtility dataWithJSONObject:viewTree options:0 error:nil] encoding:NSUTF8StringEncoding];
-  }
+  NSString *viewTreeString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:viewTree options:0 error:nil] encoding:NSUTF8StringEncoding];
 
   float *nonparseResult = [self nonparseFeatures:interactedNode siblings:siblings screenname:screenName viewTreeString:viewTreeString];
   sum(result, nonparseResult);
@@ -121,9 +112,7 @@ void sum(float *val0, float *val1);
 + (BOOL)pruneTree:(NSMutableDictionary *)node siblings:(NSMutableArray *)siblings
 {
   // If it's interacted, don't prune away the children and just return.
-  BOOL isInteracted = [[FBSDKTypeUtility dictionary:node
-                                       objectForKey:VIEW_HIERARCHY_IS_INTERACTED_KEY
-                                             ofType:NSNumber.class] boolValue];
+  BOOL isInteracted = [[node objectForKey:VIEW_HIERARCHY_IS_INTERACTED_KEY] boolValue];
   if (isInteracted) {
     return true;
   }
@@ -133,11 +122,9 @@ void sum(float *val0, float *val1);
   BOOL isChildInteracted = NO;
   BOOL isDescendantInteracted = NO;
 
-  NSMutableArray<NSMutableDictionary<NSString *, id> *> *childviews = [FBSDKTypeUtility dictionary:node objectForKey:VIEW_HIERARCHY_CHILD_VIEWS_KEY ofType:NSObject.class];
+  NSMutableArray<NSMutableDictionary<NSString *, id> *> *childviews = [node objectForKey:VIEW_HIERARCHY_CHILD_VIEWS_KEY];
   for (NSMutableDictionary<NSString *, id> *child in childviews) {
-    if ([[FBSDKTypeUtility dictionary:child
-                         objectForKey:VIEW_HIERARCHY_IS_INTERACTED_KEY
-                               ofType:NSNumber.class] boolValue]) {
+    if ([child[VIEW_HIERARCHY_IS_INTERACTED_KEY] boolValue]) {
       isChildInteracted = YES;
       isDescendantInteracted = YES;
     }
@@ -150,10 +137,10 @@ void sum(float *val0, float *val1);
       NSMutableDictionary<NSString *, id> *child = [c mutableCopy];
       if ([self pruneTree:child siblings:siblings]) {
         isDescendantInteracted = YES;
-        [FBSDKTypeUtility array:newChildren addObject:child];
+        [newChildren addObject:child];
       }
     }
-    [FBSDKTypeUtility dictionary:node setObject:newChildren forKey:VIEW_HIERARCHY_CHILD_VIEWS_KEY];
+    node[VIEW_HIERARCHY_CHILD_VIEWS_KEY] = newChildren;
   }
 
   return isDescendantInteracted;
@@ -221,13 +208,9 @@ void sum(float *val0, float *val1);
 {
   float *densefeat =  (float *)calloc(30, sizeof(float));
 
-  NSString *validText = [FBSDKTypeUtility stringValue:node[VIEW_HIERARCHY_TEXT_KEY]];
-  NSString *validHint = [FBSDKTypeUtility stringValue:node[VIEW_HIERARCHY_HINT_KEY]];
-  NSString *validClassName = [FBSDKTypeUtility stringValue:node[VIEW_HIERARCHY_CLASS_NAME_KEY]];
-
-  NSString *text = [validText lowercaseString] ?: @"";
-  NSString *hint = [validHint lowercaseString] ?: @"";
-  NSString *className = [validClassName lowercaseString] ?: @"";
+  NSString *text = [node[VIEW_HIERARCHY_TEXT_KEY] lowercaseString] ?: @"";
+  NSString *hint = [node[VIEW_HIERARCHY_HINT_KEY] lowercaseString] ?: @"";
+  NSString *className = [node[VIEW_HIERARCHY_CLASS_NAME_KEY] lowercaseString] ?: @"";
 
   if ([self foundIndicators:[@"$,amount,price,total" componentsSeparatedByString:@","]
                    inValues:@[text, hint]]) {
@@ -283,7 +266,7 @@ void sum(float *val0, float *val1);
   NSMutableArray<NSMutableDictionary<NSString *, id> *> *childviews = node[VIEW_HIERARCHY_CHILD_VIEWS_KEY];
 
   for (int i = 0; i < childviews.count; i++) {
-    sum(densefeat, [self parseFeatures:[FBSDKTypeUtility array:childviews objectAtIndex:i]]);
+    sum(densefeat, [self parseFeatures:childviews[i]]);
   }
 
   return densefeat;
@@ -297,9 +280,7 @@ void sum(float *val0, float *val1) {
 
 + (BOOL)isButton:(NSDictionary *)node
 {
-  int classtypebitmask = [[FBSDKTypeUtility dictionary:node
-                                          objectForKey:VIEW_HIERARCHY_CLASS_TYPE_BITMASK_KEY
-                                                ofType:NSString.class] intValue];
+  int classtypebitmask = [[node objectForKey:VIEW_HIERARCHY_CLASS_TYPE_BITMASK_KEY] intValue];
   return (classtypebitmask & FBCodelessClassBitmaskUIButton) > 0;
 }
 
@@ -307,12 +288,9 @@ void sum(float *val0, float *val1) {
           text:(NSMutableString *)buttonTextString
           hint:(NSMutableString *)buttonHintString
 {
-  NSString *text = [[FBSDKTypeUtility dictionary:node
-                                         objectForKey:VIEW_HIERARCHY_TEXT_KEY
-                                               ofType:NSString.class] lowercaseString];
-  NSString *hint = [[FBSDKTypeUtility dictionary:node
-                                         objectForKey:VIEW_HIERARCHY_HINT_KEY
-                                               ofType:NSString.class] lowercaseString];
+  NSString *text = [node[VIEW_HIERARCHY_TEXT_KEY] lowercaseString];
+  NSString *hint = [node[VIEW_HIERARCHY_HINT_KEY] lowercaseString];
+
   if (text.length > 0) {
     [buttonTextString appendFormat:@"%@ ", text];
   }
@@ -341,14 +319,9 @@ void sum(float *val0, float *val1) {
 
 + (float)regextMatch:(NSString *)pattern text:(NSString *)text
 {
-  NSString *validText = [FBSDKTypeUtility stringValue:text];
-  if (!validText) {
-    return 0.0;
-  }
-
   NSRegularExpression *re = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
-  NSRange range = NSMakeRange(0, validText.length);
-  NSArray<NSTextCheckingResult *> *matched = [re matchesInString:validText options:0 range:range];
+  NSRange range = NSMakeRange(0, text.length);
+  NSArray<NSTextCheckingResult *> *matched = [re matchesInString:text options:0 range:range];
   return matched.count > 0 ? 1.0 : 0.0;
 }
 
@@ -364,5 +337,3 @@ void sum(float *val0, float *val1) {
 }
 
 @end
-
-#endif

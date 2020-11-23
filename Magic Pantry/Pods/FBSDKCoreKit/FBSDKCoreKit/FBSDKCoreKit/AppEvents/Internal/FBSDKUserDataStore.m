@@ -22,15 +22,10 @@
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
 #import "FBSDKUtility.h"
-#import "FBSDKTypeUtility.h"
 
-static NSString *const FBSDKUserDataKey  = @"com.facebook.appevents.UserDataStore.userData";
-static NSString *const FBSDKInternalUserDataKey  = @"com.facebook.appevents.UserDataStore.internalUserData";
+static NSString *const  FBSDKUserDataKey  = @"com.facebook.appevents.UserDataStore.userData";
 
 static NSMutableDictionary<NSString *, NSString *> *hashedUserData;
-static NSMutableDictionary<NSString *, NSString *> *internalHashedUserData;
-static NSMutableSet<NSString *> *enabledRules;
-
 static dispatch_queue_t serialQueue;
 
 @implementation FBSDKUserDataStore
@@ -38,9 +33,15 @@ static dispatch_queue_t serialQueue;
 + (void)initialize
 {
   serialQueue = dispatch_queue_create("com.facebook.appevents.UserDataStore", DISPATCH_QUEUE_SERIAL);
-  hashedUserData = [FBSDKUserDataStore initializeUserData:FBSDKUserDataKey];
-  internalHashedUserData = [FBSDKUserDataStore initializeUserData:FBSDKInternalUserDataKey];
-  enabledRules = [[NSMutableSet alloc] init];
+  NSString *userData = [[NSUserDefaults standardUserDefaults] stringForKey:FBSDKUserDataKey];
+  if (userData) {
+    hashedUserData = (NSMutableDictionary<NSString *, NSString *> *)[NSJSONSerialization JSONObjectWithData:[userData dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                                    options:NSJSONReadingMutableContainers
+                                                                                                      error:nil];
+  }
+  if (!hashedUserData) {
+    hashedUserData = [[NSMutableDictionary alloc] init];
+  }
 }
 
 + (void)setAndHashUserEmail:(nullable NSString *)email
@@ -56,34 +57,34 @@ static dispatch_queue_t serialQueue;
 {
   NSMutableDictionary *ud = [[NSMutableDictionary alloc] init];
   if (email) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:email type:FBSDKAppEventEmail] forKey:FBSDKAppEventEmail];
+    ud[FBSDKAppEventEmail] = [FBSDKUserDataStore encryptData:email type:FBSDKAppEventEmail];
   }
   if (firstName) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:firstName type:FBSDKAppEventFirstName] forKey:FBSDKAppEventFirstName];
+    ud[FBSDKAppEventFirstName] = [FBSDKUserDataStore encryptData:firstName type:FBSDKAppEventFirstName];
   }
   if (lastName) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:lastName type:FBSDKAppEventLastName] forKey:FBSDKAppEventLastName];
+    ud[FBSDKAppEventLastName] = [FBSDKUserDataStore encryptData:lastName type:FBSDKAppEventLastName];
   }
   if (phone) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:phone type:FBSDKAppEventPhone] forKey:FBSDKAppEventPhone];
+    ud[FBSDKAppEventPhone] = [FBSDKUserDataStore encryptData:phone type:FBSDKAppEventPhone];
   }
   if (dateOfBirth) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:dateOfBirth type:FBSDKAppEventDateOfBirth] forKey:FBSDKAppEventDateOfBirth];
+    ud[FBSDKAppEventDateOfBirth] = [FBSDKUserDataStore encryptData:dateOfBirth type:FBSDKAppEventDateOfBirth];
   }
   if (gender) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:gender type:FBSDKAppEventGender] forKey:FBSDKAppEventGender];
+    ud[FBSDKAppEventGender] = [FBSDKUserDataStore encryptData:gender type:FBSDKAppEventGender];
   }
   if (city) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:city type:FBSDKAppEventCity] forKey:FBSDKAppEventCity];
+    ud[FBSDKAppEventCity] = [FBSDKUserDataStore encryptData:city type:FBSDKAppEventCity];
   }
   if (state) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:state type:FBSDKAppEventState] forKey:FBSDKAppEventState];
+    ud[FBSDKAppEventState] = [FBSDKUserDataStore encryptData:state type:FBSDKAppEventState];
   }
   if (zip) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:zip type:FBSDKAppEventZip] forKey:FBSDKAppEventZip];
+    ud[FBSDKAppEventZip] = [FBSDKUserDataStore encryptData:zip type:FBSDKAppEventZip];
   }
   if (country) {
-    [FBSDKTypeUtility dictionary:ud setObject:[FBSDKUserDataStore encryptData:country type:FBSDKAppEventCountry] forKey:FBSDKAppEventCountry];
+    ud[FBSDKAppEventCountry] = [FBSDKUserDataStore encryptData:country type:FBSDKAppEventCountry];
   }
 
   dispatch_async(serialQueue, ^{
@@ -107,32 +108,11 @@ static dispatch_queue_t serialQueue;
     if (!hashData) {
       [hashedUserData removeObjectForKey:type];
     } else {
-      [FBSDKTypeUtility dictionary:hashedUserData setObject:hashData forKey:type];
+      hashedUserData[type] = hashData;
     }
     [[NSUserDefaults standardUserDefaults] setObject:[FBSDKUserDataStore stringByHashedData:hashedUserData]
                                               forKey:FBSDKUserDataKey];
   });
-}
-
-+ (void)setInternalHashData:(nullable NSString *)hashData
-                    forType:(FBSDKAppEventUserDataType)type
-{
-  dispatch_async(serialQueue, ^{
-    if (!hashData) {
-      [internalHashedUserData removeObjectForKey:type];
-    } else {
-      internalHashedUserData[type] = hashData;
-    }
-    [[NSUserDefaults standardUserDefaults] setObject:[FBSDKUserDataStore stringByHashedData:internalHashedUserData]
-                                              forKey:FBSDKInternalUserDataKey];
-  });
-}
-
-+ (void)setEnabledRules:(NSArray<NSString *> *)rules
-{
-  if (rules.count > 0) {
-    [enabledRules addObjectsFromArray:rules];
-  }
 }
 
 + (void)clearDataForType:(FBSDKAppEventUserDataType)type
@@ -144,48 +124,24 @@ static dispatch_queue_t serialQueue;
 {
   __block NSString *hashedUserDataString;
   dispatch_sync(serialQueue, ^{
-    NSMutableDictionary<NSString *, NSString *> *hashedUD = [[NSMutableDictionary alloc] init];
-    [hashedUD addEntriesFromDictionary:hashedUserData];
-    for (NSString *key in enabledRules) {
-      if (internalHashedUserData[key]) {
-        hashedUD[key] = internalHashedUserData[key];
-      }
-    }
-    hashedUserDataString = [FBSDKUserDataStore stringByHashedData:hashedUD];
+    hashedUserDataString = [FBSDKUserDataStore stringByHashedData:hashedUserData];
   });
   return hashedUserDataString;
 }
 
-+ (NSString *)getInternalHashedDataForType:(FBSDKAppEventUserDataType)type
++ (NSString *)getHashedDataForType:(FBSDKAppEventUserDataType)type
 {
   __block NSString *hashedData;
   dispatch_sync(serialQueue, ^{
-    hashedData = [FBSDKTypeUtility dictionary:internalHashedUserData objectForKey:type ofType:NSObject.class];
+    hashedData = [hashedUserData objectForKey:type];
   });
   return hashedData;
-}
-
-#pragma mark - Helper Methods
-
-+ (NSMutableDictionary<NSString *, NSString *> *)initializeUserData:(NSString *)userDataKey
-{
-  NSString *userData = [[NSUserDefaults standardUserDefaults] stringForKey:userDataKey];
-  NSMutableDictionary<NSString *, NSString *> *hashedUD = nil;
-  if (userData) {
-    hashedUD = (NSMutableDictionary<NSString *, NSString *> *)[FBSDKTypeUtility JSONObjectWithData:[userData dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                           options:NSJSONReadingMutableContainers
-                                                                                             error:nil];
-  }
-  if (!hashedUD) {
-    hashedUD = [[NSMutableDictionary alloc] init];
-  }
-  return hashedUD;
 }
 
 + (NSString *)stringByHashedData:(id)hashedData
 {
   NSError *error;
-  NSData *jsonData = [FBSDKTypeUtility dataWithJSONObject:hashedData
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:hashedData
                                                      options:0
                                                        error:&error];
   if (jsonData) {

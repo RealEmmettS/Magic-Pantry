@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import <Foundation/Foundation.h>
 
 typedef NS_OPTIONS(int, FBSDKCodelessMatchBitmaskField)
@@ -44,9 +40,6 @@ NS_SWIFT_NAME(CodelessPathComponent)
 @property (nonatomic, readonly) int row;
 @property (nonatomic, readonly) int matchBitmask;
 
-- (instancetype)initWithJSON:(NSDictionary *)dict;
-- (BOOL)isEqualToPath:(FBSDKCodelessPathComponent *)path;
+- (instancetype)initWithJSON:(NSDictionary*)dict;
 
 @end
-
-#endif

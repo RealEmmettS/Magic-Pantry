@@ -55,7 +55,7 @@
 #include "absl/meta/type_traits.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace container_algorithm_internal {
 
 // NOTE: it is important to defer to ADL lookup for building with C++ modules,
@@ -112,18 +112,6 @@ struct IsUnorderedContainer<
 template <class Key, class Hash, class KeyEqual, class Allocator>
 struct IsUnorderedContainer<std::unordered_set<Key, Hash, KeyEqual, Allocator>>
     : std::true_type {};
-
-// container_algorithm_internal::c_size. It is meant for internal use only.
-
-template <class C>
-auto c_size(C& c) -> decltype(c.size()) {
-  return c.size();
-}
-
-template <class T, std::size_t N>
-constexpr std::size_t c_size(T (&)[N]) {
-  return N;
-}
 
 }  // namespace container_algorithm_internal
 
@@ -269,8 +257,7 @@ container_algorithm_internal::ContainerIter<Sequence1> c_find_end(
 // c_find_first_of()
 //
 // Container-based version of the <algorithm> `std::find_first_of()` function to
-// find the first element within the container that is also within the options
-// container.
+// find the first elements in an ordered set within a container.
 template <typename C1, typename C2>
 container_algorithm_internal::ContainerIter<C1> c_find_first_of(C1& container,
                                                                 C2& options) {
@@ -379,8 +366,7 @@ c_mismatch(C1& c1, C2& c2, BinaryPredicate&& pred) {
 
 template <typename C1, typename C2>
 bool c_equal(const C1& c1, const C2& c2) {
-  return ((container_algorithm_internal::c_size(c1) ==
-           container_algorithm_internal::c_size(c2)) &&
+  return ((c1.size() == c2.size()) &&
           std::equal(container_algorithm_internal::c_begin(c1),
                      container_algorithm_internal::c_end(c1),
                      container_algorithm_internal::c_begin(c2)));
@@ -390,8 +376,7 @@ bool c_equal(const C1& c1, const C2& c2) {
 // the function's test condition.
 template <typename C1, typename C2, typename BinaryPredicate>
 bool c_equal(const C1& c1, const C2& c2, BinaryPredicate&& pred) {
-  return ((container_algorithm_internal::c_size(c1) ==
-           container_algorithm_internal::c_size(c2)) &&
+  return ((c1.size() == c2.size()) &&
           std::equal(container_algorithm_internal::c_begin(c1),
                      container_algorithm_internal::c_end(c1),
                      container_algorithm_internal::c_begin(c2),
@@ -1721,7 +1706,7 @@ OutputIt c_partial_sum(const InputSequence& input, OutputIt output_first,
                           output_first, std::forward<BinaryOp>(op));
 }
 
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #endif  // ABSL_ALGORITHM_CONTAINER_H_

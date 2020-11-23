@@ -22,9 +22,9 @@
 #include <grpcpp/impl/codegen/byte_buffer.h>
 #include <grpcpp/impl/codegen/core_codegen_interface.h>
 #include <grpcpp/impl/codegen/rpc_service_method.h>
-#include <grpcpp/impl/codegen/sync_stream_impl.h>
+#include <grpcpp/impl/codegen/sync_stream.h>
 
-namespace grpc_impl {
+namespace grpc {
 
 namespace internal {
 
@@ -36,13 +36,12 @@ namespace internal {
 // Additionally, we don't need to return if we caught an exception or not;
 // the handling is the same in either case.
 template <class Callable>
-::grpc::Status CatchingFunctionHandler(Callable&& handler) {
+Status CatchingFunctionHandler(Callable&& handler) {
 #if GRPC_ALLOW_EXCEPTIONS
   try {
     return handler();
   } catch (...) {
-    return ::grpc::Status(::grpc::StatusCode::UNKNOWN,
-                          "Unexpected error in RPC handling");
+    return Status(StatusCode::UNKNOWN, "Unexpected error in RPC handling");
   }
 #else   // GRPC_ALLOW_EXCEPTIONS
   return handler();
@@ -51,32 +50,28 @@ template <class Callable>
 
 /// A wrapper class of an application provided rpc method handler.
 template <class ServiceType, class RequestType, class ResponseType>
-class RpcMethodHandler : public ::grpc::internal::MethodHandler {
+class RpcMethodHandler : public MethodHandler {
  public:
-  RpcMethodHandler(
-      std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                                   const RequestType*, ResponseType*)>
-          func,
-      ServiceType* service)
+  RpcMethodHandler(std::function<Status(ServiceType*, ServerContext*,
+                                        const RequestType*, ResponseType*)>
+                       func,
+                   ServiceType* service)
       : func_(func), service_(service) {}
 
   void RunHandler(const HandlerParameter& param) final {
     ResponseType rsp;
-    ::grpc::Status status = param.status;
+    Status status = param.status;
     if (status.ok()) {
       status = CatchingFunctionHandler([this, &param, &rsp] {
-        return func_(
-            service_,
-            static_cast<::grpc_impl::ServerContext*>(param.server_context),
-            static_cast<RequestType*>(param.request), &rsp);
+        return func_(service_, param.server_context,
+                     static_cast<RequestType*>(param.request), &rsp);
       });
       static_cast<RequestType*>(param.request)->~RequestType();
     }
 
     GPR_CODEGEN_ASSERT(!param.server_context->sent_initial_metadata_);
-    ::grpc::internal::CallOpSet<::grpc::internal::CallOpSendInitialMetadata,
-                                ::grpc::internal::CallOpSendMessage,
-                                ::grpc::internal::CallOpServerSendStatus>
+    CallOpSet<CallOpSendInitialMetadata, CallOpSendMessage,
+              CallOpServerSendStatus>
         ops;
     ops.SendInitialMetadata(&param.server_context->initial_metadata_,
                             param.server_context->initial_metadata_flags());
@@ -91,15 +86,13 @@ class RpcMethodHandler : public ::grpc::internal::MethodHandler {
     param.call->cq()->Pluck(&ops);
   }
 
-  void* Deserialize(grpc_call* call, grpc_byte_buffer* req,
-                    ::grpc::Status* status, void** /*handler_data*/) final {
-    ::grpc::ByteBuffer buf;
+  void* Deserialize(grpc_call* call, grpc_byte_buffer* req, Status* status,
+                    void** handler_data) final {
+    ByteBuffer buf;
     buf.set_buffer(req);
-    auto* request =
-        new (::grpc::g_core_codegen_interface->grpc_call_arena_alloc(
-            call, sizeof(RequestType))) RequestType();
-    *status =
-        ::grpc::SerializationTraits<RequestType>::Deserialize(&buf, request);
+    auto* request = new (g_core_codegen_interface->grpc_call_arena_alloc(
+        call, sizeof(RequestType))) RequestType();
+    *status = SerializationTraits<RequestType>::Deserialize(&buf, request);
     buf.Release();
     if (status->ok()) {
       return request;
@@ -110,8 +103,8 @@ class RpcMethodHandler : public ::grpc::internal::MethodHandler {
 
  private:
   /// Application provided rpc handler function.
-  std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                               const RequestType*, ResponseType*)>
+  std::function<Status(ServiceType*, ServerContext*, const RequestType*,
+                       ResponseType*)>
       func_;
   // The class the above handler function lives in.
   ServiceType* service_;
@@ -119,32 +112,24 @@ class RpcMethodHandler : public ::grpc::internal::MethodHandler {
 
 /// A wrapper class of an application provided client streaming handler.
 template <class ServiceType, class RequestType, class ResponseType>
-class ClientStreamingHandler : public ::grpc::internal::MethodHandler {
+class ClientStreamingHandler : public MethodHandler {
  public:
   ClientStreamingHandler(
-      std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                                   ::grpc_impl::ServerReader<RequestType>*,
-                                   ResponseType*)>
+      std::function<Status(ServiceType*, ServerContext*,
+                           ServerReader<RequestType>*, ResponseType*)>
           func,
       ServiceType* service)
       : func_(func), service_(service) {}
 
   void RunHandler(const HandlerParameter& param) final {
-    ::grpc_impl::ServerReader<RequestType> reader(
-        param.call,
-        static_cast<::grpc_impl::ServerContext*>(param.server_context));
+    ServerReader<RequestType> reader(param.call, param.server_context);
     ResponseType rsp;
-    ::grpc::Status status =
-        CatchingFunctionHandler([this, &param, &reader, &rsp] {
-          return func_(
-              service_,
-              static_cast<::grpc_impl::ServerContext*>(param.server_context),
-              &reader, &rsp);
-        });
+    Status status = CatchingFunctionHandler([this, &param, &reader, &rsp] {
+      return func_(service_, param.server_context, &reader, &rsp);
+    });
 
-    ::grpc::internal::CallOpSet<::grpc::internal::CallOpSendInitialMetadata,
-                                ::grpc::internal::CallOpSendMessage,
-                                ::grpc::internal::CallOpServerSendStatus>
+    CallOpSet<CallOpSendInitialMetadata, CallOpSendMessage,
+              CallOpServerSendStatus>
         ops;
     if (!param.server_context->sent_initial_metadata_) {
       ops.SendInitialMetadata(&param.server_context->initial_metadata_,
@@ -162,43 +147,35 @@ class ClientStreamingHandler : public ::grpc::internal::MethodHandler {
   }
 
  private:
-  std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                               ::grpc_impl::ServerReader<RequestType>*,
-                               ResponseType*)>
+  std::function<Status(ServiceType*, ServerContext*, ServerReader<RequestType>*,
+                       ResponseType*)>
       func_;
   ServiceType* service_;
 };
 
 /// A wrapper class of an application provided server streaming handler.
 template <class ServiceType, class RequestType, class ResponseType>
-class ServerStreamingHandler : public ::grpc::internal::MethodHandler {
+class ServerStreamingHandler : public MethodHandler {
  public:
   ServerStreamingHandler(
-      std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                                   const RequestType*,
-                                   ::grpc_impl::ServerWriter<ResponseType>*)>
+      std::function<Status(ServiceType*, ServerContext*, const RequestType*,
+                           ServerWriter<ResponseType>*)>
           func,
       ServiceType* service)
       : func_(func), service_(service) {}
 
   void RunHandler(const HandlerParameter& param) final {
-    ::grpc::Status status = param.status;
+    Status status = param.status;
     if (status.ok()) {
-      ::grpc_impl::ServerWriter<ResponseType> writer(
-          param.call,
-          static_cast<::grpc_impl::ServerContext*>(param.server_context));
+      ServerWriter<ResponseType> writer(param.call, param.server_context);
       status = CatchingFunctionHandler([this, &param, &writer] {
-        return func_(
-            service_,
-            static_cast<::grpc_impl::ServerContext*>(param.server_context),
-            static_cast<RequestType*>(param.request), &writer);
+        return func_(service_, param.server_context,
+                     static_cast<RequestType*>(param.request), &writer);
       });
       static_cast<RequestType*>(param.request)->~RequestType();
     }
 
-    ::grpc::internal::CallOpSet<::grpc::internal::CallOpSendInitialMetadata,
-                                ::grpc::internal::CallOpServerSendStatus>
-        ops;
+    CallOpSet<CallOpSendInitialMetadata, CallOpServerSendStatus> ops;
     if (!param.server_context->sent_initial_metadata_) {
       ops.SendInitialMetadata(&param.server_context->initial_metadata_,
                               param.server_context->initial_metadata_flags());
@@ -214,15 +191,13 @@ class ServerStreamingHandler : public ::grpc::internal::MethodHandler {
     param.call->cq()->Pluck(&ops);
   }
 
-  void* Deserialize(grpc_call* call, grpc_byte_buffer* req,
-                    ::grpc::Status* status, void** /*handler_data*/) final {
-    ::grpc::ByteBuffer buf;
+  void* Deserialize(grpc_call* call, grpc_byte_buffer* req, Status* status,
+                    void** handler_data) final {
+    ByteBuffer buf;
     buf.set_buffer(req);
-    auto* request =
-        new (::grpc::g_core_codegen_interface->grpc_call_arena_alloc(
-            call, sizeof(RequestType))) RequestType();
-    *status =
-        ::grpc::SerializationTraits<RequestType>::Deserialize(&buf, request);
+    auto* request = new (g_core_codegen_interface->grpc_call_arena_alloc(
+        call, sizeof(RequestType))) RequestType();
+    *status = SerializationTraits<RequestType>::Deserialize(&buf, request);
     buf.Release();
     if (status->ok()) {
       return request;
@@ -232,9 +207,8 @@ class ServerStreamingHandler : public ::grpc::internal::MethodHandler {
   }
 
  private:
-  std::function<::grpc::Status(ServiceType*, ::grpc_impl::ServerContext*,
-                               const RequestType*,
-                               ::grpc_impl::ServerWriter<ResponseType>*)>
+  std::function<Status(ServiceType*, ServerContext*, const RequestType*,
+                       ServerWriter<ResponseType>*)>
       func_;
   ServiceType* service_;
 };
@@ -247,25 +221,19 @@ class ServerStreamingHandler : public ::grpc::internal::MethodHandler {
 /// Instead, it is expected to be an implicitly-captured argument of func
 /// (through bind or something along those lines)
 template <class Streamer, bool WriteNeeded>
-class TemplatedBidiStreamingHandler : public ::grpc::internal::MethodHandler {
+class TemplatedBidiStreamingHandler : public MethodHandler {
  public:
   TemplatedBidiStreamingHandler(
-      std::function<::grpc::Status(::grpc_impl::ServerContext*, Streamer*)>
-          func)
+      std::function<Status(ServerContext*, Streamer*)> func)
       : func_(func), write_needed_(WriteNeeded) {}
 
   void RunHandler(const HandlerParameter& param) final {
-    Streamer stream(param.call, static_cast<::grpc_impl::ServerContext*>(
-                                    param.server_context));
-    ::grpc::Status status = CatchingFunctionHandler([this, &param, &stream] {
-      return func_(
-          static_cast<::grpc_impl::ServerContext*>(param.server_context),
-          &stream);
+    Streamer stream(param.call, param.server_context);
+    Status status = CatchingFunctionHandler([this, &param, &stream] {
+      return func_(param.server_context, &stream);
     });
 
-    ::grpc::internal::CallOpSet<::grpc::internal::CallOpSendInitialMetadata,
-                                ::grpc::internal::CallOpServerSendStatus>
-        ops;
+    CallOpSet<CallOpSendInitialMetadata, CallOpServerSendStatus> ops;
     if (!param.server_context->sent_initial_metadata_) {
       ops.SendInitialMetadata(&param.server_context->initial_metadata_,
                               param.server_context->initial_metadata_flags());
@@ -275,8 +243,8 @@ class TemplatedBidiStreamingHandler : public ::grpc::internal::MethodHandler {
       if (write_needed_ && status.ok()) {
         // If we needed a write but never did one, we need to mark the
         // status as a fail
-        status = ::grpc::Status(::grpc::StatusCode::INTERNAL,
-                                "Service did not provide response message");
+        status = Status(StatusCode::INTERNAL,
+                        "Service did not provide response message");
       }
     }
     ops.ServerSendStatus(&param.server_context->trailing_metadata_, status);
@@ -288,65 +256,59 @@ class TemplatedBidiStreamingHandler : public ::grpc::internal::MethodHandler {
   }
 
  private:
-  std::function<::grpc::Status(::grpc_impl::ServerContext*, Streamer*)> func_;
+  std::function<Status(ServerContext*, Streamer*)> func_;
   const bool write_needed_;
 };
 
 template <class ServiceType, class RequestType, class ResponseType>
 class BidiStreamingHandler
     : public TemplatedBidiStreamingHandler<
-          ::grpc_impl::ServerReaderWriter<ResponseType, RequestType>, false> {
+          ServerReaderWriter<ResponseType, RequestType>, false> {
  public:
   BidiStreamingHandler(
-      std::function<::grpc::Status(
-          ServiceType*, ::grpc_impl::ServerContext*,
-          ::grpc_impl::ServerReaderWriter<ResponseType, RequestType>*)>
+      std::function<Status(ServiceType*, ServerContext*,
+                           ServerReaderWriter<ResponseType, RequestType>*)>
           func,
       ServiceType* service)
       : TemplatedBidiStreamingHandler<
-            ::grpc_impl::ServerReaderWriter<ResponseType, RequestType>, false>(
-            std::bind(func, service, std::placeholders::_1,
-                      std::placeholders::_2)) {}
+            ServerReaderWriter<ResponseType, RequestType>, false>(std::bind(
+            func, service, std::placeholders::_1, std::placeholders::_2)) {}
 };
 
 template <class RequestType, class ResponseType>
 class StreamedUnaryHandler
     : public TemplatedBidiStreamingHandler<
-          ::grpc_impl::ServerUnaryStreamer<RequestType, ResponseType>, true> {
+          ServerUnaryStreamer<RequestType, ResponseType>, true> {
  public:
   explicit StreamedUnaryHandler(
-      std::function<::grpc::Status(
-          ::grpc_impl::ServerContext*,
-          ::grpc_impl::ServerUnaryStreamer<RequestType, ResponseType>*)>
+      std::function<Status(ServerContext*,
+                           ServerUnaryStreamer<RequestType, ResponseType>*)>
           func)
       : TemplatedBidiStreamingHandler<
-            ::grpc_impl::ServerUnaryStreamer<RequestType, ResponseType>, true>(
-            func) {}
+            ServerUnaryStreamer<RequestType, ResponseType>, true>(func) {}
 };
 
 template <class RequestType, class ResponseType>
 class SplitServerStreamingHandler
     : public TemplatedBidiStreamingHandler<
-          ::grpc_impl::ServerSplitStreamer<RequestType, ResponseType>, false> {
+          ServerSplitStreamer<RequestType, ResponseType>, false> {
  public:
   explicit SplitServerStreamingHandler(
-      std::function<::grpc::Status(
-          ::grpc_impl::ServerContext*,
-          ::grpc_impl::ServerSplitStreamer<RequestType, ResponseType>*)>
+      std::function<Status(ServerContext*,
+                           ServerSplitStreamer<RequestType, ResponseType>*)>
           func)
       : TemplatedBidiStreamingHandler<
-            ::grpc_impl::ServerSplitStreamer<RequestType, ResponseType>, false>(
-            func) {}
+            ServerSplitStreamer<RequestType, ResponseType>, false>(func) {}
 };
 
 /// General method handler class for errors that prevent real method use
 /// e.g., handle unknown method by returning UNIMPLEMENTED error.
-template <::grpc::StatusCode code>
-class ErrorMethodHandler : public ::grpc::internal::MethodHandler {
+template <StatusCode code>
+class ErrorMethodHandler : public MethodHandler {
  public:
   template <class T>
-  static void FillOps(::grpc_impl::ServerContextBase* context, T* ops) {
-    ::grpc::Status status(code, "");
+  static void FillOps(ServerContext* context, T* ops) {
+    Status status(code, "");
     if (!context->sent_initial_metadata_) {
       ops->SendInitialMetadata(&context->initial_metadata_,
                                context->initial_metadata_flags());
@@ -359,30 +321,27 @@ class ErrorMethodHandler : public ::grpc::internal::MethodHandler {
   }
 
   void RunHandler(const HandlerParameter& param) final {
-    ::grpc::internal::CallOpSet<::grpc::internal::CallOpSendInitialMetadata,
-                                ::grpc::internal::CallOpServerSendStatus>
-        ops;
+    CallOpSet<CallOpSendInitialMetadata, CallOpServerSendStatus> ops;
     FillOps(param.server_context, &ops);
     param.call->PerformOps(&ops);
     param.call->cq()->Pluck(&ops);
   }
 
-  void* Deserialize(grpc_call* /*call*/, grpc_byte_buffer* req,
-                    ::grpc::Status* /*status*/, void** /*handler_data*/) final {
+  void* Deserialize(grpc_call* call, grpc_byte_buffer* req, Status* status,
+                    void** handler_data) final {
     // We have to destroy any request payload
     if (req != nullptr) {
-      ::grpc::g_core_codegen_interface->grpc_byte_buffer_destroy(req);
+      g_core_codegen_interface->grpc_byte_buffer_destroy(req);
     }
     return nullptr;
   }
 };
 
-typedef ErrorMethodHandler<::grpc::StatusCode::UNIMPLEMENTED>
-    UnknownMethodHandler;
-typedef ErrorMethodHandler<::grpc::StatusCode::RESOURCE_EXHAUSTED>
+typedef ErrorMethodHandler<StatusCode::UNIMPLEMENTED> UnknownMethodHandler;
+typedef ErrorMethodHandler<StatusCode::RESOURCE_EXHAUSTED>
     ResourceExhaustedHandler;
 
 }  // namespace internal
-}  // namespace grpc_impl
+}  // namespace grpc
 
 #endif  // GRPCPP_IMPL_CODEGEN_METHOD_HANDLER_IMPL_H

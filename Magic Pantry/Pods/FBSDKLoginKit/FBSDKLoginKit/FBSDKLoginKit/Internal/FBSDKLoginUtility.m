@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKLoginUtility.h"
 
 #if SWIFT_PACKAGE
@@ -67,7 +63,7 @@
 
   NSString *userID = [[self class] userIDFromSignedRequest:params[@"signed_request"]];
   if (userID) {
-    [FBSDKTypeUtility dictionary:params setObject:userID forKey:@"user_id"];
+    params[@"user_id"] = userID;
   }
 
   return params;
@@ -83,9 +79,9 @@
   NSString *userID = nil;
 
   if (signatureAndPayload.count == 2) {
-    NSData *data = [FBSDKBase64 decodeAsData:[FBSDKTypeUtility array:signatureAndPayload objectAtIndex:1]];
+    NSData *data = [FBSDKBase64 decodeAsData:signatureAndPayload[1]];
     if (data) {
-      NSDictionary *dictionary = [FBSDKTypeUtility JSONObjectWithData:data options:0 error:nil];
+      NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
       userID = dictionary[@"user_id"];
     }
   }
@@ -93,5 +89,3 @@
 }
 
 @end
-
-#endif

@@ -7,7 +7,7 @@
 #include "absl/base/internal/raw_logging.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace time_internal {
 
 static int64_t GetCurrentTimeNanosFromSystem() {
@@ -20,5 +20,5 @@ static int64_t GetCurrentTimeNanosFromSystem() {
 }
 
 }  // namespace time_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

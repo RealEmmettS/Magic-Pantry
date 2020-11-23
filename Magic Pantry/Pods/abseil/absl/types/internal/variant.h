@@ -37,10 +37,10 @@
 #include "absl/types/bad_variant_access.h"
 #include "absl/utility/utility.h"
 
-#if !defined(ABSL_USES_STD_VARIANT)
+#if !defined(ABSL_HAVE_STD_VARIANT)
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 template <class... Types>
 class variant;
@@ -1639,8 +1639,8 @@ struct VariantHashBase<Variant,
 };
 
 }  // namespace variant_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
-#endif  // !defined(ABSL_USES_STD_VARIANT)
+#endif  // !defined(ABSL_HAVE_STD_VARIANT)
 #endif  // ABSL_TYPES_variant_internal_H_

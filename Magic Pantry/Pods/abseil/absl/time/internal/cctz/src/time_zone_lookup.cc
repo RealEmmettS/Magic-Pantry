@@ -12,7 +12,6 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-#include "absl/base/config.h"
 #include "absl/time/internal/cctz/include/cctz/time_zone.h"
 
 #if defined(__ANDROID__)
@@ -24,7 +23,6 @@
 
 #if defined(__APPLE__)
 #include <CoreFoundation/CFTimeZone.h>
-
 #include <vector>
 #endif
 
@@ -36,7 +34,7 @@
 #include "time_zone_impl.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace time_internal {
 namespace cctz {
 
@@ -69,7 +67,9 @@ int __system_property_get(const char* name, char* value) {
 }  // namespace
 #endif
 
-std::string time_zone::name() const { return effective_impl().Name(); }
+std::string time_zone::name() const {
+  return effective_impl().Name();
+}
 
 time_zone::absolute_lookup time_zone::lookup(
     const time_point<seconds>& tp) const {
@@ -90,7 +90,9 @@ bool time_zone::prev_transition(const time_point<seconds>& tp,
   return effective_impl().PrevTransition(tp, trans);
 }
 
-std::string time_zone::version() const { return effective_impl().Version(); }
+std::string time_zone::version() const {
+  return effective_impl().Version();
+}
 
 std::string time_zone::description() const {
   return effective_impl().Description();
@@ -183,5 +185,5 @@ time_zone local_time_zone() {
 
 }  // namespace cctz
 }  // namespace time_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

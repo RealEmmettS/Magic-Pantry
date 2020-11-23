@@ -19,6 +19,7 @@
 #include "src/cpp/thread_manager/thread_manager.h"
 
 #include <climits>
+#include <mutex>
 
 #include <grpc/support/log.h>
 #include "src/core/lib/gprpp/thd.h"
@@ -33,10 +34,8 @@ ThreadManager::WorkerThread::WorkerThread(ThreadManager* thd_mgr)
   thd_ = grpc_core::Thread(
       "grpcpp_sync_server",
       [](void* th) { static_cast<ThreadManager::WorkerThread*>(th)->Run(); },
-      this, &created_);
-  if (!created_) {
-    gpr_log(GPR_ERROR, "Could not create grpc_sync_server worker-thread");
-  }
+      this);
+  thd_.Start();
 }
 
 void ThreadManager::WorkerThread::Run() {
@@ -140,9 +139,7 @@ void ThreadManager::Initialize() {
   }
 
   for (int i = 0; i < min_pollers_; i++) {
-    WorkerThread* worker = new WorkerThread(this);
-    GPR_ASSERT(worker->created());  // Must be able to create the minimum
-    worker->Start();
+    new WorkerThread(this);
   }
 }
 
@@ -180,15 +177,7 @@ void ThreadManager::MainWorkLoop() {
             }
             // Drop lock before spawning thread to avoid contention
             lock.Unlock();
-            WorkerThread* worker = new WorkerThread(this);
-            if (worker->created()) {
-              worker->Start();
-            } else {
-              num_pollers_--;
-              num_threads_--;
-              resource_exhausted = true;
-              delete worker;
-            }
+            new WorkerThread(this);
           } else if (num_pollers_ > 0) {
             // There is still at least some thread polling, so we can go on
             // even though we are below the number of pollers that we would

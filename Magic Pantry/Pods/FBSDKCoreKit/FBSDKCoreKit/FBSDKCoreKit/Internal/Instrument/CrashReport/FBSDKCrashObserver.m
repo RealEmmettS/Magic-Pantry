@@ -25,8 +25,6 @@
 #import "FBSDKGraphRequestConnection.h"
 #import "FBSDKLibAnalyzer.h"
 #import "FBSDKSettings.h"
-#import "FBSDKSettings+Internal.h"
-#import "FBSDKTypeUtility.h"
 
 @implementation FBSDKCrashObserver
 
@@ -39,7 +37,7 @@
     frameworks = @[@"FBSDKCoreKit",
                    @"FBSDKLoginKit",
                    @"FBSDKShareKit",
-                   @"FBSDKGamingServicesKit",
+                   @"FBSDKPlacesKit",
                    @"FBSDKTVOSKit"];
   }
   return self;
@@ -62,14 +60,11 @@
 
 - (void)didReceiveCrashLogs:(NSArray<NSDictionary<NSString *, id> *> *)processedCrashLogs
 {
-  if ([FBSDKSettings isDataProcessingRestricted]) {
-    return;
-  }
   if (0 == processedCrashLogs.count) {
     [FBSDKCrashHandler clearCrashReportFiles];
     return;
   }
-  NSData *jsonData = [FBSDKTypeUtility dataWithJSONObject:processedCrashLogs options:0 error:nil];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:processedCrashLogs options:0 error:nil];
   if (jsonData) {
     NSString *crashReports = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:@"%@/instruments", [FBSDKSettings appID]]

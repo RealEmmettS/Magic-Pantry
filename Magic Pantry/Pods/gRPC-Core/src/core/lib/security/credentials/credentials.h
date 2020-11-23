@@ -26,9 +26,7 @@
 #include <grpc/support/sync.h>
 #include "src/core/lib/transport/metadata_batch.h"
 
-#include "src/core/lib/gprpp/map.h"
 #include "src/core/lib/gprpp/ref_counted.h"
-#include "src/core/lib/gprpp/sync.h"
 #include "src/core/lib/http/httpcli.h"
 #include "src/core/lib/http/parser.h"
 #include "src/core/lib/iomgr/polling_entity.h"
@@ -66,8 +64,8 @@ typedef enum {
 #define GRPC_COMPUTE_ENGINE_METADATA_TOKEN_PATH \
   "/computeMetadata/v1/instance/service-accounts/default/token"
 
-#define GRPC_GOOGLE_OAUTH2_SERVICE_HOST "oauth2.googleapis.com"
-#define GRPC_GOOGLE_OAUTH2_SERVICE_TOKEN_PATH "/token"
+#define GRPC_GOOGLE_OAUTH2_SERVICE_HOST "www.googleapis.com"
+#define GRPC_GOOGLE_OAUTH2_SERVICE_TOKEN_PATH "/oauth2/v3/token"
 
 #define GRPC_SERVICE_ACCOUNT_POST_BODY_PREFIX                         \
   "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&" \
@@ -110,7 +108,11 @@ struct grpc_channel_credentials
   create_security_connector(
       grpc_core::RefCountedPtr<grpc_call_credentials> call_creds,
       const char* target, const grpc_channel_args* args,
-      grpc_channel_args** new_args) = 0;
+      grpc_channel_args** new_args) {
+    // Tell clang-tidy that call_creds cannot be passed as const-ref.
+    call_creds.reset();
+    GRPC_ABSTRACT;
+  }
 
   // Creates a version of the channel credentials without any attached call
   // credentials. This can be used in order to open a channel to a non-trusted
@@ -129,29 +131,12 @@ struct grpc_channel_credentials
     return args;
   }
 
-  // Attaches control_plane_creds to the local registry, under authority,
-  // if no other creds are currently registered under authority. Returns
-  // true if registered successfully and false if not.
-  bool attach_credentials(
-      const char* authority,
-      grpc_core::RefCountedPtr<grpc_channel_credentials> control_plane_creds);
-
-  // Gets the control plane credentials registered under authority. This
-  // prefers the local control plane creds registry but falls back to the
-  // global registry. Lastly, this returns self but with any attached
-  // call credentials stripped off, in the case that neither the local
-  // registry nor the global registry have an entry for authority.
-  grpc_core::RefCountedPtr<grpc_channel_credentials>
-  get_control_plane_credentials(const char* authority);
-
   const char* type() const { return type_; }
+
+  GRPC_ABSTRACT_BASE_CLASS
 
  private:
   const char* type_;
-  std::map<grpc_core::UniquePtr<char>,
-           grpc_core::RefCountedPtr<grpc_channel_credentials>,
-           grpc_core::StringLess>
-      local_control_plane_creds_;
 };
 
 /* Util to encapsulate the channel credentials in a channel arg. */
@@ -164,41 +149,6 @@ grpc_channel_credentials* grpc_channel_credentials_from_arg(
 /* Util to find the channel credentials from channel args. */
 grpc_channel_credentials* grpc_channel_credentials_find_in_args(
     const grpc_channel_args* args);
-
-/** EXPERIMENTAL.  API MAY CHANGE IN THE FUTURE.
-    Attaches \a control_plane_creds to \a credentials
-    under the key \a authority. Returns false if \a authority
-    is already present, in which case no changes are made.
-    Note that this API is not thread safe. Only one thread may
-    attach control plane creds to a given credentials object at
-    any one time, and new control plane creds must not be
-    attached after \a credentials has been used to create a channel. */
-bool grpc_channel_credentials_attach_credentials(
-    grpc_channel_credentials* credentials, const char* authority,
-    grpc_channel_credentials* control_plane_creds);
-
-/** EXPERIMENTAL.  API MAY CHANGE IN THE FUTURE.
-    Registers \a control_plane_creds in the global registry
-    under the key \a authority. Returns false if \a authority
-    is already present, in which case no changes are made. */
-bool grpc_control_plane_credentials_register(
-    const char* authority, grpc_channel_credentials* control_plane_creds);
-
-/* Initializes global control plane credentials data. */
-void grpc_control_plane_credentials_init();
-
-/* Test only: destroy global control plane credentials data.
- * This API is meant for use by a few tests that need to
- * satisdy grpc_core::LeakDetector. */
-void grpc_test_only_control_plane_credentials_destroy();
-
-/* Test only: force re-initialization of global control
- * plane credentials data if it was previously destroyed.
- * This API is meant to be used in
- * tandem with the
- * grpc_test_only_control_plane_credentials_destroy, for
- * the few tests that need it. */
-void grpc_test_only_control_plane_credentials_force_init();
 
 /* --- grpc_credentials_mdelem_array. --- */
 
@@ -225,11 +175,7 @@ void grpc_credentials_mdelem_array_destroy(grpc_credentials_mdelem_array* list);
 struct grpc_call_credentials
     : public grpc_core::RefCounted<grpc_call_credentials> {
  public:
-  explicit grpc_call_credentials(
-      const char* type,
-      grpc_security_level min_security_level = GRPC_PRIVACY_AND_INTEGRITY)
-      : type_(type), min_security_level_(min_security_level) {}
-
+  explicit grpc_call_credentials(const char* type) : type_(type) {}
   virtual ~grpc_call_credentials() = default;
 
   // Returns true if completed synchronously, in which case \a error will
@@ -240,23 +186,20 @@ struct grpc_call_credentials
                                     grpc_auth_metadata_context context,
                                     grpc_credentials_mdelem_array* md_array,
                                     grpc_closure* on_request_metadata,
-                                    grpc_error** error) = 0;
+                                    grpc_error** error) GRPC_ABSTRACT;
 
   // Cancels a pending asynchronous operation started by
   // grpc_call_credentials_get_request_metadata() with the corresponding
   // value of \a md_array.
   virtual void cancel_get_request_metadata(
-      grpc_credentials_mdelem_array* md_array, grpc_error* error) = 0;
-
-  virtual grpc_security_level min_security_level() const {
-    return min_security_level_;
-  }
+      grpc_credentials_mdelem_array* md_array, grpc_error* error) GRPC_ABSTRACT;
 
   const char* type() const { return type_; }
 
+  GRPC_ABSTRACT_BASE_CLASS
+
  private:
   const char* type_;
-  const grpc_security_level min_security_level_;
 };
 
 /* Metadata-only credentials with the specified key and value where
@@ -277,7 +220,7 @@ struct grpc_server_credentials
   virtual ~grpc_server_credentials() { DestroyProcessor(); }
 
   virtual grpc_core::RefCountedPtr<grpc_server_security_connector>
-  create_security_connector() = 0;
+  create_security_connector() GRPC_ABSTRACT;
 
   const char* type() const { return type_; }
 
@@ -286,6 +229,8 @@ struct grpc_server_credentials
   }
   void set_auth_metadata_processor(
       const grpc_auth_metadata_processor& processor);
+
+  GRPC_ABSTRACT_BASE_CLASS
 
  private:
   void DestroyProcessor() {
@@ -323,12 +268,12 @@ struct grpc_credentials_metadata_request {
 inline grpc_credentials_metadata_request*
 grpc_credentials_metadata_request_create(
     grpc_core::RefCountedPtr<grpc_call_credentials> creds) {
-  return new grpc_credentials_metadata_request(std::move(creds));
+  return grpc_core::New<grpc_credentials_metadata_request>(std::move(creds));
 }
 
 inline void grpc_credentials_metadata_request_destroy(
     grpc_credentials_metadata_request* r) {
-  delete r;
+  grpc_core::Delete(r);
 }
 
 #endif /* GRPC_CORE_LIB_SECURITY_CREDENTIALS_CREDENTIALS_H */

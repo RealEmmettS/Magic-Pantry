@@ -25,15 +25,26 @@
 #include <grpcpp/impl/codegen/time.h>
 
 namespace grpc_impl {
-class ClientContext;
 class CompletionQueue;
+}
+
+namespace grpc {
+class ChannelInterface;
+class ClientContext;
+
 template <class R>
 class ClientReader;
 template <class W>
 class ClientWriter;
 template <class W, class R>
 class ClientReaderWriter;
+
 namespace internal {
+class Call;
+class CallOpSetInterface;
+class RpcMethod;
+template <class InputMessage, class OutputMessage>
+class BlockingUnaryCallImpl;
 template <class InputMessage, class OutputMessage>
 class CallbackUnaryCallImpl;
 template <class R>
@@ -51,23 +62,7 @@ class ClientCallbackReaderFactory;
 template <class W>
 class ClientCallbackWriterFactory;
 class ClientCallbackUnaryFactory;
-}  // namespace internal
-}  // namespace grpc_impl
-
-namespace grpc {
-class ChannelInterface;
-
-namespace experimental {
-class DelegatingChannel;
-}
-
-namespace internal {
-class Call;
-class CallOpSetInterface;
-class RpcMethod;
 class InterceptedChannel;
-template <class InputMessage, class OutputMessage>
-class BlockingUnaryCallImpl;
 }  // namespace internal
 
 /// Codegen interface for \a grpc::Channel.
@@ -107,35 +102,34 @@ class ChannelInterface {
 
  private:
   template <class R>
-  friend class ::grpc_impl::ClientReader;
+  friend class ::grpc::ClientReader;
   template <class W>
-  friend class ::grpc_impl::ClientWriter;
+  friend class ::grpc::ClientWriter;
   template <class W, class R>
-  friend class ::grpc_impl::ClientReaderWriter;
+  friend class ::grpc::ClientReaderWriter;
   template <class R>
-  friend class ::grpc_impl::internal::ClientAsyncReaderFactory;
+  friend class ::grpc::internal::ClientAsyncReaderFactory;
   template <class W>
-  friend class ::grpc_impl::internal::ClientAsyncWriterFactory;
+  friend class ::grpc::internal::ClientAsyncWriterFactory;
   template <class W, class R>
-  friend class ::grpc_impl::internal::ClientAsyncReaderWriterFactory;
+  friend class ::grpc::internal::ClientAsyncReaderWriterFactory;
   template <class R>
-  friend class ::grpc_impl::internal::ClientAsyncResponseReaderFactory;
+  friend class ::grpc::internal::ClientAsyncResponseReaderFactory;
   template <class W, class R>
-  friend class ::grpc_impl::internal::ClientCallbackReaderWriterFactory;
+  friend class ::grpc::internal::ClientCallbackReaderWriterFactory;
   template <class R>
-  friend class ::grpc_impl::internal::ClientCallbackReaderFactory;
+  friend class ::grpc::internal::ClientCallbackReaderFactory;
   template <class W>
-  friend class ::grpc_impl::internal::ClientCallbackWriterFactory;
-  friend class ::grpc_impl::internal::ClientCallbackUnaryFactory;
+  friend class ::grpc::internal::ClientCallbackWriterFactory;
+  friend class ::grpc::internal::ClientCallbackUnaryFactory;
   template <class InputMessage, class OutputMessage>
   friend class ::grpc::internal::BlockingUnaryCallImpl;
   template <class InputMessage, class OutputMessage>
-  friend class ::grpc_impl::internal::CallbackUnaryCallImpl;
+  friend class ::grpc::internal::CallbackUnaryCallImpl;
   friend class ::grpc::internal::RpcMethod;
-  friend class ::grpc::experimental::DelegatingChannel;
   friend class ::grpc::internal::InterceptedChannel;
   virtual internal::Call CreateCall(const internal::RpcMethod& method,
-                                    ::grpc_impl::ClientContext* context,
+                                    ClientContext* context,
                                     ::grpc_impl::CompletionQueue* cq) = 0;
   virtual void PerformOpsOnCall(internal::CallOpSetInterface* ops,
                                 internal::Call* call) = 0;
@@ -154,10 +148,10 @@ class ChannelInterface {
   // Returns an empty Call object (rather than being pure) since this is a new
   // method and adding a new pure method to an interface would be a breaking
   // change (even though this is private and non-API)
-  virtual internal::Call CreateCallInternal(
-      const internal::RpcMethod& /*method*/,
-      ::grpc_impl::ClientContext* /*context*/,
-      ::grpc_impl::CompletionQueue* /*cq*/, size_t /*interceptor_pos*/) {
+  virtual internal::Call CreateCallInternal(const internal::RpcMethod& method,
+                                            ClientContext* context,
+                                            ::grpc_impl::CompletionQueue* cq,
+                                            size_t interceptor_pos) {
     return internal::Call();
   }
 

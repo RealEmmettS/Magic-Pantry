@@ -25,20 +25,20 @@
 
 #include "absl/base/config.h"
 
-#ifdef ABSL_USES_STD_ANY
+#ifdef ABSL_HAVE_STD_ANY
 
 #include <any>
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 using std::bad_any_cast;
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
-#else  // ABSL_USES_STD_ANY
+#else  // ABSL_HAVE_STD_ANY
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 // -----------------------------------------------------------------------------
 // bad_any_cast
@@ -67,9 +67,9 @@ namespace any_internal {
 [[noreturn]] void ThrowBadAnyCast();
 
 }  // namespace any_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
-#endif  // ABSL_USES_STD_ANY
+#endif  // ABSL_HAVE_STD_ANY
 
 #endif  // ABSL_TYPES_BAD_ANY_CAST_H_

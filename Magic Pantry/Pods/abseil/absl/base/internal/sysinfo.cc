@@ -17,6 +17,7 @@
 #include "absl/base/attributes.h"
 
 #ifdef _WIN32
+#include <shlwapi.h>
 #include <windows.h>
 #else
 #include <fcntl.h>
@@ -55,8 +56,12 @@
 #include "absl/base/internal/unscaledcycleclock.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
+
+static once_flag init_system_info_once;
+static int num_cpus = 0;
+static double nominal_cpu_frequency = 1.0;  // 0.0 might be dangerous.
 
 static int GetNumCPUs() {
 #if defined(__myriad2__)
@@ -72,23 +77,14 @@ static int GetNumCPUs() {
 #if defined(_WIN32)
 
 static double GetNominalCPUFrequency() {
-#pragma comment(lib, "advapi32.lib")  // For Reg* functions.
-  HKEY key;
-  // Use the Reg* functions rather than the SH functions because shlwapi.dll
-  // pulls in gdi32.dll which makes process destruction much more costly.
-  if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,
-                    "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0,
-                    KEY_READ, &key) == ERROR_SUCCESS) {
-    DWORD type = 0;
-    DWORD data = 0;
-    DWORD data_size = sizeof(data);
-    auto result = RegQueryValueExA(key, "~MHz", 0, &type,
-                                   reinterpret_cast<LPBYTE>(&data), &data_size);
-    RegCloseKey(key);
-    if (result == ERROR_SUCCESS && type == REG_DWORD &&
-        data_size == sizeof(data)) {
-      return data * 1e6;  // Value is MHz.
-    }
+  DWORD data;
+  DWORD data_size = sizeof(data);
+  #pragma comment(lib, "shlwapi.lib")  // For SHGetValue().
+  if (SUCCEEDED(
+          SHGetValueA(HKEY_LOCAL_MACHINE,
+                      "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+                      "~MHz", nullptr, &data, &data_size))) {
+    return data * 1e6;  // Value is MHz.
   }
   return 1.0;
 }
@@ -261,34 +257,28 @@ static double GetNominalCPUFrequency() {
 
 #endif
 
-ABSL_CONST_INIT static once_flag init_num_cpus_once;
-ABSL_CONST_INIT static int num_cpus = 0;
+// InitializeSystemInfo() may be called before main() and before
+// malloc is properly initialized, therefore this must not allocate
+// memory.
+static void InitializeSystemInfo() {
+  num_cpus = GetNumCPUs();
+  nominal_cpu_frequency = GetNominalCPUFrequency();
+}
 
-// NumCPUs() may be called before main() and before malloc is properly
-// initialized, therefore this must not allocate memory.
 int NumCPUs() {
-  base_internal::LowLevelCallOnce(
-      &init_num_cpus_once, []() { num_cpus = GetNumCPUs(); });
+  base_internal::LowLevelCallOnce(&init_system_info_once, InitializeSystemInfo);
   return num_cpus;
 }
 
-// A default frequency of 0.0 might be dangerous if it is used in division.
-ABSL_CONST_INIT static once_flag init_nominal_cpu_frequency_once;
-ABSL_CONST_INIT static double nominal_cpu_frequency = 1.0;
-
-// NominalCPUFrequency() may be called before main() and before malloc is
-// properly initialized, therefore this must not allocate memory.
 double NominalCPUFrequency() {
-  base_internal::LowLevelCallOnce(
-      &init_nominal_cpu_frequency_once,
-      []() { nominal_cpu_frequency = GetNominalCPUFrequency(); });
+  base_internal::LowLevelCallOnce(&init_system_info_once, InitializeSystemInfo);
   return nominal_cpu_frequency;
 }
 
 #if defined(_WIN32)
 
 pid_t GetTID() {
-  return pid_t{GetCurrentThreadId()};
+  return GetCurrentThreadId();
 }
 
 #elif defined(__linux__)
@@ -412,5 +402,5 @@ pid_t GetTID() {
 #endif
 
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

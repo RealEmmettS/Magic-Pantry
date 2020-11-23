@@ -21,34 +21,54 @@
 
 #include <grpc/support/port_platform.h>
 
+#include <stdbool.h>
+
 #include <grpc/impl/codegen/grpc_types.h>
 
 #include "src/core/lib/iomgr/resolve_address.h"
 
-namespace grpc_core {
+typedef struct grpc_proxy_mapper grpc_proxy_mapper;
 
-class ProxyMapperInterface {
- public:
-  virtual ~ProxyMapperInterface() = default;
-
+typedef struct {
   /// Determines the proxy name to resolve for \a server_uri.
   /// If no proxy is needed, returns false.
   /// Otherwise, sets \a name_to_resolve, optionally sets \a new_args,
   /// and returns true.
-  virtual bool MapName(const char* server_uri, const grpc_channel_args* args,
-                       char** name_to_resolve,
-                       grpc_channel_args** new_args) = 0;
-
+  bool (*map_name)(grpc_proxy_mapper* mapper, const char* server_uri,
+                   const grpc_channel_args* args, char** name_to_resolve,
+                   grpc_channel_args** new_args);
   /// Determines the proxy address to use to contact \a address.
   /// If no proxy is needed, returns false.
   /// Otherwise, sets \a new_address, optionally sets \a new_args, and
   /// returns true.
-  virtual bool MapAddress(const grpc_resolved_address& address,
-                          const grpc_channel_args* args,
-                          grpc_resolved_address** new_address,
-                          grpc_channel_args** new_args) = 0;
+  bool (*map_address)(grpc_proxy_mapper* mapper,
+                      const grpc_resolved_address* address,
+                      const grpc_channel_args* args,
+                      grpc_resolved_address** new_address,
+                      grpc_channel_args** new_args);
+  /// Destroys \a mapper.
+  void (*destroy)(grpc_proxy_mapper* mapper);
+} grpc_proxy_mapper_vtable;
+
+struct grpc_proxy_mapper {
+  const grpc_proxy_mapper_vtable* vtable;
 };
 
-}  // namespace grpc_core
+void grpc_proxy_mapper_init(const grpc_proxy_mapper_vtable* vtable,
+                            grpc_proxy_mapper* mapper);
+
+bool grpc_proxy_mapper_map_name(grpc_proxy_mapper* mapper,
+                                const char* server_uri,
+                                const grpc_channel_args* args,
+                                char** name_to_resolve,
+                                grpc_channel_args** new_args);
+
+bool grpc_proxy_mapper_map_address(grpc_proxy_mapper* mapper,
+                                   const grpc_resolved_address* address,
+                                   const grpc_channel_args* args,
+                                   grpc_resolved_address** new_address,
+                                   grpc_channel_args** new_args);
+
+void grpc_proxy_mapper_destroy(grpc_proxy_mapper* mapper);
 
 #endif /* GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_PROXY_MAPPER_H */

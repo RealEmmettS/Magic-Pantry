@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKLoginManagerLoginResult+Internal.h"
 
 #ifdef FBSDKCOCOAPODS
@@ -48,7 +44,7 @@
 
 - (void)addLoggingExtra:(id)object forKey:(id<NSCopying>)key
 {
-  [FBSDKTypeUtility dictionary:_mutableLoggingExtras setObject:object forKey:key];
+  [FBSDKBasicUtility dictionary:_mutableLoggingExtras setObject:object forKey:key];
 }
 
 - (NSDictionary *)loggingExtras
@@ -57,5 +53,3 @@
 }
 
 @end
-
-#endif

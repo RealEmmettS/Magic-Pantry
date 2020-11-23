@@ -16,13 +16,11 @@
         limitations under the License.
  */
 
-#if SWIFT_PACKAGE || GTMAPPAUTH_USE_MODULAR_IMPORT
-@import GTMSessionFetcherCore;
-#elif GTMAPPAUTH_USER_IMPORTS
-#import "GTMSessionFetcher.h"
-#else
+#ifndef GTMAPPAUTH_USER_IMPORTS
 #import <GTMSessionFetcher/GTMSessionFetcher.h>
-#endif
+#else // GTMAPPAUTH_USER_IMPORTS
+#import "GTMSessionFetcher.h"
+#endif // GTMAPPAUTH_USER_IMPORTS
 
 @class OIDAuthState;
 @class OIDServiceConfiguration;

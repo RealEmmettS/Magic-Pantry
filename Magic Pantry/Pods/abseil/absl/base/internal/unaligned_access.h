@@ -18,11 +18,9 @@
 #define ABSL_BASE_INTERNAL_UNALIGNED_ACCESS_H_
 
 #include <string.h>
-
 #include <cstdint>
 
 #include "absl/base/attributes.h"
-#include "absl/base/config.h"
 
 // unaligned APIs
 
@@ -58,7 +56,7 @@ void __sanitizer_unaligned_store64(void *p, uint64_t v);
 }  // extern "C"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
 
 inline uint16_t UnalignedLoad16(const void *p) {
@@ -86,7 +84,7 @@ inline void UnalignedStore64(void *p, uint64_t v) {
 }
 
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #define ABSL_INTERNAL_UNALIGNED_LOAD16(_p) \
@@ -106,7 +104,7 @@ ABSL_NAMESPACE_END
 #else
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace base_internal {
 
 inline uint16_t UnalignedLoad16(const void *p) {
@@ -134,7 +132,7 @@ inline void UnalignedStore32(void *p, uint32_t v) { memcpy(p, &v, sizeof v); }
 inline void UnalignedStore64(void *p, uint64_t v) { memcpy(p, &v, sizeof v); }
 
 }  // namespace base_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #define ABSL_INTERNAL_UNALIGNED_LOAD16(_p) \

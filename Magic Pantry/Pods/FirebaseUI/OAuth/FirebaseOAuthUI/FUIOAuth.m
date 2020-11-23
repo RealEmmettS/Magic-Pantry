@@ -79,11 +79,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, strong) UIColor *buttonBackgroundColor;
 
-/** @property buttonTextColor
- @brief The text color that should be used for the sign in button of the provider.
- */
-@property(nonatomic, readwrite) UIColor *buttonTextColor;
-
 /** @property scopes
     @brief Array used to configure the OAuth scopes.
  */
@@ -123,7 +118,6 @@ NS_ASSUME_NONNULL_BEGIN
     _signInLabel = buttonLabelText;
     _shortName = shortName;
     _buttonBackgroundColor = buttonColor;
-    _buttonTextColor = [UIColor whiteColor];
     _icon = iconImage;
     _scopes = scopes;
     _customParameters = customParameters;
@@ -191,27 +185,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (FUIOAuth *)appleAuthProvider {
-  UIImage *iconImage = [FUIAuthUtils imageNamed:@"ic_apple"
-                            fromBundleNameOrNil:@"FirebaseOAuthUI"];
-  UIColor *buttonColor = [UIColor blackColor];
-  UIColor *buttonTextColor = [UIColor whiteColor];
-  if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-    iconImage = [iconImage imageWithTintColor:[UIColor blackColor]];
-    buttonColor = [UIColor whiteColor];
-    buttonTextColor = [UIColor blackColor];
-  }
-  FUIOAuth *provider = [[FUIOAuth alloc] initWithAuthUI:[FUIAuth defaultAuthUI]
-                                             providerID:@"apple.com"
-                                        buttonLabelText:@"Sign in with Apple"
-                                              shortName:@"Apple"
-                                            buttonColor:buttonColor
-                                              iconImage:iconImage
-                                                 scopes:@[@"name", @"email"]
-                                       customParameters:nil
-                                           loginHintKey:nil];
-  provider.buttonAlignment = FUIButtonAlignmentCenter;
-  provider.buttonTextColor = buttonTextColor;
-  return provider;
+  return [[FUIOAuth alloc] initWithAuthUI:[FUIAuth defaultAuthUI]
+                               providerID:@"apple.com"
+                          buttonLabelText:@"Sign in with Apple"
+                                shortName:@"Apple"
+                              buttonColor:[UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
+                                iconImage:[FUIAuthUtils imageNamed:@"ic_apple"
+                                               fromBundleNameOrNil:@"FirebaseOAuthUI"]
+                                   scopes:@[@"name", @"email"]
+                         customParameters:nil
+                             loginHintKey:nil];
 }
 
 #pragma mark - FUIAuthProvider
@@ -228,6 +211,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSString *)idToken {
   return nil;
+}
+
+- (UIColor *)buttonTextColor {
+  return [UIColor whiteColor];
 }
 
 #pragma clang diagnostic push
@@ -297,7 +284,16 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)signOut {
-  return;
+  FIRUser *user = _authUI.auth.currentUser;
+  __weak UIViewController *weakController = self.presentingViewController;
+  [user deleteWithCompletion:^(NSError * _Nullable error) {
+    if (error) {
+      __strong UIViewController *presentingViewController = weakController;
+      [FUIAuthBaseViewController showAlertWithMessage:error.localizedDescription
+                             presentingViewController:presentingViewController];
+      return;
+    }
+  }];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)URL sourceApplication:(nullable NSString *)sourceApplication {
@@ -308,7 +304,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)authorizationController:(ASAuthorizationController *)controller didCompleteWithAuthorization:(ASAuthorization *)authorization API_AVAILABLE(ios(13.0)) {
   ASAuthorizationAppleIDCredential* appleIDCredential = authorization.credential;
-  NSString *idToken = [[NSString alloc] initWithData:appleIDCredential.identityToken encoding:NSUTF8StringEncoding];
+  NSString *idToken = [NSString stringWithUTF8String:[appleIDCredential.identityToken bytes]];
   FIROAuthCredential *credential = [FIROAuthProvider credentialWithProviderID:@"apple.com"
                                                                       IDToken:idToken
                                                                   accessToken:nil];

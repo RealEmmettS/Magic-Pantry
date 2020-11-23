@@ -16,9 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "FBSDKBasicUtility.h"
+
 #import <zlib.h>
 
-#import "FBSDKBasicUtility.h"
 #import "FBSDKTypeUtility.h"
 
 #define kChunkSize 1024
@@ -38,9 +39,9 @@ static NSString *const FBSDK_BASICUTILITY_ANONYMOUSID_KEY = @"anon_id";
                             error:(NSError *__autoreleasing *)errorRef
              invalidObjectHandler:(FBSDKInvalidObjectHandler)invalidObjectHandler
 {
-  if (invalidObjectHandler || ![FBSDKTypeUtility isValidJSONObject:object]) {
+  if (invalidObjectHandler || ![NSJSONSerialization isValidJSONObject:object]) {
     object = [self _convertObjectToJSONObject:object invalidObjectHandler:invalidObjectHandler stop:NULL];
-    if (![FBSDKTypeUtility isValidJSONObject:object]) {
+    if (![NSJSONSerialization isValidJSONObject:object]) {
       if (errorRef != NULL) {
         Class FBSDKErrorClass = NSClassFromString(@"FBSDKError");
         if ([FBSDKErrorClass respondsToSelector:@selector(invalidArgumentErrorWithName:value:message:)]) {
@@ -52,7 +53,7 @@ static NSString *const FBSDK_BASICUTILITY_ANONYMOUSID_KEY = @"anon_id";
       return nil;
     }
   }
-  NSData *data = [FBSDKTypeUtility dataWithJSONObject:object options:0 error:errorRef];
+  NSData *data = [NSJSONSerialization dataWithJSONObject:object options:0 error:errorRef];
   if (!data) {
     return nil;
   }
@@ -71,7 +72,7 @@ setJSONStringForObject:(id)object
   if (!JSONString) {
     return NO;
   }
-  [FBSDKTypeUtility dictionary:dictionary setObject:JSONString forKey:key];
+  [self dictionary:dictionary setObject:JSONString forKey:key];
   return YES;
 }
 
@@ -86,8 +87,8 @@ setJSONStringForObject:(id)object
     object = ((NSURL *)object).absoluteString;
   } else if ([object isKindOfClass:[NSDictionary class]]) {
     NSMutableDictionary<NSString *, id> *dictionary = [[NSMutableDictionary alloc] init];
-    [FBSDKTypeUtility dictionary:(NSDictionary<id, id> *)object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *dictionaryStop) {
-      [FBSDKTypeUtility dictionary:dictionary
+    [(NSDictionary<id, id> *)object enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *dictionaryStop) {
+      [self dictionary:dictionary
              setObject:[self _convertObjectToJSONObject:obj invalidObjectHandler:invalidObjectHandler stop:&stop]
                 forKey:[FBSDKTypeUtility stringValue:key]];
       if (stop) {
@@ -99,7 +100,7 @@ setJSONStringForObject:(id)object
     NSMutableArray<id> *array = [[NSMutableArray alloc] init];
     for (id obj in (NSArray *)object) {
       id convertedObj = [self _convertObjectToJSONObject:obj invalidObjectHandler:invalidObjectHandler stop:&stop];
-      [FBSDKTypeUtility array:array addObject:convertedObj];
+      [self array:array addObject:convertedObj];
       if (stop) {
         break;
       }
@@ -114,16 +115,30 @@ setJSONStringForObject:(id)object
   return object;
 }
 
++ (void)dictionary:(NSMutableDictionary<NSString *, id> *)dictionary setObject:(id)object forKey:(id<NSCopying>)key
+{
+  if (object && key) {
+    dictionary[key] = object;
+  }
+}
+
++ (void)array:(NSMutableArray *)array addObject:(id)object
+{
+  if (object) {
+    [array addObject:object];
+  }
+}
+
 + (id)objectForJSONString:(NSString *)string error:(NSError *__autoreleasing *)errorRef
 {
-  NSData *data = [[FBSDKTypeUtility stringValue:string] dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
   if (!data) {
     if (errorRef != NULL) {
       *errorRef = nil;
     }
     return nil;
   }
-  return [FBSDKTypeUtility JSONObjectWithData:data options:NSJSONReadingAllowFragments error:errorRef];
+  return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:errorRef];
 }
 
 + (NSString *)queryStringWithDictionary:(NSDictionary<id, id> *)dictionary
@@ -215,7 +230,7 @@ setJSONStringForObject:(id)object
     key = [self URLDecode:key];
     value = [self URLDecode:value];
     if (key && value) {
-      [FBSDKTypeUtility dictionary:result setObject:value forKey:key];
+      result[key] = value;
     }
   }
   return result;
@@ -308,7 +323,7 @@ setJSONStringForObject:(id)object
 {
   NSSearchPathDirectory directory = NSLibraryDirectory;
   NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES);
-  NSString *docDirectory = [FBSDKTypeUtility array:paths objectAtIndex:0];
+  NSString *docDirectory = paths[0];
   return [docDirectory stringByAppendingPathComponent:filename];
 }
 

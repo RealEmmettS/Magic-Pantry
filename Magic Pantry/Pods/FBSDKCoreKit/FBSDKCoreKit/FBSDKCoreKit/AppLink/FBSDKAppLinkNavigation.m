@@ -16,17 +16,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKAppLinkNavigation.h"
 
 #import "FBSDKAppLinkTarget.h"
 #import "FBSDKAppLink_Internal.h"
 #import "FBSDKMeasurementEvent_Internal.h"
 #import "FBSDKSettings.h"
-#import "FBSDKTypeUtility.h"
 #import "FBSDKWebViewAppLinkResolver.h"
 
 FOUNDATION_EXPORT NSString *const FBSDKAppLinkDataParameterName;
@@ -75,19 +70,19 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 
     // Add applink protocol data
     if (!appLinkData[FBSDKAppLinkUserAgentKeyName]) {
-        [FBSDKTypeUtility dictionary:appLinkData setObject:[NSString stringWithFormat:@"FBSDK %@", FBSDKSettings.sdkVersion] forKey:FBSDKAppLinkUserAgentKeyName];
+        appLinkData[FBSDKAppLinkUserAgentKeyName] = [NSString stringWithFormat:@"FBSDK %@", FBSDKSettings.sdkVersion];
     }
     if (!appLinkData[FBSDKAppLinkVersionKeyName]) {
-        [FBSDKTypeUtility dictionary:appLinkData setObject:FBSDKAppLinkVersion forKey:FBSDKAppLinkVersionKeyName];
+        appLinkData[FBSDKAppLinkVersionKeyName] = FBSDKAppLinkVersion;
     }
     if (self.appLink.sourceURL.absoluteString) {
-        [FBSDKTypeUtility dictionary:appLinkData setObject:self.appLink.sourceURL.absoluteString forKey:FBSDKAppLinkTargetKeyName];
+        appLinkData[FBSDKAppLinkTargetKeyName] = self.appLink.sourceURL.absoluteString;
     }
-    [FBSDKTypeUtility dictionary:appLinkData setObject:self.extras ?: @{} forKey:FBSDKAppLinkExtrasKeyName];
+    appLinkData[FBSDKAppLinkExtrasKeyName] = self.extras ?: @{};
 
     // JSON-ify the applink data
     NSError *jsonError = nil;
-    NSData *jsonBlob = [FBSDKTypeUtility dataWithJSONObject:appLinkData options:0 error:&jsonError];
+    NSData *jsonBlob = [NSJSONSerialization dataWithJSONObject:appLinkData options:0 error:&jsonError];
     if (!jsonError) {
         NSString *jsonString = [[NSString alloc] initWithData:jsonBlob encoding:NSUTF8StringEncoding];
         NSString *encoded = [self stringByEscapingQueryString:jsonString];
@@ -110,8 +105,6 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 }
 
 - (FBSDKAppLinkNavigationType)navigate:(NSError **)error {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSURL *openedURL = nil;
     NSError *encodingError = nil;
     FBSDKAppLinkNavigationType retType = FBSDKAppLinkNavigationTypeFailure;
@@ -144,8 +137,7 @@ static id<FBSDKAppLinkResolving> defaultResolver;
             openedURL = appLinkBrowserURL;
         }
     }
-#pragma clang diagnostic pop
-  
+
     [self postAppLinkNavigateEventNotificationWithTargetURL:openedURL
                                                       error:error ? *error : nil
                                                        type:retType];
@@ -161,26 +153,26 @@ static id<FBSDKAppLinkResolving> defaultResolver;
     NSString *outputURLScheme = outputURL.scheme;
     NSString *outputURLString = outputURL.absoluteString;
     if (outputURLScheme) {
-        [FBSDKTypeUtility dictionary:logData setObject:outputURLScheme forKey:@"outputURLScheme"];
+        logData[@"outputURLScheme"] = outputURLScheme;
     }
     if (outputURLString) {
-        [FBSDKTypeUtility dictionary:logData setObject:outputURLString forKey:@"outputURL"];
+        logData[@"outputURL"] = outputURLString;
     }
 
     NSString *sourceURLString = self.appLink.sourceURL.absoluteString;
     NSString *sourceURLHost = self.appLink.sourceURL.host;
     NSString *sourceURLScheme = self.appLink.sourceURL.scheme;
     if (sourceURLString) {
-        [FBSDKTypeUtility dictionary:logData setObject:sourceURLString forKey:@"sourceURL"];
+        logData[@"sourceURL"] = sourceURLString;
     }
     if (sourceURLHost) {
-        [FBSDKTypeUtility dictionary:logData setObject:sourceURLHost forKey:@"sourceHost"];
+        logData[@"sourceHost"] = sourceURLHost;
     }
     if (sourceURLScheme) {
-        [FBSDKTypeUtility dictionary:logData setObject:sourceURLScheme forKey:@"sourceScheme"];
+        logData[@"sourceScheme"] = sourceURLScheme;
     }
     if (error.localizedDescription) {
-        [FBSDKTypeUtility dictionary:logData setObject:error.localizedDescription forKey:@"error"];
+        logData[@"error"] = error.localizedDescription;
     }
     NSString *success = nil; //no
     NSString *linkType = nil; // unknown;
@@ -201,10 +193,10 @@ static id<FBSDKAppLinkResolving> defaultResolver;
             break;
     }
     if (success) {
-        [FBSDKTypeUtility dictionary:logData setObject:success forKey:@"success"];
+        logData[@"success"] = success;
     }
     if (linkType) {
-        [FBSDKTypeUtility dictionary:logData setObject:linkType forKey:@"type"];
+        logData[@"type"] = linkType;
     }
 
     if (self.appLink.backToReferrer) {
@@ -300,5 +292,3 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 }
 
 @end
-
-#endif

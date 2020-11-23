@@ -22,25 +22,17 @@
 #import <FBSDKCoreKit/FBSDKSettings.h>
 #endif
 
-#define DATA_PROCESSING_OPTIONS         @"data_processing_options"
-#define DATA_PROCESSING_OPTIONS_COUNTRY @"data_processing_options_country"
-#define DATA_PROCESSING_OPTIONS_STATE   @"data_processing_options_state"
-
 @protocol FBSDKAccessTokenCaching;
 
 @interface FBSDKSettings(Internal)
 
-+ (nullable NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
++ (NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
 
-+ (void)setAccessTokenCache:(nullable NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
++ (void)setAccessTokenCache:(NSObject<FBSDKAccessTokenCaching> *)accessTokenCache;
 
-+ (nullable NSDictionary<NSString *, id> *)dataProcessingOptions;
-
-+ (BOOL)isDataProcessingRestricted;
-
-@property (class, nonatomic, copy, readonly, nullable) NSString *graphAPIDebugParamValue;
+@property (class, nonatomic, copy, readonly) NSString *graphAPIDebugParamValue;
 
 // used by Unity.
-@property (class, nonatomic, copy, nullable) NSString *userAgentSuffix;
+@property (class, nonatomic, copy) NSString *userAgentSuffix;
 
 @end

@@ -23,6 +23,7 @@
 
 #include "src/core/lib/avl/avl.h"
 #include "src/core/lib/channel/channel_args.h"
+#include "src/core/lib/gprpp/abstract.h"
 #include "src/core/lib/gprpp/ref_counted.h"
 
 namespace grpc_core {
@@ -69,14 +70,14 @@ class SubchannelPoolInterface : public RefCounted<SubchannelPoolInterface> {
   // with \a key, which may be different from \a constructed because we reuse
   // (instead of update) any existing subchannel already registered with \a key.
   virtual Subchannel* RegisterSubchannel(SubchannelKey* key,
-                                         Subchannel* constructed) = 0;
+                                         Subchannel* constructed) GRPC_ABSTRACT;
 
   // Removes the registered subchannel found by \a key.
-  virtual void UnregisterSubchannel(SubchannelKey* key) = 0;
+  virtual void UnregisterSubchannel(SubchannelKey* key) GRPC_ABSTRACT;
 
   // Finds the subchannel registered for the given subchannel key. Returns NULL
   // if no such channel exists. Thread-safe.
-  virtual Subchannel* FindSubchannel(SubchannelKey* key) = 0;
+  virtual Subchannel* FindSubchannel(SubchannelKey* key) GRPC_ABSTRACT;
 
   // Creates a channel arg from \a subchannel pool.
   static grpc_arg CreateChannelArg(SubchannelPoolInterface* subchannel_pool);
@@ -84,6 +85,8 @@ class SubchannelPoolInterface : public RefCounted<SubchannelPoolInterface> {
   // Gets the subchannel pool from the channel args.
   static SubchannelPoolInterface* GetSubchannelPoolFromChannelArgs(
       const grpc_channel_args* args);
+
+  GRPC_ABSTRACT_BASE_CLASS
 };
 
 }  // namespace grpc_core

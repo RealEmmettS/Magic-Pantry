@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import <Foundation/Foundation.h>
 
 @class FBSDKLoginManager;
@@ -58,8 +54,6 @@ NS_SWIFT_NAME(LoginCompletionParameters)
 @property (nonatomic, copy, readonly) NSDate *dataAccessExpirationDate;
 
 @property (nonatomic, copy, readonly) NSString *challenge;
-
-@property (nonatomic, copy, readonly) NSString *graphDomain;
 @end
 
 NS_SWIFT_NAME(LoginCompleting)
@@ -93,4 +87,3 @@ NS_SWIFT_NAME(LoginURLCompleter)
 
 @end
 
-#endif

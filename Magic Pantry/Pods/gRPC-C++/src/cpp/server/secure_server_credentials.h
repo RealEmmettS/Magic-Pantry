@@ -22,7 +22,6 @@
 #include <memory>
 
 #include <grpcpp/security/server_credentials.h>
-#include <grpcpp/security/tls_credentials_options.h>
 
 #include <grpc/grpc_security.h>
 
@@ -47,11 +46,7 @@ class AuthMetadataProcessorAyncWrapper final {
 
   AuthMetadataProcessorAyncWrapper(
       const std::shared_ptr<AuthMetadataProcessor>& processor)
-      : processor_(processor) {
-    if (processor && processor->IsBlocking()) {
-      thread_pool_.reset(CreateDefaultThreadPool());
-    }
-  }
+      : thread_pool_(CreateDefaultThreadPool()), processor_(processor) {}
 
  private:
   void InvokeProcessor(grpc_auth_context* context, const grpc_metadata* md,

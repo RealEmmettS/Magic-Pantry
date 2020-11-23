@@ -39,8 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) IBInspectable NSInteger codeLength;
 
-@property (null_unspecified, nonatomic, copy) UITextContentType textContentType;
-
 - (void)clearCodeInput;
 
 @end

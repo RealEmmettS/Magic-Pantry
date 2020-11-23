@@ -16,16 +16,11 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKAudioResourceLoader.h"
 
 #import "FBSDKDynamicFrameworkLoader.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
-#import "FBSDKTypeUtility.h"
 
 @implementation FBSDKAudioResourceLoader
 {
@@ -52,7 +47,7 @@
       loader = [[self alloc] init];
       NSError *error = nil;
       if ([loader loadSound:&error]) {
-        [FBSDKTypeUtility dictionary:_loaderCache setObject:loader forKey:name];
+        _loaderCache[name] = loader;
       } else {
         [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
                            formatString:@"%@ error: %@", self, error];
@@ -154,5 +149,3 @@
 }
 
 @end
-
-#endif

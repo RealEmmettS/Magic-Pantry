@@ -16,10 +16,6 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKWebDialogView.h"
 
 #import <WebKit/WebKit.h>
@@ -43,8 +39,6 @@
 
 #pragma mark - Object Lifecycle
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
@@ -74,7 +68,6 @@
   }
   return self;
 }
-#pragma clang diagnostic pop
 
 - (void)dealloc
 {
@@ -109,8 +102,6 @@
   [super drawRect:rect];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)layoutSubviews
 {
   [super layoutSubviews];
@@ -140,7 +131,6 @@
     _closeButton.frame = CGRectIntegral(closeButtonFrame);
   }
 }
-#pragma clang diagnostic pop
 
 #pragma mark - Actions
 
@@ -166,8 +156,6 @@
   }
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)webView:(WKWebView *)webView
 decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
@@ -197,7 +185,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
     decisionHandler(WKNavigationActionPolicyAllow);
   }
 }
-#pragma clang diagnostic pop
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
@@ -206,5 +193,3 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 }
 
 @end
-
-#endif

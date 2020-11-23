@@ -14,7 +14,7 @@
 
 #include "absl/types/bad_optional_access.h"
 
-#ifndef ABSL_USES_STD_OPTIONAL
+#ifndef ABSL_HAVE_STD_OPTIONAL
 
 #include <cstdlib>
 
@@ -22,7 +22,7 @@
 #include "absl/base/internal/raw_logging.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 
 bad_optional_access::~bad_optional_access() = default;
 
@@ -42,7 +42,7 @@ void throw_bad_optional_access() {
 }
 
 }  // namespace optional_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
-#endif  // ABSL_USES_STD_OPTIONAL
+#endif  // ABSL_HAVE_STD_OPTIONAL

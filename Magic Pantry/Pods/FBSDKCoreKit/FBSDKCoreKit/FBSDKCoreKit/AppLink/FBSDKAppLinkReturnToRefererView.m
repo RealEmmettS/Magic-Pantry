@@ -16,15 +16,10 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "TargetConditionals.h"
-
-#if !TARGET_OS_TV
-
 #import "FBSDKAppLinkReturnToRefererView.h"
 
 #import "FBSDKAppLink.h"
 #import "FBSDKAppLinkTarget.h"
-#import "FBSDKInternalUtility.h"
 
 static const CGFloat FBSDKMarginX = 8.5f;
 static const CGFloat FBSDKMarginY = 8.5f;
@@ -148,8 +143,6 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
     return size;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (CGFloat)statusBarHeight {
     UIApplication *application = [UIApplication sharedApplication];
 
@@ -163,14 +156,13 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
             break;
     }
     if (include && !application.statusBarHidden) {
-        BOOL landscape = UIInterfaceOrientationIsLandscape(FBSDKInternalUtility.statusBarOrientation);
+        BOOL landscape = UIInterfaceOrientationIsLandscape(application.statusBarOrientation);
         CGRect statusBarFrame = application.statusBarFrame;
         return landscape ? CGRectGetWidth(statusBarFrame) : CGRectGetHeight(statusBarFrame);
     }
 
     return 0;
 }
-#pragma clang diagnostic pop
 
 #pragma mark - Public API
 
@@ -208,7 +200,7 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
 #pragma mark - Private
 
 - (void)updateLabelText {
-    NSString *appName = (_refererAppLink && [FBSDKTypeUtility array:_refererAppLink.targets objectAtIndex:0]) ? [[FBSDKTypeUtility array:_refererAppLink.targets objectAtIndex:0] appName] : nil;
+    NSString *appName = (_refererAppLink && _refererAppLink.targets[0]) ? _refererAppLink.targets[0].appName : nil;
     _labelView.text = [self localizedLabelForReferer:appName];
 }
 
@@ -256,7 +248,7 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
 }
 
 - (BOOL)hasRefererData {
-    return _refererAppLink && [FBSDKTypeUtility array:_refererAppLink.targets objectAtIndex:0];
+    return _refererAppLink && _refererAppLink.targets[0];
 }
 
 - (void)closeButtonTapped:(id)sender {
@@ -272,5 +264,3 @@ static const CGFloat FBSDKCloseButtonHeight = 12.0;
 }
 
 @end
-
-#endif

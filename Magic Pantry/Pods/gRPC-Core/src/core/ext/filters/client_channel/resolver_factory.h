@@ -24,6 +24,7 @@
 #include <grpc/support/string_util.h>
 
 #include "src/core/ext/filters/client_channel/resolver.h"
+#include "src/core/lib/gprpp/abstract.h"
 #include "src/core/lib/gprpp/memory.h"
 #include "src/core/lib/gprpp/orphanable.h"
 #include "src/core/lib/iomgr/pollset_set.h"
@@ -39,33 +40,32 @@ struct ResolverArgs {
   /// Used to drive I/O in the name resolution process.
   grpc_pollset_set* pollset_set = nullptr;
   /// The combiner under which all resolver calls will be run.
-  Combiner* combiner = nullptr;
+  grpc_combiner* combiner = nullptr;
   /// The result handler to be used by the resolver.
-  std::unique_ptr<Resolver::ResultHandler> result_handler;
+  UniquePtr<Resolver::ResultHandler> result_handler;
 };
 
 class ResolverFactory {
  public:
-  /// Returns a bool indicating whether the input uri is valid to create a
-  /// resolver.
-  virtual bool IsValidUri(const grpc_uri* uri) const = 0;
-
   /// Returns a new resolver instance.
-  virtual OrphanablePtr<Resolver> CreateResolver(ResolverArgs args) const = 0;
+  virtual OrphanablePtr<Resolver> CreateResolver(ResolverArgs args) const
+      GRPC_ABSTRACT;
 
   /// Returns a string representing the default authority to use for this
   /// scheme.
-  virtual grpc_core::UniquePtr<char> GetDefaultAuthority(grpc_uri* uri) const {
+  virtual UniquePtr<char> GetDefaultAuthority(grpc_uri* uri) const {
     const char* path = uri->path;
     if (path[0] == '/') ++path;
-    return grpc_core::UniquePtr<char>(gpr_strdup(path));
+    return UniquePtr<char>(gpr_strdup(path));
   }
 
   /// Returns the URI scheme that this factory implements.
   /// Caller does NOT take ownership of result.
-  virtual const char* scheme() const = 0;
+  virtual const char* scheme() const GRPC_ABSTRACT;
 
   virtual ~ResolverFactory() {}
+
+  GRPC_ABSTRACT_BASE_CLASS
 };
 
 }  // namespace grpc_core

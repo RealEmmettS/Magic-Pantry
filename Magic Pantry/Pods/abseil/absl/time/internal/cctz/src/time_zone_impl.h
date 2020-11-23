@@ -18,14 +18,13 @@
 #include <memory>
 #include <string>
 
-#include "absl/base/config.h"
 #include "absl/time/internal/cctz/include/cctz/civil_time.h"
 #include "absl/time/internal/cctz/include/cctz/time_zone.h"
 #include "time_zone_if.h"
 #include "time_zone_info.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace time_internal {
 namespace cctz {
 
@@ -87,7 +86,7 @@ class time_zone::Impl {
 
 }  // namespace cctz
 }  // namespace time_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl
 
 #endif  // ABSL_TIME_INTERNAL_CCTZ_TIME_ZONE_IMPL_H_

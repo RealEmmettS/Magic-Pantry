@@ -52,7 +52,6 @@ static int const FBSDKTokenRefreshRetrySeconds = 60 * 60;           // hour
   __block NSString *tokenString = nil;
   __block NSNumber *expirationDateNumber = nil;
   __block NSNumber *dataAccessExpirationDateNumber = nil;
-  __block NSString *graphDomain = nil;
   __block int expectingCallbacksCount = 2;
   void (^expectingCallbackComplete)(void) = ^{
     if (--expectingCallbacksCount == 0) {
@@ -77,8 +76,7 @@ static int const FBSDKTokenRefreshRetrySeconds = 60 * 60;           // hour
                                                                                 userID:currentToken.userID
                                                                         expirationDate:expirationDate
                                                                            refreshDate:[NSDate date]
-                                                                           dataAccessExpirationDate:dataExpirationDate
-                                                                           graphDomain:graphDomain ?: currentToken.graphDomain];
+                                                                           dataAccessExpirationDate:dataExpirationDate];
       if (expectedToken == currentToken) {
         [FBSDKAccessToken setCurrentAccessToken:refreshedToken];
       }
@@ -86,8 +84,7 @@ static int const FBSDKTokenRefreshRetrySeconds = 60 * 60;           // hour
   };
   FBSDKGraphRequest *extendRequest = [[FBSDKGraphRequest alloc] initWithGraphPath:@"oauth/access_token"
                                                                  parameters:@{@"grant_type" : @"fb_extend_sso_token",
-                                                                              @"fields": @"",
-                                                                              @"client_id": expectedToken.appID
+                                                                              @"fields": @""
                                                                               }
                                                                       flags:FBSDKGraphRequestFlagDisableErrorRecovery];
 
@@ -95,7 +92,6 @@ static int const FBSDKTokenRefreshRetrySeconds = 60 * 60;           // hour
     tokenString = result[@"access_token"];
     expirationDateNumber = result[@"expires_at"];
     dataAccessExpirationDateNumber = result[@"data_access_expiration_time"];
-    graphDomain = result[@"graph_domain"];
     expectingCallbackComplete();
   }];
   FBSDKGraphRequest *permissionsRequest = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/permissions"

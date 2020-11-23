@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
+#import <GoogleDataTransport/GDTCOREvent.h>
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+#import <GoogleDataTransport/GDTCORClock.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GDTCOREvent ()
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
-
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/** The serialized bytes of the event data object. */
+@property(nonatomic) NSData *dataObjectTransportBytes;
 
 @end
 

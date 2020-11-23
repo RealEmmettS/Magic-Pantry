@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "FUIAuthProvider.h"
+@protocol FUIAuthProvider;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,8 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
               image:(UIImage *)image
                text:(NSString *)text
     backgroundColor:(UIColor *)backgroundColor
-          textColor:(UIColor *)textColor
-    buttonAlignment:(FUIButtonAlignment)buttonAlignment NS_DESIGNATED_INITIALIZER;
+          textColor:(UIColor *)textColor NS_DESIGNATED_INITIALIZER;
 
 /** @fn initWithFrame:providerUI:
     @brief Convenience initalizer.

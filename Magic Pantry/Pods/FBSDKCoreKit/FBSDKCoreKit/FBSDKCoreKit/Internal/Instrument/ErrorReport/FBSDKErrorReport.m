@@ -22,8 +22,6 @@
 #import "FBSDKGraphRequestConnection.h"
 #import "FBSDKLogger.h"
 #import "FBSDKSettings.h"
-#import "FBSDKSettings+Internal.h"
-#import "FBSDKTypeUtility.h"
 
 #define FBSDK_MAX_ERROR_REPORT_LOGS 1000
 
@@ -38,7 +36,7 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
 
 # pragma mark - Class Methods
 
-+ (void)enable
++ (void)initialize
 {
   NSString *dirPath = [NSTemporaryDirectory() stringByAppendingPathComponent:ErrorReportStorageDirName];
   if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath]) {
@@ -47,20 +45,21 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
     }
   }
   directoryPath = dirPath;
+}
+
++ (void)enable
+{
   [self uploadError];
   [FBSDKError enableErrorReport];
 }
 
 + (void)uploadError
 {
-  if ([FBSDKSettings isDataProcessingRestricted]) {
-    return;
-  }
   NSArray<NSDictionary<NSString *, id> *> *errorReports = [self loadErrorReports];
   if ([errorReports count] == 0) {
     return [self clearErrorInfo];
   }
-  NSData *jsonData = [FBSDKTypeUtility dataWithJSONObject:errorReports options:0 error:nil];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:errorReports options:0 error:nil];
   if (!jsonData){
     return;
   }
@@ -94,7 +93,7 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
   NSArray<NSString *> *fileNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
   NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
     NSString *str = (NSString *)evaluatedObject;
-    return [str hasPrefix:@"error_report_"] && [str hasSuffix:@".json"];
+    return [str hasPrefix:@"error_report_"] && [str hasSuffix:@".plist"];
   }];
   fileNames = [fileNames filteredArrayUsingPredicate:predicate];
   fileNames = [fileNames sortedArrayUsingComparator:^NSComparisonResult(id _Nonnull obj1, id _Nonnull obj2){
@@ -103,16 +102,9 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
   if (fileNames.count > 0){
     fileNames = [fileNames subarrayWithRange:NSMakeRange(0, MIN(fileNames.count, FBSDK_MAX_ERROR_REPORT_LOGS))];
     for (NSUInteger i = 0; i < fileNames.count; i++) {
-      NSData *data = [NSData dataWithContentsOfFile:[directoryPath stringByAppendingPathComponent:[FBSDKTypeUtility array:fileNames objectAtIndex:i]]
-                                            options:NSDataReadingMappedIfSafe
-                                              error:nil];
-      if (data) {
-        NSDictionary<NSString *, id> *errorReport =  [FBSDKTypeUtility JSONObjectWithData:data
-                                                                                     options:0
-                                                                                       error:nil];
-        if (errorReport) {
-          [FBSDKTypeUtility array:errorReportArr addObject:errorReport];
-        }
+      NSDictionary<NSString *, id> *errorReport =  [NSDictionary dictionaryWithContentsOfFile:[directoryPath stringByAppendingPathComponent:fileNames[i]]];
+      if (errorReport) {
+        [errorReportArr addObject:errorReport];
       }
     }
   }
@@ -123,8 +115,8 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
 {
   NSArray<NSString *> *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:nil];
   for (NSUInteger i = 0; i < files.count; i++) {
-    if ([[FBSDKTypeUtility array:files objectAtIndex:i] hasPrefix:@"error_report"]) {
-      [[NSFileManager defaultManager] removeItemAtPath:[directoryPath stringByAppendingPathComponent:[FBSDKTypeUtility array:files objectAtIndex:i]] error:nil];
+    if ([files[i] hasPrefix:@"error_report"]) {
+      [[NSFileManager defaultManager] removeItemAtPath:[directoryPath stringByAppendingPathComponent:files[i]] error:nil];
     }
   }
 }
@@ -133,16 +125,13 @@ NSString *const kFBSDKErrorTimestamp = @"timestamp";
 
 + (void)saveErrorInfoToDisk:(NSDictionary<NSString *, id> *)errorInfo
 {
-  if (errorInfo.count > 0) {
-    NSData *data = [FBSDKTypeUtility dataWithJSONObject:errorInfo options:0 error:nil];
-    [data writeToFile:[self pathToErrorInfoFile]
-           atomically:YES];
-  }
+  [errorInfo writeToFile:[self pathToErrorInfoFile]
+              atomically:YES];
 }
 
 + (NSString *)pathToErrorInfoFile
 {
   NSString *timestamp = [NSString stringWithFormat:@"%.0lf", [[NSDate date] timeIntervalSince1970]];
-  return [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"error_report_%@.json",timestamp]];
+  return [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"error_report_%@.plist",timestamp]];
 }
 @end

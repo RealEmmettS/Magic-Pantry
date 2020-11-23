@@ -23,12 +23,11 @@
 #include <limits>
 #include <utility>
 
-#include "absl/base/config.h"
 #include "absl/time/internal/cctz/include/cctz/civil_time.h"
 #include "absl/time/internal/cctz/include/cctz/time_zone.h"
 
 namespace absl {
-ABSL_NAMESPACE_BEGIN
+inline namespace lts_2019_08_08 {
 namespace time_internal {
 namespace cctz {
 
@@ -86,7 +85,9 @@ auto tm_gmtoff(const T& tm) -> decltype(tm.__tm_gmtoff) {
 }
 #endif  // tm_gmtoff
 #if defined(tm_zone)
-auto tm_zone(const std::tm& tm) -> decltype(tm.tm_zone) { return tm.tm_zone; }
+auto tm_zone(const std::tm& tm) -> decltype(tm.tm_zone) {
+  return tm.tm_zone;
+}
 #elif defined(__tm_zone)
 auto tm_zone(const std::tm& tm) -> decltype(tm.__tm_zone) {
   return tm.__tm_zone;
@@ -103,19 +104,19 @@ auto tm_zone(const T& tm) -> decltype(tm.__tm_zone) {
 #endif  // tm_zone
 #endif
 
-inline std::tm* gm_time(const std::time_t* timep, std::tm* result) {
+inline std::tm* gm_time(const std::time_t *timep, std::tm *result) {
 #if defined(_WIN32) || defined(_WIN64)
-  return gmtime_s(result, timep) ? nullptr : result;
+    return gmtime_s(result, timep) ? nullptr : result;
 #else
-  return gmtime_r(timep, result);
+    return gmtime_r(timep, result);
 #endif
 }
 
-inline std::tm* local_time(const std::time_t* timep, std::tm* result) {
+inline std::tm* local_time(const std::time_t *timep, std::tm *result) {
 #if defined(_WIN32) || defined(_WIN64)
-  return localtime_s(result, timep) ? nullptr : result;
+    return localtime_s(result, timep) ? nullptr : result;
 #else
-  return localtime_r(timep, result);
+    return localtime_r(timep, result);
 #endif
 }
 
@@ -208,8 +209,8 @@ time_zone::absolute_lookup TimeZoneLibC::BreakTime(
   }
 
   const year_t year = tmp->tm_year + year_t{1900};
-  al.cs = civil_second(year, tmp->tm_mon + 1, tmp->tm_mday, tmp->tm_hour,
-                       tmp->tm_min, tmp->tm_sec);
+  al.cs = civil_second(year, tmp->tm_mon + 1, tmp->tm_mday,
+                       tmp->tm_hour, tmp->tm_min, tmp->tm_sec);
   al.offset = static_cast<int>(tm_gmtoff(*tmp));
   al.abbr = local_ ? tm_zone(*tmp) : "UTC";  // as expected by cctz
   al.is_dst = tmp->tm_isdst > 0;
@@ -304,5 +305,5 @@ std::string TimeZoneLibC::Description() const {
 
 }  // namespace cctz
 }  // namespace time_internal
-ABSL_NAMESPACE_END
+}  // inline namespace lts_2019_08_08
 }  // namespace absl

@@ -56,7 +56,7 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
 
   NSString *instanceKey = [NSString stringWithFormat:@"%@|%@", appID, appSecret];
   if (!gInstancesDictionary[instanceKey]) {
-    [FBSDKTypeUtility dictionary:gInstancesDictionary setObject:[[FBSDKTestUsersManager alloc] initWithAppID:appID appSecret:appSecret] forKey:instanceKey];
+    gInstancesDictionary[instanceKey] = [[FBSDKTestUsersManager alloc] initWithAppID:appID appSecret:appSecret];
   }
   return gInstancesDictionary[instanceKey];
 }
@@ -99,13 +99,13 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
           *stop = YES;
           return;
         } else {
-          [FBSDKTypeUtility array:tokenDatum addObject:[NSNull null]];
+          [tokenDatum addObject:[NSNull null]];
         }
       } else {
-        NSString *userId = [FBSDKTypeUtility array:userIdAndTokenPair objectAtIndex:0];
-        NSString *tokenString = [FBSDKTypeUtility array:userIdAndTokenPair objectAtIndex:1];
+        NSString *userId = userIdAndTokenPair[0];
+        NSString *tokenString = userIdAndTokenPair[1];
         [collectedUserIds addObject:userId];
-        [FBSDKTypeUtility array:tokenDatum addObject:[self tokenDataForTokenString:tokenString
+        [tokenDatum addObject:[self tokenDataForTokenString:tokenString
                                                 permissions:desiredPermissions
                                                      userId:userId]];
       }
@@ -141,9 +141,9 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
       }
     } else {
       NSMutableDictionary *accountData = [NSMutableDictionary dictionaryWithCapacity:2];
-      [FBSDKTypeUtility dictionary:accountData setObject:[NSSet setWithSet:permissions] forKey:kAccountsDictionaryPermissionsKey];
-      [FBSDKTypeUtility dictionary:accountData setObject:result[@"access_token"] forKey:kAccountsDictionaryTokenKey];
-      [FBSDKTypeUtility dictionary:self->_accounts setObject:accountData forKey:result[@"id"]];
+      accountData[kAccountsDictionaryPermissionsKey] = [NSSet setWithSet:permissions];
+      accountData[kAccountsDictionaryTokenKey] = result[@"access_token"];
+      self->_accounts[result[@"id"]] = accountData;
 
       if (handler) {
         FBSDKAccessToken *token = [self tokenDataForTokenString:accountData[kAccountsDictionaryTokenKey]
@@ -216,15 +216,14 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
                                                 userID:userId
                                         expirationDate:nil
                                            refreshDate:nil
-                                           dataAccessExpirationDate:nil
-                                           graphDomain:nil];
+                                           dataAccessExpirationDate:nil];
 }
 
 - (NSArray *)userIdAndTokenOfExistingAccountWithPermissions:(NSSet *)permissions skip:(NSSet *)setToSkip {
   __block NSString *userId = nil;
   __block NSString *token = nil;
 
-  [FBSDKTypeUtility dictionary:_accounts enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *accountData, BOOL *stop) {
+  [_accounts enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSDictionary *accountData, BOOL *stop) {
     if ([setToSkip containsObject:key]) {
       return;
     }
@@ -272,7 +271,7 @@ static NSMutableDictionary<NSString *, FBSDKTestUsersManager *> *gInstancesDicti
         NSString *userId = account[@"id"];
         NSString *token = account[@"access_token"];
         if (userId && token) {
-          [FBSDKTypeUtility dictionary:self->_accounts setObject:[NSMutableDictionary dictionaryWithCapacity:2] forKey:userId];
+          self->_accounts[userId] = [NSMutableDictionary dictionaryWithCapacity:2];
           self->_accounts[userId][kAccountsDictionaryTokenKey] = token;
           expectedTestAccounts++;
           [permissionConnection addRequest:[[FBSDKGraphRequest alloc] initWithGraphPath:[NSString stringWithFormat:@"%@?fields=permissions", userId]

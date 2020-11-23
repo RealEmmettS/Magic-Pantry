@@ -193,7 +193,7 @@ static NSMutableDictionary *g_startTimesWithTags = nil;
     // Treat the incoming object tag simply as an address, since it's only used to identify during lifetime.  If
     // we send in as an object, the dictionary will try to copy it.
     unsigned long tagAsNumber = (unsigned long)(__bridge void *)timestampTag;
-    [FBSDKTypeUtility dictionary:g_startTimesWithTags setObject:@(currTime) forKey:@(tagAsNumber)];
+    g_startTimesWithTags[@(tagAsNumber)] = @(currTime);
   }
 }
 
