@@ -212,7 +212,6 @@ class SubLists: UITableViewController {
         let errorText = "Error fetching item(s)"
         
         cell.textLabel?.text = "\(listData.listName ?? errorText)"
-        //cell.detailTextLabel?.text = "\(listData.category ?? errorText)"
 
         return cell
     }
@@ -237,10 +236,8 @@ class SubLists: UITableViewController {
                 for document in snapshotDocuments!.documents{
 
                     //Pretend listName says itemName (it represents items in the lists not the list itself)
-                    let name = (document.get("name") as! String?)!
-                    let id = (document.get("id") as! String?)!
-                    //let cat = (document.get("category") as! String?)!
-                    let formattedProperty = ReminderLists(listName: name, id: id)
+                    let property = (document.get("listName") as! String?)!
+                    let formattedProperty = ReminderLists(listName: property)
 
                     if formattedProperty.listName == toDelete {
 
