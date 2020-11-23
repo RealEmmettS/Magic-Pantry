@@ -27,11 +27,13 @@ protocol DocumentSerializable {
 struct ReminderLists { //Name came from What's Due. Too lazy to change it :)
     var listName:String?
     var id:String?
+    //var category:String?
     
     var dictionary:[String : Any] {
         return [
             "listName":listName!,
             "id":id!
+            
         ]
         
     }
