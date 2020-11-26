@@ -90,7 +90,7 @@ class TableViewController: UITableViewController {
                     print("\n\n Print: \( formattedProperty ) \n\n")
                                            
                     let list = self.listArray
-                    if let sameItem = list.first(where: { $0.listName == formattedProperty.listName }) {
+                    if let sameItem = list.first(where: { $0.id == formattedProperty.id }) {
                             //This should never have to run - It's here just in case....
                             print("\(sameItem) already exists")
                                                
@@ -167,16 +167,32 @@ class TableViewController: UITableViewController {
             guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
             
             let NewList = ReminderLists(listName: NameOfList)
-            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
-            var ref:DocumentReference? = nil
-            ref = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").addDocument(data: NewList.dictionary){
-                error in
-                if let error = error{
-                    print("Error adding document: \(error.localizedDescription)")
+            var alreadyExists = false;
+            for i in self.listArray{
+                if i.listName == NewList.listName{
+                    alreadyExists = true
                 } else {
-                    print("Data Saved with ID: \(ref!.documentID)")
+                    alreadyExists = false
                 }
             }
+            if alreadyExists{
+                let t = "Already Exists"
+                let m = "A list with that name already exists"
+                let a = "Ok"
+                self.simpleAlert(title: t, message: m ,action: a)
+            } else {
+                print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+                var ref:DocumentReference? = nil
+                ref = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").addDocument(data: NewList.dictionary){
+                    error in
+                    if let error = error{
+                        print("Error adding document: \(error.localizedDescription)")
+                    } else {
+                        print("Data Saved with ID: \(ref!.documentID)")
+                    }
+                }
+            }
+            
             
             
         }))
@@ -185,16 +201,32 @@ class TableViewController: UITableViewController {
                    guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
                    
                    let NewList = ReminderLists(listName: NameOfList)
-                   print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
-                   var ref:DocumentReference? = nil
-                ref = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").addDocument(data: NewList.dictionary){
-                       error in
-                       if let error = error{
-                           print("Error adding document: \(error.localizedDescription)")
-                       } else {
-                           print("Data Saved with ID: \(ref!.documentID)")
-                       }
-                   }
+                    var alreadyExists = false;
+                    for i in self.listArray{
+                        if i.listName == NewList.listName{
+                            alreadyExists = true
+                        } else {
+                            alreadyExists = false
+                        }
+                    }
+                
+                    if alreadyExists{
+                        let t = "Already Exists"
+                        let m = "A list with that name already exists"
+                        let a = "Ok"
+                        self.simpleAlert(title: t, message: m ,action: a)
+                    } else {
+                        print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+                        var ref:DocumentReference? = nil
+                        ref = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").addDocument(data: NewList.dictionary){
+                            error in
+                            if let error = error{
+                                print("Error adding document: \(error.localizedDescription)")
+                            } else {
+                                print("Data Saved with ID: \(ref!.documentID)")
+                            }
+                        }
+                    }
                    
                    
                    self.addList(self)
@@ -246,7 +278,7 @@ class TableViewController: UITableViewController {
                     print("Uh Oh. Can't Delete: \(err)")
                 }
                 
-                let toDelete = self.listArray[indexPath.row].listName
+                let toDelete = self.listArray[indexPath.row].id
             
                 
                 for document in snapshotDocuments!.documents{
@@ -254,7 +286,7 @@ class TableViewController: UITableViewController {
                     let property = (document.get("listName") as! String?)!
                     let formattedProperty = ReminderLists(listName: property)
                     
-                    if formattedProperty.listName == toDelete {
+                    if formattedProperty.id == toDelete {
                         //check items
                         if self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items") != nil{ //checking if list is empty
                             
@@ -351,6 +383,21 @@ class TableViewController: UITableViewController {
     }
     
     
-    
+    func simpleAlert(title: String, message: String, action: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
+        alert.addAction(UIAlertAction(title: action, style: .cancel, handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

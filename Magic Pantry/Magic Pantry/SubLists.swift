@@ -231,18 +231,18 @@ class SubLists: UITableViewController {
                     print("Uh Oh. Can't Delete: \(err)")
                 }
 
-             guard let toDelete = self.itemArray[indexPath.row].listName else {return}
+                guard let toDelete = self.itemArray[indexPath.row].id else {return}
 
 
                 for document in snapshotDocuments!.documents{
 
                     //Pretend listName says itemName (it represents items in the lists not the list itself)
                     let name = (document.get("listName") as! String?)!
-                    let id = (document.documentID as! String?)!
+                    let id = (document.documentID as String?)!
                     //let cat = (document.get("category") as! String?)!
                     let formattedProperty = ReminderLists(listName: name, id: id)
 
-                    if formattedProperty.listName == toDelete {
+                    if formattedProperty.id == toDelete {
 
                      self.listImIn?.document(document.documentID).delete()
                      self.itemArray.remove(at: indexPath.row)
