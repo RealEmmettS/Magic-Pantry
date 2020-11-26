@@ -237,8 +237,8 @@ class SubLists: UITableViewController {
                 for document in snapshotDocuments!.documents{
 
                     //Pretend listName says itemName (it represents items in the lists not the list itself)
-                    let name = (document.get("name") as! String?)!
-                    let id = (document.get("id") as! String?)!
+                    let name = (document.get("listName") as! String?)!
+                    let id = (document.documentID as! String?)!
                     //let cat = (document.get("category") as! String?)!
                     let formattedProperty = ReminderLists(listName: name, id: id)
 

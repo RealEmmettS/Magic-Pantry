@@ -32,7 +32,7 @@ struct ReminderLists { //Name came from What's Due. Too lazy to change it :)
     var dictionary:[String : Any] {
         return [
             "listName":listName!,
-            "id":id!
+            "id":id as Any
             
         ]
         
