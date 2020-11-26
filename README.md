@@ -1,2 +1,2 @@
-# GroceryListPro
-The fastest digital Grocery List out there!
+# Magic Pantry
+The fastest digital grocery list out there!
