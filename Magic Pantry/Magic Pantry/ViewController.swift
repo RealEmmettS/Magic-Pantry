@@ -212,6 +212,11 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
     
+
+//    █▀▀ █ █▀█ █▀▀ █▄▄ ▄▀█ █▀ █▀▀   █░░ █▀█ █▀▀ █ █▄░█
+//    █▀░ █ █▀▄ ██▄ █▄█ █▀█ ▄█ ██▄   █▄▄ █▄█ █▄█ █ █░▀█
+    
+    
     //MARK: Firebase UI
     func SetupAuthUI() -> UINavigationController{
         
@@ -234,6 +239,9 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     }
     
     
+//    █▀▀ █ █▀█ █▀▀ █▄▄ ▄▀█ █▀ █▀▀   █░░ █▀█ █▀▀ █ █▄░█
+//    █▀░ █ █▀▄ ██▄ █▄█ █▀█ ▄█ ██▄   █▄▄ █▄█ █▄█ █ █░▀█
+
     
     
     
