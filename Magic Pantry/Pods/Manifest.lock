@@ -235,6 +235,8 @@ PODS:
     - FBSDKCoreKit (~> 7.1.1)
   - Firebase (7.1.0):
     - Firebase/Core (= 7.1.0)
+  - Firebase/Analytics (7.1.0):
+    - Firebase/Core
   - Firebase/Auth (7.1.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 7.1.0)
@@ -409,6 +411,7 @@ PODS:
 
 DEPENDENCIES:
   - Firebase
+  - Firebase/Analytics
   - Firebase/Auth
   - FirebaseUI
   - FirebaseUI/Auth
@@ -474,6 +477,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
 
-PODFILE CHECKSUM: d491521131dcb26152071290452a139eef9df9ae
+PODFILE CHECKSUM: ce08a112de8ae9456d346d62f8d99e06968e1390
 
 COCOAPODS: 1.10.0
