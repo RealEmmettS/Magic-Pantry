@@ -9,6 +9,9 @@ target 'Magic Pantry' do
   pod 'Firebase/Auth'
   pod 'FirebaseUI'
   pod 'Firebase/Analytics'
+
+  pod 'paper-onboarding'
+
   
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
