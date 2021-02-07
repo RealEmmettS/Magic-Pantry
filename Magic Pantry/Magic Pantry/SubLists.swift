@@ -137,14 +137,14 @@ class SubLists: UITableViewController {
     
     //MARK: - Adding Items
        @IBAction func addItem(_ sender: Any) {
-           let alert = UIAlertController(title: "Add Item", message: nil, preferredStyle: .alert)
-           alert.addAction(UIAlertAction(title: "Done", style: .cancel, handler: nil))
+           let alert = UIAlertController(title: "New Item", message: nil, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
            alert.addTextField(configurationHandler: { textField in
                textField.placeholder = "Item Name"
            })
         
-           alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
+           alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { action in
                guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
                
                let NewList = ReminderLists(listName: NameOfList)

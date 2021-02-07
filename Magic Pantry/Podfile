@@ -4,15 +4,16 @@ platform :ios, '13.0'
 target 'Magic Pantry' do
   use_frameworks!
 
-  # Pods for CongressAppChallenge
+  # Pods for Magic Pantry
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'FirebaseUI'
+  pod 'Firebase/Analytics'
   
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Phone'
-    
+      
   target 'Magic PantryTests' do
     inherit! :search_paths
     # Pods for testing

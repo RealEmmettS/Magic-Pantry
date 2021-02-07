@@ -4,7 +4,18 @@
 //
 //  Created by Emmett Shaughnessy on 10/16/19.
 //  Copyright © 2019 Emmett Shaughnessy. All rights reserved.
-//
+
+
+
+
+//███╗░░░███╗░█████╗░░██████╗░██╗░█████╗░  ██████╗░░█████╗░███╗░░██╗████████╗██████╗░██╗░░░██╗
+//████╗░████║██╔══██╗██╔════╝░██║██╔══██╗  ██╔══██╗██╔══██╗████╗░██║╚══██╔══╝██╔══██╗╚██╗░██╔╝
+//██╔████╔██║███████║██║░░██╗░██║██║░░╚═╝  ██████╔╝███████║██╔██╗██║░░░██║░░░██████╔╝░╚████╔╝░
+//██║╚██╔╝██║██╔══██║██║░░╚██╗██║██║░░██╗  ██╔═══╝░██╔══██║██║╚████║░░░██║░░░██╔══██╗░░╚██╔╝░░
+//██║░╚═╝░██║██║░░██║╚██████╔╝██║╚█████╔╝  ██║░░░░░██║░░██║██║░╚███║░░░██║░░░██║░░██║░░░██║░░░
+//╚═╝░░░░░╚═╝╚═╝░░╚═╝░╚═════╝░╚═╝░╚════╝░  ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░╚═╝░░░╚═╝░░░
+
+
 
 import UIKit
 import Firebase
@@ -93,7 +104,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
 //
-//             (__)     (__)   "slurp"
+//             (__)     (__)
 //             (oo)     (oo)
 //      /-------\/       \/-------\
 //     / |     ||  \__/  ||      | \
@@ -107,11 +118,10 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     //Code Starts Here
     
     
-    
-    
-    
-    
-
+    @objc func callback() { //used after user signs in
+        print("waited..checking user authentication")
+        updateNewUser()
+    }
     
     
     //MARK: Button Actions
@@ -119,9 +129,11 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         //Shows the current user the Sign In page
         present(SetupAuthUI(), animated: true, completion: refreshVariables)
         refreshVariables()
+        
         if presentedViewController!.isBeingDismissed{
             print("Dismissing...")
             refreshVariables()
+            perform(#selector(callback), with: nil, afterDelay: 3.0)
         }
         func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
           print("Oh No")
@@ -132,7 +144,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             refreshVariables()
         }
         
-        refreshVariables()
+        perform(#selector(callback), with: nil, afterDelay: 3.0) //uses the objective-c function "callback" declared above
     }
     
     func updateNewUser(){
@@ -196,7 +208,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
 //           /------\/
 //          /|     ||
 //         * ||----||
-//    Flirtatious cow (winking)
+
     
     
     
@@ -208,8 +220,10 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
            authUI!.delegate = self
            
            let providers: [FUIAuthProvider] = [
-             //FUIGoogleAuth(),
+             FUIGoogleAuth(),
              FUIEmailAuth(),
+             FUIOAuth.appleAuthProvider()
+             //FUIGitHubAuth(),
              /*FUIPhoneAuth(authUI:FUIAuth.defaultAuthUI()!),*/
            ]
            authUI!.providers = providers
@@ -313,6 +327,21 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
     
+
+//    ███████╗██╗░░██╗██████╗░███████╗██████╗░██╗███╗░░░███╗███████╗███╗░░██╗████████╗░█████╗░██╗░░░░░
+//    ██╔════╝╚██╗██╔╝██╔══██╗██╔════╝██╔══██╗██║████╗░████║██╔════╝████╗░██║╚══██╔══╝██╔══██╗██║░░░░░
+//    █████╗░░░╚███╔╝░██████╔╝█████╗░░██████╔╝██║██╔████╔██║█████╗░░██╔██╗██║░░░██║░░░███████║██║░░░░░
+//    ██╔══╝░░░██╔██╗░██╔═══╝░██╔══╝░░██╔══██╗██║██║╚██╔╝██║██╔══╝░░██║╚████║░░░██║░░░██╔══██║██║░░░░░
+//    ███████╗██╔╝╚██╗██║░░░░░███████╗██║░░██║██║██║░╚═╝░██║███████╗██║░╚███║░░░██║░░░██║░░██║███████╗
+//    ╚══════╝╚═╝░░╚═╝╚═╝░░░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░╚═╝╚══════╝
+//
+//    ███████╗███████╗░█████╗░████████╗██╗░░░██╗██████╗░███████╗░██████╗
+//    ██╔════╝██╔════╝██╔══██╗╚══██╔══╝██║░░░██║██╔══██╗██╔════╝██╔════╝
+//    █████╗░░█████╗░░███████║░░░██║░░░██║░░░██║██████╔╝█████╗░░╚█████╗░
+//    ██╔══╝░░██╔══╝░░██╔══██║░░░██║░░░██║░░░██║██╔══██╗██╔══╝░░░╚═══██╗
+//    ██║░░░░░███████╗██║░░██║░░░██║░░░╚██████╔╝██║░░██║███████╗██████╔╝
+//    ╚═╝░░░░░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░░╚═════╝░╚═╝░░╚═╝╚══════╝╚═════╝░
+//
 
     //MARK: Experimental Features
     func changeIcon(name: String?) {
