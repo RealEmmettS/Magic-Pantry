@@ -269,30 +269,43 @@ class TableViewController: UITableViewController {
 
     //MARK: Deleting (Editing) Cells
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        print("User began edit")
         if editingStyle == .delete {
+            print("User chose to delete list")
             
             let listRef = db.collection("users").document("\(self.tableuserid!)").collection("lists")
             
             listRef.getDocuments { (snapshotDocuments, err) in
+                print("Retrieving all avaliable lists")
                 if let err = err{
                     print("Uh Oh. Can't Delete: \(err)")
                 }
                 
                 let toDelete = self.listArray[indexPath.row].id
+                print("Marked local list for deletion")
             
                 
                 for document in snapshotDocuments!.documents{
+                    print("Beggining deletion sequence")
                     
-                    let property = (document.get("listName") as! String?)!
-                    let formattedProperty = ReminderLists(listName: property)
+                    //let property = (document.get("listName") as! String?)!
+                    let name = (document.get("listName") as! String?)!
+                    let id = (document.documentID as String?)!
+                    let formattedProperty = ReminderLists(listName: name, id: id)
+                    
+                    print("Marked remote list for deletion")
+                    print(formattedProperty.id)
+                    print(toDelete!)
                     
                     if formattedProperty.id == toDelete {
                         //check items
+                        print("Attempting delete")
                         if self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items") != nil{ //checking if list is empty
                             
                             let items = self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).collection("Items")
                             
                             //Delete items
+                            print("Deleting items in list")
                             items.getDocuments { (itemsDocuments, err) in
                                 if let err = err{
                                     print("Uh Oh. Can't Delete: \(err)")
@@ -304,6 +317,7 @@ class TableViewController: UITableViewController {
                             
                             
                         //Delete List
+                            print("Deleting list")
                         self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
                             
                         self.listArray.remove(at: indexPath.row)
