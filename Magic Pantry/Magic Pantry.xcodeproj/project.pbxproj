@@ -8,6 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		48AC65DAB66A37E7D576A046 /* Pods_Magic_Pantry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */; };
+		D10514B325E2E495005A4026 /* onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10514B225E2E495005A4026 /* onboarding.swift */; };
+		D1442FED25E2E7E2002DCC90 /* PublicSans-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FDB25E2E7E1002DCC90 /* PublicSans-MediumItalic.otf */; };
+		D1442FEE25E2E7E2002DCC90 /* PublicSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FDC25E2E7E1002DCC90 /* PublicSans-Regular.otf */; };
+		D1442FEF25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FDD25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf */; };
+		D1442FF025E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FDE25E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf */; };
+		D1442FF125E2E7E2002DCC90 /* PublicSans-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FDF25E2E7E2002DCC90 /* PublicSans-Black.otf */; };
+		D1442FF225E2E7E2002DCC90 /* PublicSans-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE025E2E7E2002DCC90 /* PublicSans-Italic.otf */; };
+		D1442FF325E2E7E2002DCC90 /* PublicSans-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE125E2E7E2002DCC90 /* PublicSans-Light.otf */; };
+		D1442FF425E2E7E2002DCC90 /* PublicSans-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE225E2E7E2002DCC90 /* PublicSans-LightItalic.otf */; };
+		D1442FF525E2E7E2002DCC90 /* PublicSans-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE325E2E7E2002DCC90 /* PublicSans-BoldItalic.otf */; };
+		D1442FF625E2E7E2002DCC90 /* PublicSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE425E2E7E2002DCC90 /* PublicSans-Medium.otf */; };
+		D1442FF725E2E7E2002DCC90 /* PublicSans-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE525E2E7E2002DCC90 /* PublicSans-ThinItalic.otf */; };
+		D1442FF825E2E7E2002DCC90 /* PublicSans-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE625E2E7E2002DCC90 /* PublicSans-ExtraLight.otf */; };
+		D1442FF925E2E7E2002DCC90 /* PublicSans-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE725E2E7E2002DCC90 /* PublicSans-Thin.otf */; };
+		D1442FFA25E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE825E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf */; };
+		D1442FFB25E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FE925E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf */; };
+		D1442FFC25E2E7E2002DCC90 /* PublicSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEA25E2E7E2002DCC90 /* PublicSans-Bold.otf */; };
+		D1442FFD25E2E7E2002DCC90 /* PublicSans-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEB25E2E7E2002DCC90 /* PublicSans-SemiBold.otf */; };
+		D1442FFE25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEC25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf */; };
 		D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810523B5B23400C634D5 /* AppDelegate.swift */; };
 		D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810723B5B23400C634D5 /* SceneDelegate.swift */; };
 		D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D16C810E23B5B23A00C634D5 /* Assets.xcassets */; };
@@ -68,6 +87,25 @@
 		634EA8C41F7FFA946B87D92E /* Pods-Magic PantryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryTests.debug.xcconfig"; path = "Target Support Files/Pods-Magic PantryTests/Pods-Magic PantryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Magic_PantryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E29A426A8BA5A6430FD945E /* Pods-Magic Pantry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.debug.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.debug.xcconfig"; sourceTree = "<group>"; };
+		D10514B225E2E495005A4026 /* onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onboarding.swift; sourceTree = "<group>"; };
+		D1442FDB25E2E7E1002DCC90 /* PublicSans-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-MediumItalic.otf"; sourceTree = "<group>"; };
+		D1442FDC25E2E7E1002DCC90 /* PublicSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Regular.otf"; sourceTree = "<group>"; };
+		D1442FDD25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraBold.otf"; sourceTree = "<group>"; };
+		D1442FDE25E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
+		D1442FDF25E2E7E2002DCC90 /* PublicSans-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Black.otf"; sourceTree = "<group>"; };
+		D1442FE025E2E7E2002DCC90 /* PublicSans-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Italic.otf"; sourceTree = "<group>"; };
+		D1442FE125E2E7E2002DCC90 /* PublicSans-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Light.otf"; sourceTree = "<group>"; };
+		D1442FE225E2E7E2002DCC90 /* PublicSans-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-LightItalic.otf"; sourceTree = "<group>"; };
+		D1442FE325E2E7E2002DCC90 /* PublicSans-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-BoldItalic.otf"; sourceTree = "<group>"; };
+		D1442FE425E2E7E2002DCC90 /* PublicSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Medium.otf"; sourceTree = "<group>"; };
+		D1442FE525E2E7E2002DCC90 /* PublicSans-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ThinItalic.otf"; sourceTree = "<group>"; };
+		D1442FE625E2E7E2002DCC90 /* PublicSans-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraLight.otf"; sourceTree = "<group>"; };
+		D1442FE725E2E7E2002DCC90 /* PublicSans-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Thin.otf"; sourceTree = "<group>"; };
+		D1442FE825E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		D1442FE925E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-SemiBoldItalic.otf"; sourceTree = "<group>"; };
+		D1442FEA25E2E7E2002DCC90 /* PublicSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Bold.otf"; sourceTree = "<group>"; };
+		D1442FEB25E2E7E2002DCC90 /* PublicSans-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-SemiBold.otf"; sourceTree = "<group>"; };
+		D1442FEC25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-BlackItalic.otf"; sourceTree = "<group>"; };
 		D16C810223B5B23400C634D5 /* Magic Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magic Pantry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16C810523B5B23400C634D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D16C810723B5B23400C634D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -147,6 +185,31 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D1442FDA25E2E7E1002DCC90 /* Public_Sans */ = {
+			isa = PBXGroup;
+			children = (
+				D1442FDB25E2E7E1002DCC90 /* PublicSans-MediumItalic.otf */,
+				D1442FDC25E2E7E1002DCC90 /* PublicSans-Regular.otf */,
+				D1442FDD25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf */,
+				D1442FDE25E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf */,
+				D1442FDF25E2E7E2002DCC90 /* PublicSans-Black.otf */,
+				D1442FE025E2E7E2002DCC90 /* PublicSans-Italic.otf */,
+				D1442FE125E2E7E2002DCC90 /* PublicSans-Light.otf */,
+				D1442FE225E2E7E2002DCC90 /* PublicSans-LightItalic.otf */,
+				D1442FE325E2E7E2002DCC90 /* PublicSans-BoldItalic.otf */,
+				D1442FE425E2E7E2002DCC90 /* PublicSans-Medium.otf */,
+				D1442FE525E2E7E2002DCC90 /* PublicSans-ThinItalic.otf */,
+				D1442FE625E2E7E2002DCC90 /* PublicSans-ExtraLight.otf */,
+				D1442FE725E2E7E2002DCC90 /* PublicSans-Thin.otf */,
+				D1442FE825E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf */,
+				D1442FE925E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf */,
+				D1442FEA25E2E7E2002DCC90 /* PublicSans-Bold.otf */,
+				D1442FEB25E2E7E2002DCC90 /* PublicSans-SemiBold.otf */,
+				D1442FEC25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf */,
+			);
+			path = Public_Sans;
+			sourceTree = "<group>";
+		};
 		D16C80F923B5B23300C634D5 = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +238,7 @@
 				D1A2BF1A23B9319100D4DD45 /* Magic Pantry.entitlements */,
 				D16C810523B5B23400C634D5 /* AppDelegate.swift */,
 				D16C810723B5B23400C634D5 /* SceneDelegate.swift */,
+				D10514B225E2E495005A4026 /* onboarding.swift */,
 				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
 				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
 				D16C813823B5B8E300C634D5 /* Lists.swift */,
@@ -214,6 +278,7 @@
 		D19A967423B6A7550036FC1E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				D1442FDA25E2E7E1002DCC90 /* Public_Sans */,
 				D19A967523B6A7F50036FC1E /* Girassol */,
 				D19A967623B6A7F50036FC1E /* Poppins */,
 				D19A967723B6A7F60036FC1E /* Quicksand */,
@@ -371,20 +436,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1442FF525E2E7E2002DCC90 /* PublicSans-BoldItalic.otf in Resources */,
 				D19A967923B6A7F60036FC1E /* Poppins in Resources */,
+				D1442FF125E2E7E2002DCC90 /* PublicSans-Black.otf in Resources */,
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
 				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
+				D1442FFA25E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf in Resources */,
 				D19A967A23B6A7F60036FC1E /* Quicksand in Resources */,
+				D1442FFC25E2E7E2002DCC90 /* PublicSans-Bold.otf in Resources */,
 				D1A2BF4223B93E5F00D4DD45 /* Icon-Orig-60x60@2x.png in Resources */,
 				D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */,
 				D1A2BF4823B93E5F00D4DD45 /* Icon-Orig-60x60@3x.png in Resources */,
+				D1442FEF25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf in Resources */,
+				D1442FFE25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf in Resources */,
 				D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */,
+				D1442FF325E2E7E2002DCC90 /* PublicSans-Light.otf in Resources */,
 				D1A2BF6523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png in Resources */,
 				D1A2BF3B23B93E5F00D4DD45 /* Icon-Orig-83.5x83.5@2x.png in Resources */,
+				D1442FF225E2E7E2002DCC90 /* PublicSans-Italic.otf in Resources */,
+				D1442FED25E2E7E2002DCC90 /* PublicSans-MediumItalic.otf in Resources */,
+				D1442FF725E2E7E2002DCC90 /* PublicSans-ThinItalic.otf in Resources */,
+				D1442FF425E2E7E2002DCC90 /* PublicSans-LightItalic.otf in Resources */,
 				D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */,
+				D1442FFB25E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf in Resources */,
+				D1442FF825E2E7E2002DCC90 /* PublicSans-ExtraLight.otf in Resources */,
+				D1442FEE25E2E7E2002DCC90 /* PublicSans-Regular.otf in Resources */,
 				D19A968523B703DD0036FC1E /* main.png in Resources */,
+				D1442FF925E2E7E2002DCC90 /* PublicSans-Thin.otf in Resources */,
+				D1442FF025E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf in Resources */,
 				D1A2BF5A23B93E7900D4DD45 /* Icon-App-60x60@2x.png in Resources */,
+				D1442FF625E2E7E2002DCC90 /* PublicSans-Medium.otf in Resources */,
 				D19A967823B6A7F60036FC1E /* Girassol in Resources */,
+				D1442FFD25E2E7E2002DCC90 /* PublicSans-SemiBold.otf in Resources */,
 				D19A968723B7047F0036FC1E /* original.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -521,6 +604,7 @@
 			files = (
 				D16C813F23B5B8E500C634D5 /* SubLists.swift in Sources */,
 				D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */,
+				D10514B325E2E495005A4026 /* onboarding.swift in Sources */,
 				D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */,
 				D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */,
 				D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */,
