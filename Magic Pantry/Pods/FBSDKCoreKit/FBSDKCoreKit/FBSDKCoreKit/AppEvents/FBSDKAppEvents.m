@@ -632,14 +632,18 @@ static NSString *g_overrideAppID = nil;
 
 + (void)activateApp
 {
+  if (![FBSDKApplicationDelegate isSDKInitialized]) {
+    NSLog(@"<Warning> App events cannot be activated before the Facebook SDK is initialized. "
+    "Learn more: https://github.com/facebook/facebook-ios-sdk/blob/master/CHANGELOG.md#900");
+    return;
+  }
+
   [FBSDKAppEventsUtility ensureOnMainThread:NSStringFromSelector(_cmd) className:NSStringFromClass(self)];
 
   // Fetch app settings and register for transaction notifications only if app supports implicit purchase
   // events
   FBSDKAppEvents *instance = [FBSDKAppEvents singleton];
-  [FBSDKAppEventsConfigurationManager loadAppEventsConfigurationWithBlock:^{
-    [instance publishInstall];
-  }];
+  [instance publishInstall];
   [instance fetchServerConfiguration:NULL];
 
   // Restore time spent data, indicating that we're being called from "activateApp", which will,
@@ -959,15 +963,15 @@ static NSString *g_overrideAppID = nil;
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors logEntry:@"Missing [FBSDKAppEvents appID] for [FBSDKAppEvents publishInstall:]"];
     return;
   }
-  if ([FBSDKAppEventsUtility shouldDropAppEvent]) {
-    return;
-  }
   NSString *lastAttributionPingString = [NSString stringWithFormat:@"com.facebook.sdk:lastAttributionPing%@", appID];
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   if ([defaults objectForKey:lastAttributionPingString]) {
     return;
   }
   [self fetchServerConfiguration:^{
+    if ([FBSDKAppEventsUtility shouldDropAppEvent]) {
+      return;
+    }
     NSMutableDictionary *params = [FBSDKAppEventsUtility activityParametersDictionaryForEvent:@"MOBILE_APP_INSTALL"
                                                                     shouldAccessAdvertisingID:self->_serverConfiguration.isAdvertisingIDEnabled];
     [self appendInstallTimestamp:params];
@@ -1075,63 +1079,67 @@ static NSString *g_overrideAppID = nil;
 // app events can use a server configuration up to 24 hours old to minimize network traffic.
 - (void)fetchServerConfiguration:(FBSDKCodeBlock)callback
 {
-  [FBSDKServerConfigurationManager loadServerConfigurationWithCompletionBlock:^(FBSDKServerConfiguration *serverConfiguration, NSError *error) {
-    self->_serverConfiguration = serverConfiguration;
+  [FBSDKAppEventsConfigurationManager loadAppEventsConfigurationWithBlock:^{
+    [FBSDKServerConfigurationManager loadServerConfigurationWithCompletionBlock:^(FBSDKServerConfiguration *serverConfiguration, NSError *error) {
+      self->_serverConfiguration = serverConfiguration;
 
-    if (self->_serverConfiguration.implicitPurchaseLoggingEnabled && [FBSDKSettings isAutoLogAppEventsEnabled]) {
-      [FBSDKPaymentObserver startObservingTransactions];
-    } else {
-      [FBSDKPaymentObserver stopObservingTransactions];
-    }
-    [FBSDKFeatureManager checkFeature:FBSDKFeatureRestrictiveDataFiltering completionBlock:^(BOOL enabled) {
-      if (enabled) {
-        [FBSDKRestrictiveDataFilterManager enable];
+      if (self->_serverConfiguration.implicitPurchaseLoggingEnabled && [FBSDKSettings isAutoLogAppEventsEnabled]) {
+        [FBSDKPaymentObserver startObservingTransactions];
+      } else {
+        [FBSDKPaymentObserver stopObservingTransactions];
       }
-    }];
-    [FBSDKFeatureManager checkFeature:FBSDKFeatureEventDeactivation completionBlock:^(BOOL enabled) {
-      if (enabled) {
-        [FBSDKEventDeactivationManager enable];
-      }
-    }];
-    if (@available(iOS 14.0, *)) {
-      [FBSDKFeatureManager checkFeature:FBSDKFeatureATELogging completionBlock:^(BOOL enabled) {
+      [FBSDKFeatureManager checkFeature:FBSDKFeatureRestrictiveDataFiltering completionBlock:^(BOOL enabled) {
         if (enabled) {
-          [self publishATE];
+          [FBSDKRestrictiveDataFilterManager enable];
         }
       }];
-    }
-  #if !TARGET_OS_TV
-    [FBSDKFeatureManager checkFeature:FBSDKFeatureCodelessEvents completionBlock:^(BOOL enabled) {
-      if (enabled) {
-        [self enableCodelessEvents];
+      [FBSDKFeatureManager checkFeature:FBSDKFeatureEventDeactivation completionBlock:^(BOOL enabled) {
+        if (enabled) {
+          [FBSDKEventDeactivationManager enable];
+        }
+      }];
+      if (@available(iOS 14.0, *)) {
+        [FBSDKFeatureManager checkFeature:FBSDKFeatureATELogging completionBlock:^(BOOL enabled) {
+          if (enabled) {
+            [self publishATE];
+          }
+        }];
       }
-    }];
-    [FBSDKFeatureManager checkFeature:FBSDKFeatureAAM completionBlock:^(BOOL enabled) {
-      if (enabled) {
-        [FBSDKMetadataIndexer enable];
-      }
-    }];
-    [FBSDKFeatureManager checkFeature:FBSDKFeaturePrivacyProtection completionBlock:^(BOOL enabled) {
-      if (enabled) {
-        [FBSDKModelManager enable];
-      }
-    }];
-    if (@available(iOS 11.3, *)) {
-      [FBSDKFeatureManager checkFeature:FBSDKFeatureSKAdNetwork completionBlock:^(BOOL SKAdNetworkEnabled) {
-        if (SKAdNetworkEnabled) {
-          [SKAdNetwork registerAppForAdNetworkAttribution];
-          [FBSDKFeatureManager checkFeature:FBSDKFeatureSKAdNetworkConversionValue completionBlock:^(BOOL SKAdNetworkConversionValueEnabled) {
-            if (SKAdNetworkConversionValueEnabled) {
-              [FBSDKSKAdNetworkReporter enable];
+    #if !TARGET_OS_TV
+      [FBSDKFeatureManager checkFeature:FBSDKFeatureCodelessEvents completionBlock:^(BOOL enabled) {
+        if (enabled) {
+          [self enableCodelessEvents];
+        }
+      }];
+      [FBSDKFeatureManager checkFeature:FBSDKFeatureAAM completionBlock:^(BOOL enabled) {
+        if (enabled) {
+          [FBSDKMetadataIndexer enable];
+        }
+      }];
+      [FBSDKFeatureManager checkFeature:FBSDKFeaturePrivacyProtection completionBlock:^(BOOL enabled) {
+        if (enabled) {
+          [FBSDKModelManager enable];
+        }
+      }];
+      if (@available(iOS 11.3, *)) {
+        if (FBSDKSettings.SKAdNetworkReportEnabled) {
+          [FBSDKFeatureManager checkFeature:FBSDKFeatureSKAdNetwork completionBlock:^(BOOL SKAdNetworkEnabled) {
+            if (SKAdNetworkEnabled) {
+              [SKAdNetwork registerAppForAdNetworkAttribution];
+              [FBSDKFeatureManager checkFeature:FBSDKFeatureSKAdNetworkConversionValue completionBlock:^(BOOL SKAdNetworkConversionValueEnabled) {
+                if (SKAdNetworkConversionValueEnabled) {
+                  [FBSDKSKAdNetworkReporter enable];
+                }
+              }];
             }
           }];
         }
-      }];
-    }
-  #endif
-    if (callback) {
-      callback();
-    }
+      }
+    #endif
+      if (callback) {
+        callback();
+      }
+    }];
   }];
 }
 
@@ -1318,13 +1326,12 @@ static NSString *g_overrideAppID = nil;
     return;
   }
 
-  if ([FBSDKAppEventsUtility shouldDropAppEvent]) {
-    return;
-  }
-
   [FBSDKAppEventsUtility ensureOnMainThread:NSStringFromSelector(_cmd) className:NSStringFromClass([self class])];
 
   [self fetchServerConfiguration:^(void) {
+    if ([FBSDKAppEventsUtility shouldDropAppEvent]) {
+      return;
+    }
     NSString *receipt_data = appEventsState.extractReceiptData;
     NSString *encodedEvents = [appEventsState JSONStringForEvents:self->_serverConfiguration.implicitLoggingEnabled];
     if (!encodedEvents || appEventsState.events.count == 0) {
