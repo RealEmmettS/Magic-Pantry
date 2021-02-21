@@ -11,12 +11,12 @@ target 'Magic Pantry' do
   pod 'Firebase/Analytics'
 
   pod 'paper-onboarding'
+  pod 'BulletinBoard'
 
-  
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Phone'
-      
+
   target 'Magic PantryTests' do
     inherit! :search_paths
     # Pods for testing
