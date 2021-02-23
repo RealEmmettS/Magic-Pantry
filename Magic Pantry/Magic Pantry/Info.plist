@@ -43,7 +43,7 @@
 	<array>
 		<string>PublicSans-Light.otf</string>
 		<string>PublicSans-Thin.otf</string>
-		<string>PublicSans-Medium</string>
+		<string>PublicSans-Medium.otf</string>
 		<string>PublicSans-ExtraBold.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

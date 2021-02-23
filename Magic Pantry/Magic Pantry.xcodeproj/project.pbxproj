@@ -209,13 +209,13 @@
 				D1A2BF1A23B9319100D4DD45 /* Magic Pantry.entitlements */,
 				D16C810523B5B23400C634D5 /* AppDelegate.swift */,
 				D16C810723B5B23400C634D5 /* SceneDelegate.swift */,
+				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
 				D1AE77A425E487DA00292448 /* NewOnboarding.swift */,
 				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
 				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
 				D16C813823B5B8E300C634D5 /* Lists.swift */,
 				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
 				D1E46132256F8CA6001C549A /* functions.swift */,
-				D16C813C23B5B8E500C634D5 /* ViewController.swift */,
 				D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */,
 				D16C814223B5B90100C634D5 /* Main.storyboard */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
@@ -774,7 +774,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.1;
+				MARKETING_VERSION = 3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -799,7 +799,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.1;
+				MARKETING_VERSION = 3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

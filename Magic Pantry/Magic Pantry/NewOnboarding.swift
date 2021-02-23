@@ -23,7 +23,7 @@ class NewOnboarding: UIViewController {
         continueButton.isEnabled = false
         
         //The line below this one is for testing purposes only. DO NOT UNCOMMENT UNLESS YOU'RE TESTING ONBOARDING
-        UserDefaults.standard.set(false, forKey: "onboardingComplete")
+        //UserDefaults.standard.set(false, forKey: "onboardingComplete")
 
     }
     

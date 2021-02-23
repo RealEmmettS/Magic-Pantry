@@ -30,6 +30,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     //With the next two lines (@IBOutlet) we are simply connecting our User Interface elements to our code. This does nothing in particular besides let us access UI elements throught the code later on
     @IBOutlet weak var Name: UILabel!
+    @IBOutlet weak var signInButton: UIButton!
     
     
     
@@ -46,7 +47,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         UName = ""
         UserID = ""
         //Sets the name label to include the current user's name
-        Name.text = "Email: None"
+        Name.text = "Please sign-in or refresh"
         //UID.text = "User ID: None"
         
         if Auth.auth().currentUser?.email != nil{
@@ -62,6 +63,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             UserID = String(Auth.auth().currentUser!.uid)
             
             Name.text = "Email: \(UName!)"
+            signInButton.setTitle("Sign-Out", for: .normal)
             //UID.text = "User ID: \(UserID!)"
             
             
@@ -69,6 +71,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             
         }else if UserIsLoggedIn == false{
             
+            signInButton.setTitle("Sign-In", for: .normal)
             print("Continue with our code below")
         }
         
@@ -88,6 +91,8 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             //Running the above code again to update our on-screen data
             UName = (Auth.auth().currentUser?.email)!
             UserID = String(Auth.auth().currentUser!.uid)
+            
+            
             
             Name.text = "Email: \(UName!)"
             //UID.text = "User ID: \(UserID!)"
@@ -125,7 +130,35 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     
     
     //MARK: Button Actions
-    @IBAction func NewUser(_ sender: Any) {
+    @IBAction func SignInSignOut(_ sender: Any) {
+        if Auth.auth().currentUser?.email != nil {
+            signOutWithFirebase()
+        } else if Auth.auth().currentUser?.email == nil{
+            signInWithFirebase()
+        }
+    }
+    
+    func updateNewUser(){
+        refreshVariables()
+    }
+    
+    @IBAction func GoToLists(_ sender: Any) {
+        if isSignedIn() == true {
+            performSegue(withIdentifier: "GoToLists", sender: self)
+        } else {
+            throwNotSignedInError()
+        }
+    }
+
+    
+    @IBAction func RefreshView(_ sender: Any) {
+        refreshVariables()
+    }
+    
+    
+    
+    
+    func signInWithFirebase(){
         //Shows the current user the Sign In page
         present(SetupAuthUI(), animated: true, completion: refreshVariables)
         refreshVariables()
@@ -147,19 +180,7 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         perform(#selector(callback), with: nil, afterDelay: 3.0) //uses the objective-c function "callback" declared above
     }
     
-    func updateNewUser(){
-        refreshVariables()
-    }
-    
-    @IBAction func GoToLists(_ sender: Any) {
-        if isSignedIn() == true {
-            performSegue(withIdentifier: "GoToLists", sender: self)
-        } else {
-            throwNotSignedInError()
-        }
-    }
-
-    @IBAction func SignOutUser(_ sender: Any) {
+    func signOutWithFirebase(){
         //Resetting AuthUI and its properties
         let authUI = FUIAuth.defaultAuthUI()
         authUI!.delegate = self
@@ -179,9 +200,8 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
         }
     }
     
-    @IBAction func RefreshView(_ sender: Any) {
-        refreshVariables()
-    }
+    
+    
     
     //App Icon Change - Temporarily Removed
 //    let appIconService = AppIconService()
@@ -265,13 +285,15 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
             //Sets the name label to include the current user's name
             Name.text = "Email: \(UName!)"
             //UID.text = "User ID: \(UserID!)"
+            signInButton.setTitle("Sign-Out", for: .normal)
         } else {
             print("User not logged in")
             UName = ""
             UserID = ""
             //Sets the name label to include the current user's name
-            Name.text = "Email: None"
+            Name.text = "Please sign-in or refresh"
             //UID.text = "User ID: None"
+            signInButton.setTitle("Sign-In", for: .normal)
         }
     }
     
