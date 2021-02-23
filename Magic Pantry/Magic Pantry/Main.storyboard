@@ -90,12 +90,22 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rvh-wU-HvD">
-                                <rect key="frame" x="20" y="382" width="154" height="48"/>
+                                <rect key="frame" x="20" y="382" width="204" height="50"/>
+                                <color key="backgroundColor" red="0.92549019610000005" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="pET-UD-f1u"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="PublicSans-ExtraBold" family="Public Sans" pointSize="30"/>
+                                <inset key="contentEdgeInsets" minX="25" minY="7" maxX="25" maxY="7"/>
                                 <size key="titleShadowOffset" width="0.5" height="0.5"/>
                                 <state key="normal" title="Go to Lists">
-                                    <color key="titleColor" systemColor="linkColor"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <real key="value" value="12.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="GoToLists:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rG3-og-Emf"/>
                                     <segue destination="8nJ-Du-tnE" kind="show" identifier="GoToLists" id="w5s-XL-NUU"/>
@@ -148,7 +158,7 @@
             <objects>
                 <tableViewController title="Lists" modalTransitionStyle="crossDissolve" modalPresentationStyle="fullScreen" id="FEr-Ay-EN1" customClass="TableViewController" customModule="Magic_Pantry" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="p7e-6o-AgX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -202,7 +212,7 @@
             <objects>
                 <tableViewController title="Items" id="xwx-dV-SwR" customClass="SubLists" customModule="Magic_Pantry" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zFc-qy-CfW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -257,19 +267,43 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c9e-JU-PAt">
+                                <rect key="frame" x="91" y="736" width="232" height="56"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="Ptc-CW-PrX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="PublicSans-ExtraBold" family="Public Sans" pointSize="22"/>
+                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                <state key="normal" title="Open Magic Pantry">
+                                    <color key="titleColor" red="0.92549019610000005" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="28"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="continuePressed:" destination="lNe-Fl-aZP" eventType="touchUpInside" id="ZQX-VC-xwP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Tf1-zA-ITG"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="kls-Vf-nEK" firstAttribute="top" secondItem="Tf1-zA-ITG" secondAttribute="top" constant="-44" id="3FY-NK-o1s"/>
+                            <constraint firstItem="Tf1-zA-ITG" firstAttribute="bottom" secondItem="c9e-JU-PAt" secondAttribute="bottom" constant="70" id="6Bv-4h-1aC"/>
                             <constraint firstItem="Tf1-zA-ITG" firstAttribute="trailing" secondItem="kls-Vf-nEK" secondAttribute="trailing" id="AYc-Ud-QRl"/>
+                            <constraint firstItem="c9e-JU-PAt" firstAttribute="centerX" secondItem="DVn-qB-lD2" secondAttribute="centerX" id="C8m-N1-QHG"/>
                             <constraint firstItem="kls-Vf-nEK" firstAttribute="leading" secondItem="Tf1-zA-ITG" secondAttribute="leading" id="IUf-4h-mHg"/>
                             <constraint firstItem="Tf1-zA-ITG" firstAttribute="bottom" secondItem="kls-Vf-nEK" secondAttribute="bottom" constant="-34" id="Nxt-ql-hfL"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="continueButton" destination="c9e-JU-PAt" id="Rsk-zQ-A5s"/>
                         <outlet property="onboardingView" destination="kls-Vf-nEK" id="jAd-9e-1wN"/>
-                        <segue destination="8nJ-Du-tnE" kind="show" identifier="moveToApp" id="Q0E-oN-Wkk"/>
+                        <segue destination="8nJ-Du-tnE" kind="show" identifier="moveToApp" animates="NO" id="Q0E-oN-Wkk"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="moveToSignIn" id="8lf-dI-g3x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qcn-fI-twg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -278,14 +312,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Q0E-oN-Wkk"/>
+        <segue reference="8lf-dI-g3x"/>
+        <segue reference="w5s-XL-NUU"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
