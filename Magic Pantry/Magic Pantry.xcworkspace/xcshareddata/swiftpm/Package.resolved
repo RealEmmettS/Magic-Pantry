@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Qonversion",
+        "repositoryURL": "https://github.com/qonversion/qonversion-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "120b985f6a60dd06a81a7df9a144d23b279cfaaf",
+          "version": "2.11.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

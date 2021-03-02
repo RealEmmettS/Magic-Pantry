@@ -22,9 +22,54 @@ import Firebase
 import FirebaseUI
 import FirebaseAuth
 var NewUserCreation = true
+import GoogleMobileAds
+
+
 
 class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
-
+    
+    private let banner: GADBannerView = {
+        let banner = GADBannerView()
+        banner.adUnitID = admobAppId
+        if doRunAds == true{
+            banner.load(GADRequest())
+            banner.backgroundColor = .secondarySystemBackground
+        }
+        return banner
+    }()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        banner.frame = CGRect(x: 0, y: view.frame.size.height - 50, width: view.frame.size.width, height: 50).integral
+    }
+    
+//    private let image: UIImageView = {
+//        let imageView = UIImageView(image: UIImage(systemName: "lock"))
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.tintColor = .systemRed
+//        return imageView
+//    }()
+    @IBAction func purchasePressed(_ sender: Any) {
+        IAPManager.shared.purchase { (success) in
+            if success{
+                print("Purchase completed")
+                UserDefaults.standard.set(false, forKey: "doRunAds")
+            }else{
+                print("Something went wrong with the purchase")
+            }
+        }
+    }
+    
+    @IBAction func restorePressed(_ sender: Any) {
+        IAPManager.shared.restorePurchases { (success) in
+            if success{
+                print("Restore successful")
+            }else{
+                print("Unable to restore")
+            }
+        }
+    }
     
     
     
@@ -38,6 +83,18 @@ class ViewController: UIViewController, FUIAuthDelegate, AuthUIDelegate {
     //MARK: viewDidLoad and Setup
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        banner.rootViewController = self
+        view.addSubview(banner)
+        
+        IAPManager.shared.checkPermissions { (success) in
+            if success {
+                UserDefaults.standard.set(false, forKey: "doRunAds")
+                print("Permissions found. Removing ads...")
+            }else{
+                UserDefaults.standard.set(true, forKey: "doRunAds")
+            }
+        }
         
         //UID.isHidden = true
         

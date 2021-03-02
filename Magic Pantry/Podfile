@@ -10,10 +10,11 @@ target 'Magic Pantry' do
   pod 'FirebaseUI'
   pod 'Firebase/Analytics'
 
+  pod 'Google-Mobile-Ads-SDK'
+
   pod 'paper-onboarding'
   pod 'BulletinBoard'
 
-  pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'
   pod 'FirebaseUI/Phone'
 

@@ -2800,6 +2800,10 @@ Copyright 2021 Google
    limitations under the License.
 
 
+## Google-Mobile-Ads-SDK
+
+Copyright 2021 Google
+
 ## GoogleAppMeasurement
 
 Copyright 2021 Google
@@ -3013,6 +3017,10 @@ Copyright 2021 Google
 ## GoogleSignIn
 
 Copyright 2019 Google
+
+## GoogleUserMessagingPlatform
+
+Copyright 2020 Google
 
 ## GoogleUtilities
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,11 @@
 		D1442FFC25E2E7E2002DCC90 /* PublicSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEA25E2E7E2002DCC90 /* PublicSans-Bold.otf */; };
 		D1442FFD25E2E7E2002DCC90 /* PublicSans-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEB25E2E7E2002DCC90 /* PublicSans-SemiBold.otf */; };
 		D1442FFE25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1442FEC25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf */; };
+		D168C54C25ED9CFA00B5B90A /* Lists(With Ads).swift in Sources */ = {isa = PBXBuildFile; fileRef = D168C54B25ED9CFA00B5B90A /* Lists(With Ads).swift */; };
+		D168C55125EDA29E00B5B90A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D168C55025EDA29E00B5B90A /* StoreKit.framework */; };
+		D168C55425EDA47100B5B90A /* Qonversion in Frameworks */ = {isa = PBXBuildFile; productRef = D168C55325EDA47100B5B90A /* Qonversion */; };
+		D168C55925EDA57B00B5B90A /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D168C55825EDA57B00B5B90A /* IAPManager.swift */; };
+		D168C55E25EDD28D00B5B90A /* subLists(With Ads).swift in Sources */ = {isa = PBXBuildFile; fileRef = D168C55D25EDD28D00B5B90A /* subLists(With Ads).swift */; };
 		D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810523B5B23400C634D5 /* AppDelegate.swift */; };
 		D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C810723B5B23400C634D5 /* SceneDelegate.swift */; };
 		D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D16C810E23B5B23A00C634D5 /* Assets.xcassets */; };
@@ -102,6 +107,10 @@
 		D1442FEA25E2E7E2002DCC90 /* PublicSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-Bold.otf"; sourceTree = "<group>"; };
 		D1442FEB25E2E7E2002DCC90 /* PublicSans-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-SemiBold.otf"; sourceTree = "<group>"; };
 		D1442FEC25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PublicSans-BlackItalic.otf"; sourceTree = "<group>"; };
+		D168C54B25ED9CFA00B5B90A /* Lists(With Ads).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Lists(With Ads).swift"; sourceTree = "<group>"; };
+		D168C55025EDA29E00B5B90A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D168C55825EDA57B00B5B90A /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		D168C55D25EDD28D00B5B90A /* subLists(With Ads).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "subLists(With Ads).swift"; sourceTree = "<group>"; };
 		D16C810223B5B23400C634D5 /* Magic Pantry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Magic Pantry.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D16C810523B5B23400C634D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D16C810723B5B23400C634D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +155,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				48AC65DAB66A37E7D576A046 /* Pods_Magic_Pantry.framework in Frameworks */,
+				D168C55125EDA29E00B5B90A /* StoreKit.framework in Frameworks */,
+				D168C55425EDA47100B5B90A /* Qonversion in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,9 +225,12 @@
 				D16C813923B5B8E300C634D5 /* ExtraCode.swift */,
 				D16C813B23B5B8E400C634D5 /* FirebaseUI.swift */,
 				D16C813823B5B8E300C634D5 /* Lists.swift */,
+				D168C54B25ED9CFA00B5B90A /* Lists(With Ads).swift */,
 				D16C813A23B5B8E400C634D5 /* SubLists.swift */,
+				D168C55D25EDD28D00B5B90A /* subLists(With Ads).swift */,
 				D1E46132256F8CA6001C549A /* functions.swift */,
 				D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */,
+				D168C55825EDA57B00B5B90A /* IAPManager.swift */,
 				D16C814223B5B90100C634D5 /* Main.storyboard */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
 				D19A968323B703920036FC1E /* Alternate Icons */,
@@ -307,6 +321,7 @@
 		F9E1CD48A941AC77A685792C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D168C55025EDA29E00B5B90A /* StoreKit.framework */,
 				F99D255F6F587DAC7BE1C869 /* Pods_Magic_Pantry.framework */,
 				5081845E77AC6F1AAB4829BC /* Pods_Magic_PantryTests.framework */,
 				685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */,
@@ -333,6 +348,9 @@
 			dependencies = (
 			);
 			name = "Magic Pantry";
+			packageProductDependencies = (
+				D168C55325EDA47100B5B90A /* Qonversion */,
+			);
 			productName = "Magic Pantry";
 			productReference = D16C810223B5B23400C634D5 /* Magic Pantry.app */;
 			productType = "com.apple.product-type.application";
@@ -407,6 +425,9 @@
 				Base,
 			);
 			mainGroup = D16C80F923B5B23300C634D5;
+			packageReferences = (
+				D168C55225EDA47100B5B90A /* XCRemoteSwiftPackageReference "qonversion-ios-sdk" */,
+			);
 			productRefGroup = D16C810323B5B23400C634D5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -586,13 +607,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D168C55925EDA57B00B5B90A /* IAPManager.swift in Sources */,
 				D16C813F23B5B8E500C634D5 /* SubLists.swift in Sources */,
+				D168C54C25ED9CFA00B5B90A /* Lists(With Ads).swift in Sources */,
 				D1AE77A525E487DA00292448 /* NewOnboarding.swift in Sources */,
 				D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */,
 				D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */,
 				D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */,
 				D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */,
 				D1E46133256F8CA6001C549A /* functions.swift in Sources */,
+				D168C55E25EDD28D00B5B90A /* subLists(With Ads).swift in Sources */,
 				D16C814023B5B8E500C634D5 /* FirebaseUI.swift in Sources */,
 				D16C814123B5B8E500C634D5 /* ViewController.swift in Sources */,
 				D16C810823B5B23400C634D5 /* SceneDelegate.swift in Sources */,
@@ -766,7 +790,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -774,7 +798,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5;
+				MARKETING_VERSION = 3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -791,7 +815,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -799,7 +823,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5;
+				MARKETING_VERSION = 3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -936,6 +960,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D168C55225EDA47100B5B90A /* XCRemoteSwiftPackageReference "qonversion-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/qonversion/qonversion-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.11.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D168C55325EDA47100B5B90A /* Qonversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D168C55225EDA47100B5B90A /* XCRemoteSwiftPackageReference "qonversion-ios-sdk" */;
+			productName = Qonversion;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D16C80FA23B5B23300C634D5 /* Project object */;
 }

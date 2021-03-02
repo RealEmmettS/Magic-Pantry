@@ -11,7 +11,11 @@ import Firebase
 import FirebaseAuth
 import FirebaseUI
 import GoogleSignIn
+import GoogleMobileAds
 
+let doRunAds = UserDefaults.standard.bool(forKey: "doRunAds")
+let admobAppId = "ca-app-pub-2690641987048640/4466175347"  //FOR PUBLIC RELEASE
+//let admobAppId = "ca-app-pub-3940256099942544/2934735716"  //FOR TESTING ADS
 
 
 
@@ -25,6 +29,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FUIAuthDelegate {
         
         //Firebase Config Code
         FirebaseApp.configure()
+        IAPManager.shared.configure { success in
+            if success{
+                print("Set up Qonversion")
+                IAPManager.shared.checkPermissions { (success) in
+                    if success {
+                        //doRunAds = false
+                        UserDefaults.standard.set(false, forKey: "doRunAds")
+                        print("Permissions found. Removing ads...")
+                    }else{
+                        //doRunAds = true
+                    }
+                }
+            }
+        }
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
 
         

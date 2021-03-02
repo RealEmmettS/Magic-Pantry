@@ -9,12 +9,29 @@
 import Foundation
 import UIKit
 import Firebase
+import GoogleMobileAds
 
 var currentListId = ""
 var currentListName = ""
 
 
 class TableViewController: UITableViewController {
+    
+    ///////////////////////////
+    private let banner: GADBannerView = {
+        let banner = GADBannerView()
+        banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        banner.load(GADRequest())
+        banner.backgroundColor = .secondarySystemBackground
+        return banner
+    }()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        banner.frame = CGRect(x: 0, y: view.frame.size.height - 50, width: view.frame.size.width, height: 50).integral
+    }
+    //////////////////////////
 
     var DocRef: DocumentReference!
     var db:Firestore!
@@ -26,6 +43,9 @@ class TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        banner.rootViewController = self
+        view.addSubview(banner)
         
         //overrideUserInterfaceStyle = .light
         
@@ -54,6 +74,7 @@ class TableViewController: UITableViewController {
         refreshControl.addTarget(self, action:  #selector(refreshTable), for: .valueChanged)
         self.refreshControl = refreshControl
     }
+    
     
     
     

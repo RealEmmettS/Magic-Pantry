@@ -31,7 +31,10 @@ class NewOnboarding: UIViewController {
         if UserDefaults.standard.bool(forKey: "onboardingComplete") == true{
             print("Onboarding has been completed already")
             performSegue(withIdentifier: "moveToApp", sender: self)
+        }else{
+            UserDefaults.standard.set(true, forKey: "doRunAds")
         }
+    
     }
     
     @IBAction func continuePressed(_ sender: Any) {
