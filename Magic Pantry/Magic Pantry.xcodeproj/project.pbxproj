@@ -790,7 +790,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -815,7 +815,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 40;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

@@ -15,7 +15,7 @@ import GoogleMobileAds
 
 let doRunAds = UserDefaults.standard.bool(forKey: "doRunAds")
 let admobAppId = "ca-app-pub-2690641987048640/4466175347"  //FOR PUBLIC RELEASE
-//let admobAppId = "ca-app-pub-3940256099942544/2934735716"  //FOR TESTING ADS
+//let admobAppId = "ca-app-pub-3940256099942544/2934735716"  //FOR TESTING ADMOB
 
 
 
