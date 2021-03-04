@@ -12,10 +12,14 @@ import FirebaseAuth
 import FirebaseUI
 import GoogleSignIn
 import GoogleMobileAds
+import Qonversion
 
 let doRunAds = UserDefaults.standard.bool(forKey: "doRunAds")
 let admobAppId = "ca-app-pub-2690641987048640/4466175347"  //FOR PUBLIC RELEASE
 //let admobAppId = "ca-app-pub-3940256099942544/2934735716"  //FOR TESTING ADMOB
+
+//Paste ca-app-pub-2690641987048640~6775654239 in infor.plist for PUBLIC RELEASE
+//Paste ca-app-pub-3940256099942544~1458002511 in infor.plist for TESTING ADMOB
 
 
 
@@ -28,22 +32,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate, FUIAuthDelegate {
         // Override point for customization after application launch.
         
         //Firebase Config Code
+        Qonversion.launch(withKey: "EZIGi-CcoBei3IhdzhXKRqiQ-RYH1YX4")
         FirebaseApp.configure()
-        IAPManager.shared.configure { success in
-            if success{
-                print("Set up Qonversion")
-                IAPManager.shared.checkPermissions { (success) in
-                    if success {
-                        //doRunAds = false
-                        UserDefaults.standard.set(false, forKey: "doRunAds")
-                        print("Permissions found. Removing ads...")
-                    }else{
-                        //doRunAds = true
-                    }
-                }
+        Qonversion.checkPermissions { (permissions, error) in
+          if let error = error {
+            // handle error
+            print("Qonversion error")
+            return
+          }
+          
+          if let premium: Qonversion.Permission = permissions["Premium"], premium.isActive {
+            switch premium.renewState {
+               case .willRenew, .nonRenewable:
+                 UserDefaults.standard.set(false, forKey: "doRunAds")
+                print("Qonversion: Premium Active")
+                 break
+               case .billingIssue:
+                 // Grace period: permission is active, but there was some billing issue.
+                UserDefaults.standard.set(false, forKey: "doRunAds")
+                print("Qonversion: Premium Active")
+                 // Prompt the user to update the payment method.
+                 break
+               case .cancelled:
+                 // The user has turned off auto-renewal for the subscription, but the subscription has not expired yet.
+                 // Prompt the user to resubscribe with a special offer.
+                UserDefaults.standard.set(false, forKey: "doRunAds")
+                print("Qonversion: Premium Active")
+                 break
+               default: break
             }
+          }else{
+            UserDefaults.standard.set(true, forKey: "doRunAds")
+            print("Qonversion: Premium Not Active")
+          }
         }
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        if UserDefaults.standard.bool(forKey: "doRunAds") == true{
+            GADMobileAds.sharedInstance().start(completionHandler: nil)
+
+        }
         
 
         

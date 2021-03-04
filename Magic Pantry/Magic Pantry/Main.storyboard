@@ -87,6 +87,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zo-Ca-oFQ">
                                 <rect key="frame" x="20" y="414" width="374" height="33"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="4oH-8U-zmv"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="PublicSans-Light" family="Public Sans" pointSize="19"/>
                                 <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                                 <size key="titleShadowOffset" width="0.5" height="0.5"/>
@@ -198,6 +201,7 @@
                                 <rect key="frame" x="20" y="459.5" width="374" height="33"/>
                                 <color key="backgroundColor" red="0.92549019610000005" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="2v3-XV-ybh"/>
                                     <constraint firstAttribute="height" constant="33" id="Fi0-4N-Bgb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="PublicSans-Light" family="Public Sans" pointSize="19"/>
@@ -255,6 +259,8 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="Name" destination="eeN-Wx-Prz" id="FN8-5p-N7M"/>
+                        <outlet property="purchaseButton" destination="9zo-Ca-oFQ" id="k21-sN-Vkc"/>
+                        <outlet property="restoreButton" destination="wmU-U4-JT5" id="SBl-ZG-GmF"/>
                         <outlet property="signInButton" destination="ony-3n-nUU" id="zhL-bI-s6P"/>
                     </connections>
                 </viewController>
@@ -274,7 +280,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="724"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="10" reuseIdentifier="cellID" textLabel="8qU-7m-nUE" style="IBUITableViewCellStyleDefault" id="O7f-F1-wdF">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="10" reuseIdentifier="cellID" textLabel="8qU-7m-nUE" style="IBUITableViewCellStyleDefault" id="O7f-F1-wdF">
                                         <rect key="frame" x="0.0" y="28" width="414" height="52.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="O7f-F1-wdF" id="1Lx-tH-2f6">
@@ -290,6 +296,8 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -394,15 +402,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="10" reuseIdentifier="cellID" textLabel="Nt0-x8-VLD" style="IBUITableViewCellStyleDefault" id="tXC-mU-1ck">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="10" reuseIdentifier="cellID" textLabel="Nt0-x8-VLD" style="IBUITableViewCellStyleDefault" id="tXC-mU-1ck">
                                         <rect key="frame" x="0.0" y="28" width="414" height="52.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tXC-mU-1ck" id="vSu-fA-5gx">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="52.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="52.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Nt0-x8-VLD">
-                                                    <rect key="frame" x="30" y="0.0" width="345" height="52.5"/>
+                                                    <rect key="frame" x="30" y="0.0" width="364" height="52.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

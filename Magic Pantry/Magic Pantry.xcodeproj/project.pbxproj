@@ -60,6 +60,7 @@
 		D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */; };
 		D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */; };
 		D1AE77A525E487DA00292448 /* NewOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE77A425E487DA00292448 /* NewOnboarding.swift */; };
+		D1CFC90925EF724800FF8AFE /* IAP_AppleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC90825EF724800FF8AFE /* IAP_AppleManager.swift */; };
 		D1E46133256F8CA6001C549A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E46132256F8CA6001C549A /* functions.swift */; };
 		DD9435E5AFCDDCAD18771D8A /* Pods_Magic_PantryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */; };
 		E974528E87B9882A6C304962 /* Pods_Magic_PantryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5081845E77AC6F1AAB4829BC /* Pods_Magic_PantryTests.framework */; };
@@ -143,6 +144,7 @@
 		D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-60x60@3x.png"; path = "Magic Pantry/Alternate Icons/MainAppIcon/Icon-App-60x60@3x.png"; sourceTree = SOURCE_ROOT; };
 		D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppiconService.swift; sourceTree = "<group>"; };
 		D1AE77A425E487DA00292448 /* NewOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboarding.swift; sourceTree = "<group>"; };
+		D1CFC90825EF724800FF8AFE /* IAP_AppleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAP_AppleManager.swift; sourceTree = "<group>"; };
 		D1E46132256F8CA6001C549A /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.release.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.release.xcconfig"; sourceTree = "<group>"; };
 		F34A501E6B0A5A43AF87FA78 /* Pods-Magic PantryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic PantryUITests.release.xcconfig"; path = "Target Support Files/Pods-Magic PantryUITests/Pods-Magic PantryUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				D1E46132256F8CA6001C549A /* functions.swift */,
 				D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */,
 				D168C55825EDA57B00B5B90A /* IAPManager.swift */,
+				D1CFC90825EF724800FF8AFE /* IAP_AppleManager.swift */,
 				D16C814223B5B90100C634D5 /* Main.storyboard */,
 				D16C810E23B5B23A00C634D5 /* Assets.xcassets */,
 				D19A968323B703920036FC1E /* Alternate Icons */,
@@ -614,6 +617,7 @@
 				D16C813D23B5B8E500C634D5 /* Lists.swift in Sources */,
 				D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */,
 				D16C813E23B5B8E500C634D5 /* ExtraCode.swift in Sources */,
+				D1CFC90925EF724800FF8AFE /* IAP_AppleManager.swift in Sources */,
 				D16C810623B5B23400C634D5 /* AppDelegate.swift in Sources */,
 				D1E46133256F8CA6001C549A /* functions.swift in Sources */,
 				D168C55E25EDD28D00B5B90A /* subLists(With Ads).swift in Sources */,
@@ -790,7 +794,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -798,7 +802,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6;
+				MARKETING_VERSION = 3.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -815,7 +819,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 40;
+				CURRENT_PROJECT_VERSION = 56;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -823,7 +827,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6;
+				MARKETING_VERSION = 3.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.onpointech.Lightning-List";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

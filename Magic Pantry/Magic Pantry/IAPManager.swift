@@ -34,51 +34,70 @@ class IAPManager{
     }
     
     func checkPermissions(completion: @escaping (Bool) -> Void){
-        Qonversion.checkPermissions { permissions, error  in
-            guard error == nil else {
-                print("error while checking permissions")
+        
+        Qonversion.checkPermissions { (permissions, error) in
+            if let error = error {
+                // handle error
                 return
             }
             
-            print("Permissions: \(permissions)")
-            if permissions.isEmpty {
-                UserDefaults.standard.set(true, forKey: "doRunAds")
-                completion(false)
-            } else {
-                UserDefaults.standard.set(false, forKey: "doRunAds")
+            if let premium: Qonversion.Permission = permissions["Premium"], premium.isActive {
+                switch premium.renewState {
+                case .willRenew, .nonRenewable:
+                    // .willRenew is the state of an auto-renewable subscription
+                    // .nonRenewable is the state of consumable/non-consumable IAPs that could unlock lifetime access
+                    break
+                case .billingIssue:
+                    // Grace period: permission is active, but there was some billing issue.
+                    // Prompt the user to update the payment method.
+                    break
+                case .cancelled:
+                    // The user has turned off auto-renewal for the subscription, but the subscription has not expired yet.
+                    // Prompt the user to resubscribe with a special offer.
+                    break
+                default: break
+                }
             }
         }
+        
+        
     }
     
     func purchase(completion: @escaping (Bool) -> Void){
-        Qonversion.purchase("premium") { (result, error, canceled) in
-            guard error == nil else {
-                completion(false)
-                return
+        
+        Qonversion.purchase("premium") { (permissions, error, isCancelled) in
+            
+            if let Premium: Qonversion.Permission = permissions["Premium"], Premium.isActive {
+                // Flow for success state
             }
-            
-            if canceled{
-                print("Canceled transaction")
-                completion(false)
-            }else {
-                completion(true)
-            }
-            
-            
         }
         
     }
     
     
     func restorePurchases(completion: @escaping (Bool) -> Void){
-        Qonversion.restore { (results, error) in
-            guard error ==  nil else{
-                return
+        
+        Qonversion.restore { [weak self] (permissions, error) in
+            if let error = error {
+                // Handle error
             }
             
-            print("Restored: \(results)")
+            if let permission: Qonversion.Permission = permissions["Premium"], permission.isActive {
+                // Restored and permission is active
+            }
         }
         
+        
+        
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }

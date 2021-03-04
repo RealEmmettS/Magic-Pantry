@@ -20,6 +20,7 @@ import Foundation
 import UIKit
 import Firebase
 import GoogleMobileAds
+import Qonversion
 
 class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -29,17 +30,58 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
     private let banner: GADBannerView = {
         let banner = GADBannerView()
         banner.adUnitID = admobAppId
-        if doRunAds == true{
+        if UserDefaults.standard.bool(forKey: "doRunAds") == true{
+            print("Running ads pt.1")
             banner.load(GADRequest())
+            banner.backgroundColor = .secondarySystemBackground
         }
-        banner.backgroundColor = .secondarySystemBackground
         return banner
     }()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        banner.frame = CGRect(x: 0, y: view.frame.size.height - 50, width: view.frame.size.width, height: 50).integral
+        if UserDefaults.standard.bool(forKey: "doRunAds") == true{
+            print("Running ads pt.2")
+            banner.frame = CGRect(x: 0, y: view.frame.size.height - 50, width: view.frame.size.width, height: 50).integral
+        }else{
+            print("Won't run ads")
+        }
+    }
+    
+    func checkQonversionStatus(){
+        Qonversion.checkPermissions { (permissions, error) in
+            if error != nil {
+                // handle error
+                print("Qonversion error")
+                return
+            }
+            
+            if let premium: Qonversion.Permission = permissions["Premium"], premium.isActive {
+                switch premium.renewState {
+                case .willRenew, .nonRenewable:
+                    UserDefaults.standard.set(false, forKey: "doRunAds")
+                    print("Qonversion: Premium Active")
+                    break
+                case .billingIssue:
+                    // Grace period: permission is active, but there was some billing issue.
+                    UserDefaults.standard.set(false, forKey: "doRunAds")
+                    print("Qonversion: Premium Active")
+                    // Prompt the user to update the payment method.
+                    break
+                case .cancelled:
+                    // The user has turned off auto-renewal for the subscription, but the subscription has not expired yet.
+                    // Prompt the user to resubscribe with a special offer.
+                    UserDefaults.standard.set(false, forKey: "doRunAds")
+                    print("Qonversion: Premium Active")
+                    break
+                default: break
+                }
+            }else{
+                UserDefaults.standard.set(true, forKey: "doRunAds")
+                print("Qonversion: Premium Not Active")
+            }
+        }
     }
     //////////////////////////
     
@@ -64,7 +106,9 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if doRunAds == true {
+        checkQonversionStatus()
+        
+        if UserDefaults.standard.bool(forKey: "doRunAds") == true {
             banner.rootViewController = self
             view.addSubview(banner)
         }else{
@@ -303,7 +347,8 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
         
         //Edit Option
         let edit = UIContextualAction(style: .normal, title: "Edit") {  (contextualAction, view, boolValue) in
-            self.getNewItemName(itemSelected: indexPath.row)
+            let itemName = self.itemArray[indexPath.row].listName
+            self.getNewItemName(itemSelected: indexPath.row, currentName: itemName)
             
         }
         
@@ -313,17 +358,20 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
     
     
     //MARK: - Extra Functions
-    func getNewItemName(itemSelected: Int){
+    func getNewItemName(itemSelected: Int, currentName:String?){
         let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "New Item Name"
+            if currentName != nil{
+                textField.text = currentName
+            }
         })
         
         var newName:String?
         
-        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+        alert.addAction(UIAlertAction(title: "Apply Edit", style: .default, handler: { action in
             guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
             
             let NewList = ReminderLists(listName: NameOfList)
