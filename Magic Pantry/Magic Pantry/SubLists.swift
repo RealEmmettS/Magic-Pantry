@@ -142,6 +142,7 @@ class SubLists: UITableViewController {
 
            alert.addTextField(configurationHandler: { textField in
                textField.placeholder = "Item Name"
+            textField.autocorrectionType = .yes
            })
         
            alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { action in

@@ -232,6 +232,7 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
 
            alert.addTextField(configurationHandler: { textField in
                textField.placeholder = "Item Name"
+            textField.autocorrectionType = .yes
            })
         
            alert.addAction(UIAlertAction(title: "Add Item", style: .default, handler: { action in
@@ -253,25 +254,25 @@ class subLists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewData
                
            }))
         
-        alert.addAction(UIAlertAction(title: "Add Another", style: .default, handler: { action in
-            guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
-            
-            let NewList = ReminderLists(listName: NameOfList)
-            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
-            var ref:DocumentReference? = nil
-         ref = self.listImIn!.addDocument(data: NewList.dictionary){
-                error in
-                if let error = error{
-                    print("Error adding document: \(error.localizedDescription)")
-                } else {
-                    print("Data Saved with ID: \(ref!.documentID)")
+            alert.addAction(UIAlertAction(title: "Add Another", style: .default, handler: { action in
+                guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+                
+                let NewList = ReminderLists(listName: NameOfList)
+                print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+                var ref:DocumentReference? = nil
+             ref = self.listImIn!.addDocument(data: NewList.dictionary){
+                    error in
+                    if let error = error{
+                        print("Error adding document: \(error.localizedDescription)")
+                    } else {
+                        print("Data Saved with ID: \(ref!.documentID)")
+                    }
                 }
-            }
-            
-            
-            self.addItem(self)
-            
-        }))
+                
+                
+                self.addItem(self)
+                
+            }))
 
            self.present(alert, animated: true)
        }
