@@ -404,7 +404,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1120;
 				LastUpgradeCheck = 1210;
-				ORGANIZATIONNAME = "Emmett Shaughnessy";
+				ORGANIZATIONNAME = "ES Development LLC";
 				TargetAttributes = {
 					D16C810123B5B23400C634D5 = {
 						CreatedOnToolsVersion = 11.2.1;
@@ -794,7 +794,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -819,7 +819,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Magic Pantry/Magic Pantry.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M9D5379H93;
 				INFOPLIST_FILE = "Magic Pantry/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

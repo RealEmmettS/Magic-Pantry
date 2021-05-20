@@ -3020,7 +3020,7 @@ Copyright 2019 Google
 
 ## GoogleUserMessagingPlatform
 
-Copyright 2020 Google
+Copyright 2021 Google
 
 ## GoogleUtilities
 
