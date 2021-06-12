@@ -23,7 +23,7 @@ class Lists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSou
         let banner = GADBannerView()
         banner.adUnitID = admobAppId
         if UserDefaults.standard.bool(forKey: "doRunAds") == true{
-            print("Running ads pt.1")
+            print("\n\nRunning ads - initializing Google Ad Banner View\n\n")
             banner.load(GADRequest())
             banner.backgroundColor = .secondarySystemBackground
         }
@@ -34,11 +34,13 @@ class Lists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLayoutSubviews()
         
         if UserDefaults.standard.bool(forKey: "doRunAds") == true{
-            print("Running ads pt.2")
+            print("\n\nRunning ads - begin displaying ads through the Google Ad Banner View\n\n")
             banner.frame = CGRect(x: 0, y: view.frame.size.height - 50, width: view.frame.size.width, height: 50).integral
         }else{
             print("Won't run ads")
-        }    }
+        }
+        
+    }
     
     
     func checkQonversionStatus(){
