@@ -289,12 +289,16 @@ class TableViewController: UITableViewController {
     
 
     //MARK: Deleting (Editing) Cells
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        print("User began edit")
-        if editingStyle == .delete {
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let listRef = self.db.collection("users").document("\(self.tableuserid!)").collection("lists")
+        
+        
+        //Delete Option
+        let delete = UIContextualAction(style: .destructive, title: "Delete") {  (contextualAction, view, boolValue) in
             print("User chose to delete list")
             
-            let listRef = db.collection("users").document("\(self.tableuserid!)").collection("lists")
             
             listRef.getDocuments { (snapshotDocuments, err) in
                 print("Retrieving all avaliable lists")
@@ -304,7 +308,7 @@ class TableViewController: UITableViewController {
                 
                 let toDelete = self.listArray[indexPath.row].id
                 print("Marked local list for deletion")
-            
+                
                 
                 for document in snapshotDocuments!.documents{
                     print("Beggining deletion sequence")
@@ -337,15 +341,15 @@ class TableViewController: UITableViewController {
                             }
                             
                             
-                        //Delete List
+                            //Delete List
                             print("Deleting list")
-                        self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
+                            self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
                             
-                        self.listArray.remove(at: indexPath.row)
+                            self.listArray.remove(at: indexPath.row)
                             
                         } /* end check items */else {
-                        //Runs only if list is already empty
-                        self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
+                            //Runs only if list is already empty
+                            self.db.collection("users").document("\(self.tableuserid!)").collection("lists").document(document.documentID).delete()
                             
                             self.listArray.remove(at: indexPath.row)
                         }
@@ -354,7 +358,18 @@ class TableViewController: UITableViewController {
                 }
             }
         }
-        //More editing styles
+        
+            
+            
+            
+        //Edit Option
+        let edit = UIContextualAction(style: .normal, title: "Edit") {  (contextualAction, view, boolValue) in
+            self.getNewItemName(itemSelected: indexPath.row)
+            
+        }
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [delete, edit])
+        return swipeActions
     }
     
     
@@ -426,6 +441,64 @@ class TableViewController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
+    
+    func getNewItemName(itemSelected: Int){
+        let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "New Item Name"
+        })
+        
+        var newName:String?
+        
+        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+            guard let NameOfList = alert.textFields?.first?.text!, !NameOfList.isEmpty else {return}
+            
+            let NewList = ReminderLists(listName: NameOfList)
+            print("\n\n\n\(NewList)\n\n\n\(NewList.dictionary)\n\n\n")
+            newName = NameOfList
+            
+            
+            
+            //Begin Editing
+            let listRef = self.db.collection("users").document("\(self.tableuserid!)").collection("lists")
+            
+            listRef.getDocuments { (snapshotDocuments, err) in
+            if let err = err{
+                print("Uh Oh. Can't Edit: \(err)")
+            }
+            
+                
+            guard let toEdit = self.listArray[itemSelected].listName else {return}
+            
+                
+            for document in snapshotDocuments!.documents{
+                
+                //The following checks to make sure item to edit actually exists locally
+                //Pretend listName says itemName
+                let property = (document.get("listName") as! String?)!
+                let formattedProperty = ReminderLists(listName: property)
+
+                if formattedProperty.listName == toEdit {
+                    
+                    //self.listImIn?.document(document.documentID).delete()
+                    listRef.document(document.documentID).setData([ "listName": NameOfList ], merge: true)
+                    self.listArray[itemSelected].listName = NameOfList
+                    //LoadData()
+                    print("Done Loading.")
+
+                }
+            }
+                
+                
+            }
+            
+            
+            
+        }))
+        self.present(alert, animated: true)
+    }
     
     
     
