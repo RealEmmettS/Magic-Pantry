@@ -364,7 +364,8 @@ class TableViewController: UITableViewController {
             
         //Edit Option
         let edit = UIContextualAction(style: .normal, title: "Edit") {  (contextualAction, view, boolValue) in
-            self.getNewItemName(itemSelected: indexPath.row)
+            let itemName = self.listArray[indexPath.row].listName
+            self.getNewItemName(itemSelected: indexPath.row, currentName: itemName)
             
         }
         
@@ -442,12 +443,15 @@ class TableViewController: UITableViewController {
     }
 
     
-    func getNewItemName(itemSelected: Int){
+    func getNewItemName(itemSelected: Int, currentName: String?){
         let alert = UIAlertController(title: "Edit Item", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         alert.addTextField(configurationHandler: { textField in
             textField.placeholder = "New Item Name"
+            if currentName != nil{
+                textField.text = currentName
+            }
         })
         
         var newName:String?
