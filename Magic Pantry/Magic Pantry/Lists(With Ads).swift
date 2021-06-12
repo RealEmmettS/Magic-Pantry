@@ -19,6 +19,7 @@ import Qonversion
 class Lists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     ///////////////////////////
+    //MARK: Ads Setup
     private let banner: GADBannerView = {
         let banner = GADBannerView()
         banner.adUnitID = admobAppId
@@ -42,7 +43,7 @@ class Lists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSou
         
     }
     
-    
+    //MARK: Qonversion Setup
     func checkQonversionStatus(){
         Qonversion.checkPermissions { (permissions, error) in
             if error != nil {
@@ -128,6 +129,7 @@ class Lists_With_Ads_: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
     }
     
+    //MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
         

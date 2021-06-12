@@ -60,6 +60,24 @@
 		D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */; };
 		D1A2BF6A23B9431F00D4DD45 /* AppiconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */; };
 		D1AE77A525E487DA00292448 /* NewOnboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1AE77A425E487DA00292448 /* NewOnboarding.swift */; };
+		D1B93CA0267490BE0020F5AD /* Inter-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C8E2674908E0020F5AD /* Inter-ExtraBold.otf */; };
+		D1B93CA1267490BE0020F5AD /* Inter-ExtraLightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C8F267490910020F5AD /* Inter-ExtraLightItalic.otf */; };
+		D1B93CA2267490BE0020F5AD /* Inter-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C90267490940020F5AD /* Inter-LightItalic.otf */; };
+		D1B93CA3267490BE0020F5AD /* Inter-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C91267490960020F5AD /* Inter-BoldItalic.otf */; };
+		D1B93CA4267490BE0020F5AD /* Inter-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C92267490990020F5AD /* Inter-BlackItalic.otf */; };
+		D1B93CA5267490BE0020F5AD /* Inter-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C932674909C0020F5AD /* Inter-MediumItalic.otf */; };
+		D1B93CA6267490BE0020F5AD /* Inter-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C942674909F0020F5AD /* Inter-Black.otf */; };
+		D1B93CA7267490BE0020F5AD /* Inter-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C95267490A20020F5AD /* Inter-Regular.otf */; };
+		D1B93CA8267490BE0020F5AD /* Inter-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C96267490A50020F5AD /* Inter-Thin.otf */; };
+		D1B93CA9267490BE0020F5AD /* Inter-ExtraBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C97267490A70020F5AD /* Inter-ExtraBoldItalic.otf */; };
+		D1B93CAA267490BE0020F5AD /* Inter-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C98267490AA0020F5AD /* Inter-SemiBold.otf */; };
+		D1B93CAB267490BE0020F5AD /* Inter-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C99267490AD0020F5AD /* Inter-Bold.otf */; };
+		D1B93CAC267490BE0020F5AD /* Inter-SemiBoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9A267490AF0020F5AD /* Inter-SemiBoldItalic.otf */; };
+		D1B93CAD267490BE0020F5AD /* Inter-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9B267490B20020F5AD /* Inter-Medium.otf */; };
+		D1B93CAE267490BE0020F5AD /* Inter-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9C267490B50020F5AD /* Inter-Italic.otf */; };
+		D1B93CAF267490BE0020F5AD /* Inter-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9D267490B80020F5AD /* Inter-ExtraLight.otf */; };
+		D1B93CB0267490BE0020F5AD /* Inter-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9E267490BB0020F5AD /* Inter-ThinItalic.otf */; };
+		D1B93CB1267490BE0020F5AD /* Inter-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1B93C9F267490BE0020F5AD /* Inter-Light.otf */; };
 		D1CFC90925EF724800FF8AFE /* IAP_AppleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CFC90825EF724800FF8AFE /* IAP_AppleManager.swift */; };
 		D1E46133256F8CA6001C549A /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E46132256F8CA6001C549A /* functions.swift */; };
 		DD9435E5AFCDDCAD18771D8A /* Pods_Magic_PantryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 685AE36247774C43237B5DE0 /* Pods_Magic_PantryUITests.framework */; };
@@ -144,6 +162,24 @@
 		D1A2BF5823B93E7900D4DD45 /* Icon-App-60x60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-App-60x60@3x.png"; path = "Magic Pantry/Alternate Icons/MainAppIcon/Icon-App-60x60@3x.png"; sourceTree = SOURCE_ROOT; };
 		D1A2BF6923B9431F00D4DD45 /* AppiconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppiconService.swift; sourceTree = "<group>"; };
 		D1AE77A425E487DA00292448 /* NewOnboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewOnboarding.swift; sourceTree = "<group>"; };
+		D1B93C8E2674908E0020F5AD /* Inter-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.otf"; sourceTree = "<group>"; };
+		D1B93C8F267490910020F5AD /* Inter-ExtraLightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLightItalic.otf"; sourceTree = "<group>"; };
+		D1B93C90267490940020F5AD /* Inter-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-LightItalic.otf"; sourceTree = "<group>"; };
+		D1B93C91267490960020F5AD /* Inter-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BoldItalic.otf"; sourceTree = "<group>"; };
+		D1B93C92267490990020F5AD /* Inter-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-BlackItalic.otf"; sourceTree = "<group>"; };
+		D1B93C932674909C0020F5AD /* Inter-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-MediumItalic.otf"; sourceTree = "<group>"; };
+		D1B93C942674909F0020F5AD /* Inter-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.otf"; sourceTree = "<group>"; };
+		D1B93C95267490A20020F5AD /* Inter-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.otf"; sourceTree = "<group>"; };
+		D1B93C96267490A50020F5AD /* Inter-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Thin.otf"; sourceTree = "<group>"; };
+		D1B93C97267490A70020F5AD /* Inter-ExtraBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBoldItalic.otf"; sourceTree = "<group>"; };
+		D1B93C98267490AA0020F5AD /* Inter-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.otf"; sourceTree = "<group>"; };
+		D1B93C99267490AD0020F5AD /* Inter-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.otf"; sourceTree = "<group>"; };
+		D1B93C9A267490AF0020F5AD /* Inter-SemiBoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBoldItalic.otf"; sourceTree = "<group>"; };
+		D1B93C9B267490B20020F5AD /* Inter-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.otf"; sourceTree = "<group>"; };
+		D1B93C9C267490B50020F5AD /* Inter-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Italic.otf"; sourceTree = "<group>"; };
+		D1B93C9D267490B80020F5AD /* Inter-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraLight.otf"; sourceTree = "<group>"; };
+		D1B93C9E267490BB0020F5AD /* Inter-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ThinItalic.otf"; sourceTree = "<group>"; };
+		D1B93C9F267490BE0020F5AD /* Inter-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.otf"; sourceTree = "<group>"; };
 		D1CFC90825EF724800FF8AFE /* IAP_AppleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAP_AppleManager.swift; sourceTree = "<group>"; };
 		D1E46132256F8CA6001C549A /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		DEFAE7BE10F253E87D31FF54 /* Pods-Magic Pantry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Magic Pantry.release.xcconfig"; path = "Target Support Files/Pods-Magic Pantry/Pods-Magic Pantry.release.xcconfig"; sourceTree = "<group>"; };
@@ -266,6 +302,24 @@
 		D19A967423B6A7550036FC1E /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				D1B93C942674909F0020F5AD /* Inter-Black.otf */,
+				D1B93C92267490990020F5AD /* Inter-BlackItalic.otf */,
+				D1B93C99267490AD0020F5AD /* Inter-Bold.otf */,
+				D1B93C91267490960020F5AD /* Inter-BoldItalic.otf */,
+				D1B93C8E2674908E0020F5AD /* Inter-ExtraBold.otf */,
+				D1B93C97267490A70020F5AD /* Inter-ExtraBoldItalic.otf */,
+				D1B93C9D267490B80020F5AD /* Inter-ExtraLight.otf */,
+				D1B93C8F267490910020F5AD /* Inter-ExtraLightItalic.otf */,
+				D1B93C9C267490B50020F5AD /* Inter-Italic.otf */,
+				D1B93C9F267490BE0020F5AD /* Inter-Light.otf */,
+				D1B93C90267490940020F5AD /* Inter-LightItalic.otf */,
+				D1B93C9B267490B20020F5AD /* Inter-Medium.otf */,
+				D1B93C932674909C0020F5AD /* Inter-MediumItalic.otf */,
+				D1B93C95267490A20020F5AD /* Inter-Regular.otf */,
+				D1B93C98267490AA0020F5AD /* Inter-SemiBold.otf */,
+				D1B93C9A267490AF0020F5AD /* Inter-SemiBoldItalic.otf */,
+				D1B93C96267490A50020F5AD /* Inter-Thin.otf */,
+				D1B93C9E267490BB0020F5AD /* Inter-ThinItalic.otf */,
 				D1442FDB25E2E7E1002DCC90 /* PublicSans-MediumItalic.otf */,
 				D1442FDC25E2E7E1002DCC90 /* PublicSans-Regular.otf */,
 				D1442FDD25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf */,
@@ -448,17 +502,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1442FF525E2E7E2002DCC90 /* PublicSans-BoldItalic.otf in Resources */,
+				D1B93CA7267490BE0020F5AD /* Inter-Regular.otf in Resources */,
 				D1442FF125E2E7E2002DCC90 /* PublicSans-Black.otf in Resources */,
+				D1B93CA0267490BE0020F5AD /* Inter-ExtraBold.otf in Resources */,
 				D16C811223B5B23A00C634D5 /* LaunchScreen.storyboard in Resources */,
+				D1B93CA6267490BE0020F5AD /* Inter-Black.otf in Resources */,
+				D1B93CAF267490BE0020F5AD /* Inter-ExtraLight.otf in Resources */,
 				D16C814323B5B90100C634D5 /* Main.storyboard in Resources */,
 				D1442FFA25E2E7E2002DCC90 /* PublicSans-ExtraLightItalic.otf in Resources */,
+				D1B93CA9267490BE0020F5AD /* Inter-ExtraBoldItalic.otf in Resources */,
 				D19A967A23B6A7F60036FC1E /* Quicksand in Resources */,
+				D1B93CA8267490BE0020F5AD /* Inter-Thin.otf in Resources */,
 				D1442FFC25E2E7E2002DCC90 /* PublicSans-Bold.otf in Resources */,
 				D1A2BF4223B93E5F00D4DD45 /* Icon-Orig-60x60@2x.png in Resources */,
 				D16C813623B5B30100C634D5 /* GoogleService-Info.plist in Resources */,
+				D1B93CB1267490BE0020F5AD /* Inter-Light.otf in Resources */,
 				D1A2BF4823B93E5F00D4DD45 /* Icon-Orig-60x60@3x.png in Resources */,
 				D1442FEF25E2E7E2002DCC90 /* PublicSans-ExtraBold.otf in Resources */,
 				D1442FFE25E2E7E2002DCC90 /* PublicSans-BlackItalic.otf in Resources */,
+				D1B93CAB267490BE0020F5AD /* Inter-Bold.otf in Resources */,
 				D1A2BF6823B93E7900D4DD45 /* Icon-App-60x60@3x.png in Resources */,
 				D1442FF325E2E7E2002DCC90 /* PublicSans-Light.otf in Resources */,
 				D1A2BF6523B93E7900D4DD45 /* Icon-App-83.5x83.5@2x.png in Resources */,
@@ -470,15 +532,25 @@
 				D16C810F23B5B23A00C634D5 /* Assets.xcassets in Resources */,
 				D1442FFB25E2E7E2002DCC90 /* PublicSans-SemiBoldItalic.otf in Resources */,
 				D1442FF825E2E7E2002DCC90 /* PublicSans-ExtraLight.otf in Resources */,
+				D1B93CAC267490BE0020F5AD /* Inter-SemiBoldItalic.otf in Resources */,
+				D1B93CA4267490BE0020F5AD /* Inter-BlackItalic.otf in Resources */,
 				D1442FEE25E2E7E2002DCC90 /* PublicSans-Regular.otf in Resources */,
+				D1B93CA3267490BE0020F5AD /* Inter-BoldItalic.otf in Resources */,
+				D1B93CA5267490BE0020F5AD /* Inter-MediumItalic.otf in Resources */,
+				D1B93CB0267490BE0020F5AD /* Inter-ThinItalic.otf in Resources */,
+				D1B93CAE267490BE0020F5AD /* Inter-Italic.otf in Resources */,
 				D19A968523B703DD0036FC1E /* main.png in Resources */,
 				D1442FF925E2E7E2002DCC90 /* PublicSans-Thin.otf in Resources */,
 				D1442FF025E2E7E2002DCC90 /* PublicSans-ExtraBoldItalic.otf in Resources */,
+				D1B93CA1267490BE0020F5AD /* Inter-ExtraLightItalic.otf in Resources */,
 				D1A2BF5A23B93E7900D4DD45 /* Icon-App-60x60@2x.png in Resources */,
 				D1442FF625E2E7E2002DCC90 /* PublicSans-Medium.otf in Resources */,
 				D19A967823B6A7F60036FC1E /* Girassol in Resources */,
 				D1442FFD25E2E7E2002DCC90 /* PublicSans-SemiBold.otf in Resources */,
 				D19A968723B7047F0036FC1E /* original.jpg in Resources */,
+				D1B93CAD267490BE0020F5AD /* Inter-Medium.otf in Resources */,
+				D1B93CAA267490BE0020F5AD /* Inter-SemiBold.otf in Resources */,
+				D1B93CA2267490BE0020F5AD /* Inter-LightItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
